@@ -7,25 +7,19 @@
     /* 1. ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ */
     :root {
       /* Светлая тема */
-      --color-bg: #F9FAFB; --color-surface: #FFFFFF; --color-surface-hover: rgba(59, 130, 246, 0.1); --color-primary: #3B82F6; --color-primary-a: rgba(59, 130, 246, 0.25); --color-button-text: #FFFFFF; --color-text-primary: #1F2937; --color-text-secondary: #6B7280; --color-border: #E5E7EB;--color-gold: #FFC333;
-      --color-success: #22C55E; /* Мягкий зеленый */
-      --color-danger: #F87171; /* Мягкий красный */
+      --color-bg: #F9FAFB; --color-surface: #FFFFFF; --color-surface-hover: rgba(59, 130, 246, 0.1); --color-primary: #3B82F6; --color-primary-a: rgba(59, 130, 246, 0.25); --color-button-text: #FFFFFF; --color-text-primary: #1F2937; --color-text-secondary: #6B7280; --color-border: #E5E7EB;
+      --color-success: #22C55E;
+      --color-danger: #F87171;
       --color-active-col-bg: rgba(59, 130, 246, 0.1);
-      --color-theme-btn-bg: #E5E7EB; /* Темнее фона */
+      --color-row-even-bg: #EEEEEE; 
     }
     [data-theme="dark"] {
-      /* Темная тема 
-      #FFC333   Янтарно-жёлтый
-#FFC777 Персиково-золотистый
-      #7DD3FC;  Голубой
-      #F9A8D4;  Нежно розовый
-      #6EE7B7;  Мятный зеленый */
-     
-      --color-bg: #111827; --color-surface: #1F2937; --color-surface-hover: #374151; --color-primary: #60A5FA; --color-primary-a: rgba(96, 165, 250, 0.3); --color-button-text: #111827; --color-text-primary: #F9FAFB; --color-text-secondary: #9CA3AF; --color-border: #374151; --color-gold: #FFC333; --color-blue: #7DD3FC; --color-ui: #000333;
-      --color-success: #22C55E; /* Мягкий зеленый */
-      --color-danger: #F87171; /* Мягкий красный */
+      /* Темная тема */
+      --color-bg: #111827; --color-surface: #1F2937; --color-surface-hover: #374151; --color-primary: #60A5FA; --color-primary-a: rgba(96, 165, 250, 0.3); --color-button-text: #111827; --color-text-primary: #F9FAFB; --color-text-secondary: #9CA3AF; --color-border: #374151;
+      --color-success: #22C55E;
+      --color-danger: #F87171;
       --color-active-col-bg: rgba(96, 165, 250, 0.1);
-      --color-theme-btn-bg: #000333; /* #374151; Светлее фона */
+      --color-row-even-bg: var(--color-bg);
     }
     :root {
       --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; --space-4: 24px; --space-5: 32px;
@@ -42,71 +36,148 @@
       text-align: center; color: var(--color-primary); margin-top: 0; margin-bottom: var(--space-4);
     }
     .controls-bar {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); gap: 3em;
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); gap: 1.5em; 
     }
 
     /* 3. СТИЛИ ЭЛЕМЕНТОВ УПРАВЛЕНИЯ */
-.controls-panel-left { display: flex; gap: 1.5em; position: relative; }
+    .controls-panel-left { 
+        display: flex; 
+        gap: 1em; 
+        position: relative; 
+        flex-grow: 1;  
+        align-items: center;
+    }
     .control-btn {
-      padding: 8px 16px; border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; white-space: nowrap; height: 40px; box-sizing: border-box; transition: all 0.2s ease;
+      padding: 0; 
+      border-radius: 6px; 
+      color: var(--color-text-secondary); 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      white-space: nowrap; 
+      height: 52px; 
+      width: 52px; 
+      box-sizing: border-box; 
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      font-size: 25px;
     }
-    .control-btn:hover { border-color: var(--color-primary); }
-    #theme-switcher {
-      width: 40px; padding: 0; background-color: var(--color-theme-btn-bg); color: var(--color-text-primary);
-    }
-    .theme-icon { width: 22px; height: 22px; }
-    [data-theme="dark"] .theme-icon-light { display: block; } [data-theme="dark"] .theme-icon-dark { display: none; } [data-theme="light"] .theme-icon-light { display: none; } [data-theme="light"] .theme-icon-dark { display: block; }
-    #column-toggle-btn { background-color: var(--color-bg); }
-    #category-toggle-btn.show { background-color: var(--color-success); color: white; border-color: transparent; }
-    #category-toggle-btn.hide { background-color: var(--color-danger); color: white; border-color: transparent; }
 
-    /* 4. СТИЛИ ВЫПАДАЮЩЕГО МЕНЮ КОЛОНОК */
-    #column-dropdown {
-      display: none; position: absolute; top: 110%; left: 0; background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 8px; z-index: 100; min-width: 200px;
+    /* Стили для кнопок в светлой теме */
+    [data-theme="light"] .control-btn {
+        background-color: #DDDDDD; 
+        border: 1px solid #3B82F6; 
     }
-    #column-dropdown.is-open { display: block; }
-    #column-dropdown ul { list-style: none; margin: 0; padding: 0; }
-    #column-dropdown li { padding: 8px 12px; border-radius: 4px; display: flex; align-items: center; cursor: pointer; }
-    #column-dropdown li:hover { background-color: var(--color-surface-hover); }
-    #column-dropdown label { flex-grow: 1; cursor: pointer; }
-    #column-dropdown input[type="checkbox"] { margin-right: 12px; }
-    #column-dropdown #select-all-item { border-bottom: 1px solid var(--color-border); margin-bottom: 4px; padding-bottom: 12px; font-weight: 600; }
+    [data-theme="light"] .control-btn:hover {
+        background-color: #F9FAFB; 
+        border-color: #E5E7EB; 
+        color: var(--color-primary);
+    }
 
-    /* 4. СТИЛИ ВЫПАДАЮЩЕГО МЕНЮ КОЛОНОК */
-    #column-dropdown {
-      display: none; position: absolute; top: 110%; left: 0; background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; box-shadow: 0 4px 4px rgba(0,0,0,0.1); padding: 8px; z-index: 100; min-width: 200px;
+    /* Стили для кнопок в темной теме */
+    [data-theme="dark"] .control-btn {
+        background-color: #374151;
+        border: 1px solid #60A5FA;
     }
-    #column-dropdown.is-open { display: block; }
-    #column-dropdown ul { list-style: none; margin: 0; padding: 0; }
-    #column-dropdown li { padding: 8px 12px; border-radius: 4px; display: flex; align-items: center; cursor: pointer; }
-    #column-dropdown li:hover { background-color: var(--color-surface-hover); }
-    #column-dropdown label { flex-grow: 1; cursor: pointer; }
-    #column-dropdown input[type="checkbox"] { margin-right: 12px; }
-    #column-dropdown #select-all-item { border-bottom: 1px solid var(--color-border); margin-bottom: 4px; padding-bottom: 12px; font-weight: 600; }
+    [data-theme="dark"] .control-btn:hover {
+        background-color: #111827;
+        border-color: #FFEEDD;
+        color: var(--color-primary);
+    }
+
+    [data-theme="dark"] .theme-icon-light { display: block; } [data-theme="dark"] .theme-icon-dark { display: none; } 
+    [data-theme="light"] .theme-icon-light { display: none; } [data-theme="light"] .theme-icon-dark { display: block; }
+    
+    #category-toggle-btn {
+        font-weight: 700;
+        line-height: 1; 
+    }
+    #category-toggle-btn.show { color: var(--color-success); }
+    #category-toggle-btn.hide { color: var(--color-danger); }
+
+    /* 4. СТИЛИ ВЫПАДАЮЩИХ МЕНЮ */
+    #column-dropdown, #alphabet-dropdown {
+      display: none; position: absolute; top: 110%; background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 8px; z-index: 100; min-width: 200px;
+    }
+    #column-dropdown { left: 0; }
+    #alphabet-dropdown { left: 0; }
+
+    #column-dropdown.is-open, #alphabet-dropdown.is-open { display: block; }
+    #column-dropdown ul, #alphabet-dropdown ul { list-style: none; margin: 0; padding: 0; }
+    #column-dropdown li, #alphabet-dropdown li { padding: 8px 12px; border-radius: 4px; display: flex; align-items: center; cursor: pointer; }
+    #column-dropdown li:hover, #alphabet-dropdown li:hover { background-color: var(--color-surface-hover); }
+    #column-dropdown label, #alphabet-dropdown label { flex-grow: 1; cursor: pointer; }
+    #column-dropdown input[type="checkbox"], #alphabet-dropdown input[type="checkbox"] { margin-right: 12px; }
+    #column-dropdown #select-all-item, #alphabet-dropdown #select-all-letters-item { border-bottom: 1px solid var(--color-border); margin-bottom: 4px; padding-bottom: 12px; font-weight: 600; }
+    
+    /* 🔥 ИЗМЕНЕНИЕ: Уменьшенный шрифт для меню фильтра по категориям */
+    #alphabet-dropdown.mode-category label {
+        font-size: 14px;
+    }
     
     /* 5. СТИЛИ ГЛОССАРИЯ (ФИЛЬТР И ТАБЛИЦА) */
     #searchInput {
-      width: 100%; padding: 12px 15px; border-radius: 6px; font-size: 16px; box-sizing: border-box; background-color: var(--color-bg); color: var(--color-text-primary); border: 1px solid var(--color-border); height: 40px;
+      width: 100%;
+      padding: 12px 15px; 
+      border-radius: 6px; 
+      font-size: 16px; 
+      box-sizing: border-box; 
+      background-color: var(--color-bg); 
+      color: var(--color-text-primary); 
+      border: 1px solid var(--color-border); 
+      height: 40px;
+      transition: all 0.2s ease;
+    }
+    [data-theme="light"] #searchInput {
+      background-color: #DDDDDD;
+      border-color: #bbbbbb;
     }
     #searchInput:focus {
-      outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 0px var(--color-primary-a);
+      outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-a);
     }
     .table-wrapper { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 4px; }
     table { border-collapse: collapse; width: 100%; }
     th, td { padding: 12px 15px; text-align: left; vertical-align: middle; border: none; border-bottom: 1px solid var(--color-border); }
-    thead { position: sticky; top: 0; z-index: 10; background-color: var(--color-primary); color: var(--color-button-text); }
+    
+    thead { 
+      position: sticky; 
+      top: 0; 
+      z-index: 10; 
+      background-color: #3B82F6; 
+      color: #FFFFFF;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    [data-theme="dark"] thead {
+      background-color: var(--color-primary);
+      color: var(--color-button-text);
+    }
     th { font-weight: 600; cursor: pointer; user-select: none; border-bottom: none; white-space: nowrap; }
     td:first-child { white-space: nowrap; font-weight: 600; }
     td:not(:first-child) { white-space: normal; min-width: 250px; }
-    th:first-child, td:first-child { min-width: 150px; }
+    
+    th:first-child, td:first-child { 
+      width: 1%; 
+    }
     th > div { display: flex; align-items: center; justify-content: flex-start; }
     th:not(:last-child) { border-right: 1px solid rgba(255, 255, 255, 0.2); }
     td:not(:last-child) { border-right: 1px solid var(--color-border); }
     tbody tr:last-child td { border-bottom: none; }
-    .sort-indicator { transition: color 0.2s ease; margin-right: 2em; }
+    .sort-indicator { 
+      transition: color 0.2s ease; 
+      margin-right: 2em; 
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: #FFFFFF;
+    }
+    [data-theme="dark"] .sort-indicator {
+        -webkit-text-stroke-color: var(--color-button-text);
+    }
     .sort-asc { color: var(--color-success); }
     .sort-desc { color: var(--color-danger); }
-    tbody tr:nth-child(even) { background-color: var(--color-bg); }
+
+    tbody tr:nth-child(even) { 
+      background-color: var(--color-row-even-bg); 
+    }
     tbody tr:hover { background-color: var(--color-surface-hover); }
     th.is-active, td.is-active { background-color: var(--color-active-col-bg) !important; }
     th.is-active { font-weight: 900; }
@@ -124,19 +195,28 @@
 <body>
   <div class="container">
     <h1>Multi-Language 🎰&nbsp;Glossary</h1>
-<div class="controls-bar">
-    <div class="controls-panel-left">
-       <button id="category-toggle-btn" class="control-btn"></button>
-        <button id="theme-switcher" class="control-btn">🌗</button>
-        <div id="column-toggle-wrapper" style="position: relative;">
-            <button id="column-toggle-btn" class="control-btn">🌎</button>
-            <div id="column-dropdown">
-                <ul id="column-list"></ul>    
+    <div class="controls-bar">
+        <div class="controls-panel-left">
+            <button id="category-toggle-btn" class="control-btn"></button>
+            <button id="theme-switcher" class="control-btn">
+              <span class="theme-icon-dark">🌙</span>
+              <span class="theme-icon-light">☀️</span>
+            </button>
+            <div id="column-toggle-wrapper" style="position: relative;">
+                <button id="column-toggle-btn" class="control-btn">🌎</button>
+                <div id="column-dropdown">
+                    <ul id="column-list"></ul>    
+                </div>
             </div>
-    </div>
-    <input type="text" id="searchInput" placeholder="Search for terms...">
-    </div>
-      </div>    
+            <div id="alphabet-filter-wrapper" style="position: relative;">
+              <button id="alphabet-filter-btn" class="control-btn">🔠</button>
+              <div id="alphabet-dropdown">
+                  <ul id="alphabet-list"></ul>    
+              </div>
+            </div>
+            <input type="text" id="searchInput" placeholder="Search for terms...">
+        </div>
+    </div>    
     <div class="table-wrapper">
       <table id="glossaryTable">
         <thead>
@@ -154,8 +234,8 @@
             <th data-column-index="10"><div><span class="sort-indicator">↕</span><span>Estonian</span></div></th>
           </tr>
         </thead>
-        <tbody>
-          <section>
+<section>
+<body>
 <tr><td class="category-marketing">Marketing</td><td>20 фриспинов при минимальном депозите 20 €</td><td>20 Free Spins with a minimum deposit of 20 €</td><td>20 Freispiele bei einer Einzahlung ab 20 €</td><td>20 Gratisspins bij een minimale storting van 20 €</td><td>20 Tours Gratuits avec un dépôt minimum de 20 €</td><td>20 Giri Gratuiti con un deposito minimo di 20 €</td><td>20 Giros Gratis con un depósito mínimo de 20 €</td><td>20 Rodadas Grátis com um depósito mínimo de 20 €</td><td>20 ilmaiskierrosta vähintään 20 € talletuksella</td><td>20 tasuta spinni minimaalse deposiidiga 20 €</td></tr>
 <tr><td class="category-ui">UI</td><td>Ссылка для подтверждения отправлена на вашу почту.</td><td>A confirmation link has been sent to your email.</td><td>Ein Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.</td><td>Er is een bevestigingslink naar uw e-mailadres gestuurd.</td><td>Un lien de confirmation a été envoyé à votre adresse e-mail.</td><td>Un link di conferma è stato inviato alla tua email.</td><td>Se ha enviado un enlace de confirmación a su correo electrónico.</td><td>Um link de confirmação foi enviado para o seu e-mail.</td><td>Vahvistuslinkki on lähetetty sähköpostiisi.</td><td>Kinnituslink on saadetud teie e-posti aadressile.</td></tr>
 <tr><td class="category-ui">UI</td><td>От А до Я</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Ö</td><td>A-Z</td></tr>
@@ -534,17 +614,8 @@
 <tr><td class="category-ui">UI</td><td>Ваш пароль успешно сброшен. Теперь вы можете войти.</td><td>Your password has been successfully reset. You can now log in.</td><td>Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich jetzt anmelden.</td><td>Uw wachtwoord is succesvol opnieuw ingesteld. U kunt nu inloggen.</td><td>Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter.</td><td>La tua password è stata reimpostata con successo. Ora puoi accedere.</td><td>Su contraseña ha sido restablecida con éxito. Ya puede iniciar sesión.</td><td>A sua senha foi redefinida com sucesso. Já pode iniciar sessão.</td><td>Salasanasi on nollattu onnistuneesti. Voit nyt kirjautua sisään.</td><td>Teie parool on edukalt lähtestatud. Saate nüüd sisse logida.</td></tr>
 <tr><td class="category-tournament">Tournament</td><td>Ваше место</td><td>Your Place</td><td>Ihr Platz</td><td>Uw plaats</td><td>Votre Place</td><td>La tua Posizione</td><td>Tu Puesto</td><td>O seu Lugar</td><td>Sinun Sijasi</td><td>Teie Koht</td></tr>
 <tr><td class="category-general">General</td><td>Ваш статус</td><td>Your Status</td><td>Ihr Status</td><td>Uw status</td><td>Votre Statut</td><td>Il tuo Stato</td><td>Tu Estado</td><td>O seu Status</td><td>Sinun Statuksesi</td><td>Teie Staatus</td></tr>
+</body>
        </section>
-          </tbody>
-      </table>
-    </div>
-  </div>
-
-  <footer>
-    <p class="footer-main-text">Generated by an autonomous AI-Agent: MAE OMA-II</p>
-    <p class="footer-credit">© 2025 McBile AI-Engine</p>
-  </footer>
-
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const D = document;
@@ -556,11 +627,18 @@
       const columnList = D.getElementById('column-list');
       const searchInput = D.getElementById('searchInput');
       const table = D.getElementById('glossaryTable');
+      
+      const alphabetFilterBtn = D.getElementById('alphabet-filter-btn');
+      const alphabetDropdown = D.getElementById('alphabet-dropdown');
+      const alphabetList = D.getElementById('alphabet-list');
+
       if (!table) return;
 
       const htmlElement = D.documentElement;
       const tableBody = table.querySelector('tbody');
       const headers = table.querySelectorAll('th');
+
+      let selectedFilterItems = [];
       
       // --- THEME SWITCHER ---
       const applyTheme = (theme) => htmlElement.setAttribute('data-theme', theme);
@@ -577,8 +655,8 @@
           table.querySelectorAll('th:first-child, td:first-child').forEach(cell => {
               cell.classList.toggle('is-hidden', !isVisible);
           });
-          categoryToggleBtn.textContent = isVisible ? '🙈' : '🐵';
-          categoryToggleBtn.className = 'control-btn'; // reset classes
+          categoryToggleBtn.textContent = isVisible ? '❌' : 'ℹ️'; 
+          categoryToggleBtn.className = 'control-btn';
           categoryToggleBtn.classList.add(isVisible ? 'hide' : 'show');
           localStorage.setItem('categoryVisible', isVisible);
       };
@@ -620,10 +698,8 @@
 
       columnList.addEventListener('change', (e) => {
           if (e.target.type !== 'checkbox') return;
-
           if (e.target.id === 'select-all-langs') {
-              const langCheckboxes = columnList.querySelectorAll('input[data-index]');
-              langCheckboxes.forEach(cb => {
+              columnList.querySelectorAll('input[data-index]').forEach(cb => {
                   cb.checked = e.target.checked;
                   toggleColumn(parseInt(cb.dataset.index, 10), cb.checked);
               });
@@ -636,11 +712,12 @@
       const handleDropdownClose = () => {
           const visibleLangCheckboxes = columnList.querySelectorAll('input[data-index]:checked');
           if (visibleLangCheckboxes.length === 0) {
-              const englishCheckbox = columnList.querySelector('input[data-index="2"]'); // English is at index 2
+              const englishCheckbox = columnList.querySelector('input[data-index="2"]'); 
               if(englishCheckbox) {
                 englishCheckbox.checked = true;
                 toggleColumn(2, true);
               }
+              toggleCategoryVisibility(true);
           }
           saveColumnState();
           columnDropdown.classList.remove('is-open');
@@ -648,19 +725,13 @@
       
       columnToggleButton.addEventListener('click', (e) => {
           e.stopPropagation();
+          alphabetDropdown.classList.remove('is-open'); 
           columnDropdown.classList.toggle('is-open');
           if (!columnDropdown.classList.contains('is-open')) {
               handleDropdownClose();
           }
       });
-      D.addEventListener('click', (e) => {
-          if (!columnDropdown.contains(e.target) && !columnToggleButton.contains(e.target)) {
-            if (columnDropdown.classList.contains('is-open')) {
-              handleDropdownClose();
-            }
-          }
-      });
-
+      
       const saveColumnState = () => {
           const hiddenColumns = [];
           columnList.querySelectorAll('input[data-index]:not(:checked)').forEach(cb => {
@@ -670,7 +741,11 @@
       };
       
       const loadColumnState = () => {
-          const hiddenColumns = JSON.parse(localStorage.getItem('hiddenColumns') || '[]');
+          let hiddenColumns = JSON.parse(localStorage.getItem('hiddenColumns'));
+          if (hiddenColumns === null) {
+            hiddenColumns = ['1'];
+            localStorage.setItem('hiddenColumns', JSON.stringify(hiddenColumns));
+          }
           columnList.querySelectorAll('input[data-index]').forEach(cb => {
               if (hiddenColumns.includes(cb.dataset.index)) {
                   cb.checked = false;
@@ -682,13 +757,103 @@
           updateSelectAllCheckbox();
       };
       
-      // --- FILTER LOGIC ---
-      searchInput.addEventListener('keyup', (event) => {
-        const query = event.target.value.toLowerCase();
-        tableBody.querySelectorAll('tr').forEach(row => {
-          row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
-        });
+      // --- ALPHABET/CATEGORY FILTER LOGIC ---
+      const getActiveSortColumnIndex = () => {
+          for(const header of headers) {
+              if(header.dataset.sortDirection) {
+                  return parseInt(header.dataset.columnIndex, 10);
+              }
+          }
+          return 2;
+      };
+
+      const populateAlphabetDropdown = () => {
+          const activeColumnIndex = getActiveSortColumnIndex();
+          const isCategoryMode = activeColumnIndex === 0;
+          alphabetDropdown.classList.toggle('mode-category', isCategoryMode);
+
+          const uniqueItems = new Set();
+          tableBody.querySelectorAll('tr').forEach(row => {
+              const cell = row.children[activeColumnIndex];
+              if(cell && cell.textContent.trim()) {
+                  const item = isCategoryMode ? cell.textContent.trim() : cell.textContent.trim()[0].toUpperCase();
+                  uniqueItems.add(item);
+              }
+          });
+          
+          alphabetList.innerHTML = '';
+          const sortedItems = [...uniqueItems].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+          const selectAllLi = D.createElement('li');
+          selectAllLi.id = 'select-all-letters-item';
+          const isAllSelected = selectedFilterItems.length === 0;
+          selectAllLi.innerHTML = `<input type="checkbox" id="select-all-letters" ${isAllSelected ? 'checked' : ''}><label for="select-all-letters">Show All</label>`;
+          alphabetList.appendChild(selectAllLi);
+          
+          sortedItems.forEach(item => {
+              const li = D.createElement('li');
+              const isChecked = selectedFilterItems.includes(item);
+              li.innerHTML = `<input type="checkbox" data-filter-value="${item}" ${isChecked ? 'checked' : ''}><label>${item}</label>`;
+              alphabetList.appendChild(li);
+          });
+      };
+
+      alphabetFilterBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          columnDropdown.classList.remove('is-open');
+          populateAlphabetDropdown();
+          alphabetDropdown.classList.toggle('is-open');
       });
+
+      alphabetList.addEventListener('change', e => {
+          if (e.target.type !== 'checkbox') return;
+          if (e.target.id === 'select-all-letters') {
+              selectedFilterItems = [];
+              if (e.target.checked) {
+                  alphabetList.querySelectorAll('input[data-filter-value]').forEach(cb => cb.checked = false);
+              }
+          } else {
+              D.getElementById('select-all-letters').checked = false;
+              selectedFilterItems = Array.from(alphabetList.querySelectorAll('input[data-filter-value]:checked'))
+                                  .map(cb => cb.dataset.filterValue);
+              if (selectedFilterItems.length === 0) {
+                  D.getElementById('select-all-letters').checked = true;
+              }
+          }
+          applyFilters();
+      });
+
+
+      // --- FILTER LOGIC ---
+      const applyFilters = () => {
+          const searchQuery = searchInput.value.toLowerCase();
+          const activeColumnIndex = getActiveSortColumnIndex();
+          const isCategoryMode = activeColumnIndex === 0;
+          
+          tableBody.querySelectorAll('tr').forEach(row => {
+              let isVisible = true;
+              
+              if (searchQuery && !row.textContent.toLowerCase().includes(searchQuery)) {
+                  isVisible = false;
+              }
+
+              if (isVisible && selectedFilterItems.length > 0) {
+                  const cell = row.children[activeColumnIndex];
+                  if (cell && cell.textContent.trim()) {
+                      const cellValue = isCategoryMode ? cell.textContent.trim() : cell.textContent.trim()[0].toUpperCase();
+                      if (!selectedFilterItems.includes(cellValue)) {
+                          isVisible = false;
+                      }
+                  } else {
+                      isVisible = false;
+                  }
+              }
+
+              row.style.display = isVisible ? '' : 'none';
+          });
+      };
+      
+      searchInput.addEventListener('keyup', applyFilters);
 
       // --- SORTING & ACTIVE STATE LOGIC ---
       const setActiveColumn = (columnIndex) => {
@@ -725,6 +890,12 @@
       headers.forEach(header => {
         header.addEventListener('click', () => {
           const columnIndex = parseInt(header.dataset.columnIndex, 10);
+          const currentSortColumnIndex = getActiveSortColumnIndex();
+          
+          if (columnIndex !== currentSortColumnIndex) {
+              selectedFilterItems = [];
+          }
+          
           const currentDirection = header.dataset.sortDirection;
           const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
           
@@ -734,15 +905,27 @@
           sortColumn(columnIndex, newDirection);
           setActiveColumn(columnIndex);
           updateIndicators(header, newDirection);
+          applyFilters();
         });
       });
       
       // --- INITIALIZATION ---
+      D.addEventListener('click', (e) => {
+          if (!columnDropdown.contains(e.target) && !columnToggleButton.contains(e.target)) {
+            if (columnDropdown.classList.contains('is-open')) {
+              handleDropdownClose();
+            }
+          }
+          if (!alphabetDropdown.contains(e.target) && !alphabetFilterBtn.contains(e.target)) {
+            alphabetDropdown.classList.remove('is-open');
+          }
+      });
+      
       populateDropdown();
       loadColumnState();
       
       const defaultSort = () => {
-          const defaultColumnIndex = 1; // Russian is at index 1
+          const defaultColumnIndex = 2; // English is at index 2
           const defaultHeader = headers[defaultColumnIndex];
           const direction = 'asc';
           
