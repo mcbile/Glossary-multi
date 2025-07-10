@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>iGaming Multi-Language Glossary</title>
+  <style>
+    /* 1. ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ */
+    :root {
+      /* Светлая тема */
+      --color-bg: #F9FAFB;
+      --color-surface: #FFFFFF;
+      --color-surface-hover: rgba(59, 130, 246, 0.1);
+      --color-primary: #3B82F6; /* Синий цвет */
+      --color-primary-a: rgba(59, 130, 246, 0.25);
+      --color-button-text: #FFFFFF;
+      --color-text-primary: #1F2937;
+      --color-text-secondary: #6B7280;
+      --color-border: #E5E7EB;
+      --color-success: #10B981;
+      --color-danger: #EF4444;
+    }
+    [data-theme="dark"] {
+      /* Темная тема */
+      --color-bg: #111827;
+      --color-surface: #1F2937;
+      --color-surface-hover: #374151;
+      --color-primary: #60A5FA; /* Светло-синий цвет */
+      --color-primary-a: rgba(96, 165, 250, 0.3);
+      --color-button-text: #111827;
+      --color-text-primary: #F9FAFB;
+      --color-text-secondary: #9CA3AF;
+      --color-border: #374151;
+      --color-success: #34D399;
+      --color-danger: #F87171;
+    }
+    :root {
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --space-1: 4px; --space-2: 8px; --space-3: 16px; --space-4: 24px; --space-5: 32px; --space-6: 48px;
+    }
+
+    /* 2. ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ */
+    body {
+      font-family: var(--font-main);
+      line-height: 1.6;
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+      margin: 0;
+      padding: var(--space-4);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .container {
+      max-width: 1400px;
+      margin: auto;
+      background: var(--color-surface);
+      padding: var(--space-5);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      position: relative;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+    h1 {
+      text-align: center;
+      color: var(--color-primary);
+      margin-top: 0;
+      margin-bottom: var(--space-5);
+    }
+
+    /* 3. СТИЛИ ПЕРЕКЛЮЧАТЕЛЯ ТЕМЫ */
+    #theme-switcher {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-primary);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: background-color 0.3s, border-color 0.3s, transform 0.2s ease;
+    }
+    #theme-switcher:hover {
+      background-color: var(--color-bg);
+    }
+    #theme-switcher:active {
+      transform: scale(0.95);
+    }
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+    }
+    [data-theme="dark"] .theme-icon-light { display: block; }
+    [data-theme="dark"] .theme-icon-dark { display: none; }
+    [data-theme="light"] .theme-icon-light { display: none; }
+    [data-theme="light"] .theme-icon-dark { display: block; }
+    
+    /* 4. СТИЛИ ГЛОССАРИЯ (ФИЛЬТР И ТАБЛИЦА) */
+    #searchInput {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: var(--space-4);
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #searchInput:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-a);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9em;
+    }
+    th, td {
+      border: 1px solid var(--color-border);
+      padding: 12px 15px;
+      text-align: left;
+      vertical-align: top;
+      transition: border-color 0.3s ease;
+    }
+    thead {
+      background-color: var(--color-primary);
+      color: var(--color-button-text);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    th {
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+    }
+    th .sort-indicator {
+      float: right;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    th:hover .sort-indicator {
+      opacity: 1;
+    }
+    tbody tr {
+      transition: background-color 0.2s ease;
+    }
+    tbody tr:nth-child(even) {
+      background-color: var(--color-bg);
+    }
+    tbody tr:hover {
+      background-color: var(--color-surface-hover);
+    }
+
+    /* 5. СТИЛИ ФУТЕРА */
+    footer {
+      padding-top: var(--space-3);
+    }
+    footer .footer-main-text {
+      text-align: center;
+      padding: 2em 0 0 0;
+      max-width: 98%;
+      margin: 0 auto;
+      white-space: nowrap;
+      font-size: clamp(0.6em, 2vw, 1em);
+      color: var(--color-text-secondary);
+    }
+    footer .footer-credit {
+      text-align: center;
+      color: #2196F3;
+      font-weight: bold;
+    }
+
+    /* 6. СПЕЦИФИКАЦИЯ ДЛЯ ПЕЧАТИ */
+    @media print {
+      body { font-size: 10px; }
+      .container {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100%;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        background-color: #fff !important;
+      }
+      #theme-switcher, #searchInput, footer { display: none !important; }
+      h1, h2, h3, h4, li, p, td, th {
+        color: #000 !important;
+      }
+      table { page-break-inside: avoid; }
+      thead {
+        background-color: #f0f0f0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="theme-switcher" aria-label="Переключить тему">
+      <svg class="theme-icon theme-icon-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 010 1.06l-1.591 1.59a.75.75 0 11-1.06-1.06l1.59-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM17.836 17.836a.75.75 0 01-1.06 0l-1.59-1.591a.75.75 0 111.06-1.06l1.59 1.591a.75.75 0 010 1.06zM12 21a.75.75 0 01-.75-.75v-2.25a.75.75 0 011.5 0v2.25a.75.75 0 01-.75.75zM5.106 18.894a.75.75 0 010-1.06l1.591-1.59a.75.75 0 011.06 1.06l-1.591 1.59a.75.75 0 01-1.06 0zM3 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3.75A.75.75 0 013 12zM6.106 5.106a.75.75 0 011.06 0l1.591 1.59a.75.75 0 01-1.06 1.06l-1.59-1.591a.75.75 0 010-1.06z"></path></svg>
+      <svg class="theme-icon theme-icon-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69a.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd"></path></svg>
+    </button>
+    <h1>Multi-Language iGaming Glossary</h1>
+    <input type="text" id="searchInput" placeholder="Search for terms...">
+
+    <table id="glossaryTable">
+      <thead>
+        <tr>
+          <th data-column-index="0">English <span class="sort-indicator">↕</span></th>
+          <th data-column-index="1">German <span class="sort-indicator">↕</span></th>
+          <th data-column-index="2">Russian <span class="sort-indicator">↕</span></th>
+          <th data-column-index="3">French <span class="sort-indicator">↕</span></th>
+          <th data-column-index="4">Finnish <span class="sort-indicator">↕</span></th>
+          <th data-column-index="5">Estonian <span class="sort-indicator">↕</span></th>
+          <th data-column-index="6">Dutch <span class="sort-indicator">↕</span></th>
+          <th data-column-index="7">Portuguese <span class="sort-indicator">↕</span></th>
+          <th data-column-index="8">Spanish <span class="sort-indicator">↕</span></th>
+          <th data-column-index="9">Italian <span class="sort-indicator">↕</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>20 Free Spins with a minimum deposit of 20 €</td><td>20 Freispiele bei einer Einzahlung ab 20 €</td><td>20 фриспинов при минимальном депозите 20 €</td><td>20 Tours Gratuits avec un dépôt minimum de 20 €</td><td>20 ilmaiskierrosta vähintään 20 € talletuksella</td><td>20 tasuta spinni minimaalse deposiidiga 20 €</td><td>20 Gratisspins bij een minimale storting van 20 €</td><td>20 Rodadas Grátis com um depósito mínimo de 20 €</td><td>20 Giros Gratis con un depósito mínimo de 20 €</td><td>20 Giri Gratuiti con un deposito minimo di 20 €</td></tr>
+        <tr><td>A confirmation link has been sent to your email.</td><td>Ein Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.</td><td>Ссылка для подтверждения отправлена на вашу почту.</td><td>Un lien de confirmation a été envoyé à votre adresse e-mail.</td><td>Vahvistuslinkki on lähetetty sähköpostiisi.</td><td>Kinnituslink on saadetud teie e-posti aadressile.</td><td>Er is een bevestigingslink naar uw e-mailadres gestuurd.</td><td>Um link de confirmação foi enviado para o seu e-mail.</td><td>Se ha enviado un enlace de confirmación a su correo electrónico.</td><td>Un link di conferma è stato inviato alla tua email.</td></tr>
+        <tr><td>A-Z</td><td>A-Z</td><td>От А до Я</td><td>A-Z</td><td>A-Ö</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td></tr>
+        <tr><td>About Us</td><td>Über uns</td><td>О нас</td><td>À propos de nous</td><td>Tietoa meistä</td><td>Meist</td><td>Over ons</td><td>Sobre Nós</td><td>Sobre nosotros</td><td>Chi siamo</td></tr>
+        <tr><td>Account Confirmation</td><td>Kontobestätigung</td><td>Подтверждение аккаунта</td><td>Confirmation du compte</td><td>Tilin vahvistus</td><td>Konto kinnitamine</td><td>Accountbevestiging</td><td>Confirmação da Conta</td><td>Confirmación de la cuenta</td><td>Conferma Account</td></tr>
+        <tr><td>Account confirmation failed. Please try again or contact support.</td><td>Die Kontobestätigung ist fehlgeschlagen. Versuchen Sie es bitte erneut oder kontaktieren Sie den Support.</td><td>Подтверждение аккаунта не удалось. Пожалуйста, попробуйте снова или свяжитесь со службой поддержки.</td><td>La confirmation du compte a échoué. Veuillez réessayer ou contacter le support.</td><td>Tilin vahvistus epäonnistui. Yritä uudelleen tai ota yhteyttä tukeen.</td><td>Konto kinnitamine ebaõnnestus. Palun proovige uuesti või võtke ühendust toega.</td><td>Accountbevestiging mislukt. Probeer het opnieuw of neem contact op met de support.</td><td>A confirmação da conta falhou. Por favor, tente novamente ou contacte o suporte.</td><td>La confirmación de la cuenta ha fallado. Por favor, inténtelo de nuevo o contacte con el soporte.</td><td>Conferma dell'account non riuscita. Riprova o contatta l'assistenza.</td></tr>
+        <tr><td>Account verification may take between 1 minute and 24 hours</td><td>Die Kontoüberprüfung kann zwischen 1 Minute und 24 Stunden dauern</td><td>Проверка аккаунта может занять от 1 минуты до 24 часов</td><td>La vérification du compte peut prendre entre 1 minute et 24 heures</td><td>Tilin vahvistaminen voi kestää 1 minuutista 24 tuntiin</td><td>Konto kinnitamine võib võtta aega 1 minutist kuni 24 tunnini</td><td>Accountverificatie kan 1 minuut tot 24 uur duren</td><td>A verificação da conta pode levar de 1 minuto a 24 horas</td><td>La verificación de la cuenta puede tardar entre 1 minuto y 24 horas</td><td>La verifica del conto può richiedere da 1 minuto a 24 ore</td></tr>
+        <tr><td>Activate</td><td>Aktivieren</td><td>Активировать</td><td>Activer</td><td>Aktivoi</td><td>Aktiveeri</td><td>Activeren</td><td>Ativar</td><td>Activar</td><td>Attiva</td></tr>
+        <tr><td>Activate by</td><td>Aktivieren bis</td><td>Активировать до</td><td>Activer avant le</td><td>Aktivoi mennessä</td><td>Aktiveeri enne</td><td>Activeren voor</td><td>Ativar até</td><td>Activar antes del</td><td>Attivare entro</td></tr>
+        <tr><td>Activate the bonus in the user account</td><td>Bonus im Benutzerkonto aktivieren</td><td>Активируйте бонус в личном кабинете</td><td>Activer le bonus dans le compte utilisateur</td><td>Aktivoi bonus käyttäjätilillä</td><td>Aktiveerige boonus kasutajakontol</td><td>Activeer de bonus in uw gebruikersaccount</td><td>Ative o bónus na conta de utilizador</td><td>Activa el bono en la cuenta de usuario</td><td>Attiva il bonus nell'account utente</td></tr>
+        <tr><td>Add</td><td>Hinzufügen</td><td>Добавить</td><td>Ajouter</td><td>Lisää</td><td>Lisa</td><td>Toevoegen</td><td>Adicionar</td><td>Añadir</td><td>Aggiungi</td></tr>
+        <tr><td>Add new</td><td>Neu hinzufügen</td><td>Добавить</td><td>Ajouter nouveau</td><td>Lisää uusi</td><td>Lisa uus</td><td>Nieuwe toevoegen</td><td>Adicionar novo</td><td>Añadir nuevo</td><td>Aggiungi nuovo</td></tr>
+        <tr><td>Address</td><td>Adresse</td><td>Адрес</td><td>Adresse</td><td>Osoite</td><td>Aadress</td><td>Adres</td><td>Endereço</td><td>Dirección</td><td>Indirizzo</td></tr>
+        <tr><td>Address copied</td><td>Adresse kopiert</td><td>Адрес скопирован</td><td>Adresse copiée</td><td>Osoite kopioitu</td><td>Aadress kopeeritud</td><td>Adres gekopieerd</td><td>Endereço copiado</td><td>Dirección copiada</td><td>Indirizzo copiato</td></tr>
+        <tr><td>Affiliates</td><td>B2B</td><td>Партнерам</td><td>Affiliés</td><td>Kumppanit</td><td>Partnerid</td><td>Partners</td><td>Afiliados</td><td>Afiliados</td><td>Affiliati</td></tr>
+        <tr><td>All</td><td>Alle</td><td>Все</td><td>Tous</td><td>Kaikki</td><td>Kõik</td><td>Alles</td><td>Todos</td><td>Todos</td><td>Tutti</td></tr>
+        <tr><td>All banks</td><td>Alle Banken</td><td>Все банки</td><td>Toutes les banques</td><td>Kaikki pankit</td><td>Kõik pangad</td><td>Alle banken</td><td>Todos os bancos</td><td>Todos los bancos</td><td>Tutte le banche</td></tr>
+        <tr><td>All Games</td><td>Alle Spiele</td><td>Все игры</td><td>Tous les jeux</td><td>Kaikki pelit</td><td>Kõik mängud</td><td>Alle spellen</td><td>Todos os Jogos</td><td>Todos los juegos</td><td>Tutti i giochi</td></tr>
+        <tr><td>All Payment Methods</td><td>Alle Zahlungsmethoden</td><td>Все методы оплаты</td><td>Toutes les méthodes de paiement</td><td>Kaikki maksutavat</td><td>Kõik makseviisid</td><td>Alle betaalmethoden</td><td>Todos os Métodos de Pagamento</td><td>Todos los métodos de pago</td><td>Tutti i metodi di pagamento</td></tr>
+        <tr><td>All-time prize pool</td><td>Gesamt-Preispool</td><td>Общий призовой фонд</td><td>Cagnotte totale</td><td>Koko ajan palkintopotti</td><td>Kogu aeg auhinnafond</td><td>Totale prijzenpot</td><td>Prêmio total</td><td>Bote de premios total</td><td>Montepremi di sempre</td></tr>
+        <tr><td>Already have an account?</td><td>Haben Sie bereits ein Konto?</td><td>Уже есть аккаунт?</td><td>Vous avez déjà un compte ?</td><td>Onko sinulla jo tili?</td><td>Kas teil on juba konto?</td><td>Heeft u al een account?</td><td>Já tem uma conta?</td><td>¿Ya tienes una cuenta?</td><td>Hai già un account?</td></tr>
+        <tr><td>Already registered?</td><td>Bereits registriert?</td><td>Уже зарегистрированы?</td><td>Déjà inscrit ?</td><td>Oletko jo rekisteröitynyt?</td><td>Oled juba registreerunud?</td><td>Al geregistreerd?</td><td>Já está registado?</td><td>¿Ya estás registrado?</td><td>Già registrato?</td></tr>
+        <tr><td>Amount</td><td>Betrag</td><td>Сумма</td><td>Montant</td><td>Määrä</td><td>Summa</td><td>Bedrag</td><td>Valor</td><td>Cantidad</td><td>Importo</td></tr>
+        <tr><td>and</td><td>und</td><td>и</td><td>et</td><td>ja</td><td>ja</td><td>en</td><td>e</td><td>y</td><td>e</td></tr>
+        <tr><td>Apply</td><td>Anwenden</td><td>Применить</td><td>Appliquer</td><td>Käytä</td><td>Rakenda</td><td>Toepassen</td><td>Aplicar</td><td>Aplicar</td><td>Applica</td></tr>
+        <tr><td>Available Bonuses</td><td>Verfügbare Boni</td><td>Доступные бонусы</td><td>Bonus disponibles</td><td>Saatavilla olevat bonukset</td><td>Saadaval boonused</td><td>Beschikbare bonussen</td><td>Bónus Disponíveis</td><td>Bonos disponibles</td><td>Bonus disponibili</td></tr>
+        <tr><td>Available for withdrawal</td><td>Zur Auszahlung verfügbar</td><td>Доступно для вывода</td><td>Disponible pour le retrait</td><td>Nostettavissa</td><td>Saadaval väljamaksmiseks</td><td>Beschikbaar voor opname</td><td>Disponível para levantamento</td><td>Disponible para retirar</td><td>Disponibile per il prelievo</td></tr>
+        <tr><td>Baccarat</td><td>Baccara</td><td>Баккара</td><td>Baccarat</td><td>Baccarat</td><td>Baccarat</td><td>Baccarat</td><td>Baccarat</td><td>Baccarat</td><td>Baccarat</td></tr>
+        <tr><td>Back to home</td><td>Zur Startseite</td><td>Назад на главную</td><td>Retour à l'accueil</td><td>Palaa etusivulle</td><td>Tagasi avalehele</td><td>Terug naar de startpagina</td><td>Voltar à página inicial</td><td>Volver al inicio</td><td>Torna alla home</td></tr>
+        <tr><td>Balance</td><td>Guthaben</td><td>Баланс</td><td>Solde</td><td>Saldo</td><td>Saldo</td><td>Saldo</td><td>Saldo</td><td>Saldo</td><td>Saldo</td></tr>
+        <tr><td>Bank Transfer</td><td>Banküberweisung</td><td>Банковский перевод</td><td>Virement bancaire</td><td>Pankkisiirto</td><td>Pangaülekanne</td><td>Bankoverschrijving</td><td>Transferência Bancária</td><td>Transferencia bancaria</td><td>Bonifico bancario</td></tr>
+        <tr><td>Bet per free spin</td><td>Einsatz pro Freispiel</td><td>Ставка за фриспин</td><td>Mise par tour gratuit</td><td>Panos per ilmaiskierros</td><td>Panus tasuta spinni kohta</td><td>Inzet per gratisspin</td><td>Aposta por rodada grátis</td><td>Apuesta por giro gratis</td><td>Puntata per giro gratuito</td></tr>
+        <tr><td>Bets</td><td>Einsätze</td><td>Ставки</td><td>Mises</td><td>Panokset</td><td>Panused</td><td>Inzetten</td><td>Apostas</td><td>Apuestas</td><td>Scommesse</td></tr>
+        <tr><td>Bingo</td><td>Bingo</td><td>Бинго</td><td>Bingo</td><td>Bingo</td><td>Bingo</td><td>Bingo</td><td>Bingo</td><td>Bingo</td><td>Bingo</td></tr>
+        <tr><td>Blackjack</td><td>Blackjack</td><td>Блэкджек</td><td>Blackjack</td><td>Blackjack</td><td>Blackjack</td><td>Blackjack</td><td>Blackjack</td><td>Blackjack</td><td>Blackjack</td></tr>
+        <tr><td>Bonus</td><td>Bonus</td><td>Бонус</td><td>Bonus</td><td>Bonus</td><td>Boonus</td><td>Bonus</td><td>Bónus</td><td>Bono</td><td>Bonus</td></tr>
+        <tr><td>Bonus activate and play</td><td>Bonus aktivieren und loslegen</td><td>Активируйте бонус и играйте</td><td>Activer le bonus et jouer</td><td>Aktivoi bonus ja pelaa</td><td>Aktiveeri boonus ja mängi</td><td>Bonus activeren en spelen</td><td>Ativar bónus e jogar</td><td>Activar bono y jugar</td><td>Attiva il bonus e gioca</td></tr>
+        <tr><td>Bonus activation failed, please try again later.</td><td>Bonusaktivierung fehlgeschlagen, bitte versuchen Sie es später erneut.</td><td>Не удалось активировать бонус, попробуйте позже.</td><td>L'activation du bonus a échoué, veuillez réessayer plus tard.</td><td>Bonuksen aktivointi epäonnistui, yritä myöhemmin uudelleen.</td><td>Boonuse aktiveerimine ebaõnnestus, palun proovige hiljem uuesti.</td><td>Bonusactivatie mislukt, probeer het later opnieuw.</td><td>Falha na ativação do bónus, por favor, tente mais tarde.</td><td>La activación del bono falló, por favor inténtelo de nuevo más tarde.</td><td>Attivazione bonus non riuscita, riprova più tardi.</td></tr>
+        <tr><td>Bonus Buy</td><td>Bonuskauf</td><td>Покупка бонусов</td><td>Achat de Bonus</td><td>Osto-bonus</td><td>Boonusost</td><td>Bonus Buy</td><td>Compra de Bónus</td><td>Compra de bonos</td><td>Acquisto Bonus</td></tr>
+        <tr><td>Bonus code successfully added.</td><td>Bonuscode erfolgreich hinzugefügt.</td><td>Промокод успешно добавлен.</td><td>Code bonus ajouté avec succès.</td><td>Bonuskoodi lisätty onnistuneesti.</td><td>Boonuskood on lisatud.</td><td>Bonuscode succesvol toegevoegd.</td><td>Código de bónus adicionado com sucesso.</td><td>Código de bono añadido con éxito.</td><td>Codice bonus aggiunto con successo.</td></tr>
+        <tr><td>Bonus code successfully removed.</td><td>Bonuscode erfolgreich entfernt.</td><td>Промокод успешно удален.</td><td>Code bonus supprimé avec succès.</td><td>Bonuskoodi poistettu onnistuneesti.</td><td>Boonuskood on eemaldatud.</td><td>Bonuscode succesvol verwijderd.</td><td>Código de bónus removido com sucesso.</td><td>Código de bono eliminado con éxito.</td><td>Codice bonus rimosso con successo.</td></tr>
+        <tr><td>Bonus code XXXXX for 20 free spins</td><td>Bonuscode XXXXX für 20 Freispiele</td><td>Бонус-код XXXXX на 20 фриспинов</td><td>Code bonus XXXXX pour 20 tours gratuits</td><td>Bonuskoodi XXXXX 20 ilmaiskierrokselle</td><td>Boonuskood XXXXX 20 tasuta spinnile</td><td>Bonuscode XXXXX voor 20 gratisspins</td><td>Código de bónus XXXXX para 20 rodadas grátis</td><td>Código de bono XXXXX para 20 giros gratis</td><td>Codice bonus XXXXX per 20 giri gratuiti</td></tr>
+        <tr><td>Bonus Rules</td><td>Bonusregeln</td><td>Правила бонусов</td><td>Règles des bonus</td><td>Bonusehdot</td><td>Boonusreeglid</td><td>Bonusregels</td><td>Regras dos Bónus</td><td>Reglas de los bonos</td><td>Regole dei Bonus</td></tr>
+        <tr><td>Bonus T&C</td><td>Bonus-AGB</td><td>Условия и положения бонуса</td><td>T&C du bonus</td><td>Bonuksen säännöt ja ehdot</td><td>Boonuse tingimused</td><td>Bonusvoorwaarden</td><td>T&C do Bónus</td><td>T&C del bono</td><td>T&C del bonus</td></tr>
+        <tr><td>Bonuses</td><td>Boni</td><td>Бонусы</td><td>Bonus</td><td>Bonukset</td><td>Boonused</td><td>Bonussen</td><td>Bónus</td><td>Bonos</td><td>Bonus</td></tr>
+        <tr><td>Books</td><td>Bücher-Slots</td><td>Книжки</td><td>Livres</td><td>Kirjat</td><td>Raamatud</td><td>Boekenslots</td><td>Livros</td><td>Libros</td><td>Libri</td></tr>
+        <tr><td>Cancel</td><td>Abbrechen</td><td>Отменить</td><td>Annuler</td><td>Peruuta</td><td>Tühista</td><td>Annuleren</td><td>Cancelar</td><td>Cancelar</td><td>Annulla</td></tr>
+        <tr><td>Card Number</td><td>Kartennummer</td><td>Номер карты</td><td>Numéro de carte</td><td>Kortin numero</td><td>Kaardi number</td><td>Kaartnummer</td><td>Número do Cartão</td><td>Número de tarjeta</td><td>Numero di carta</td></tr>
+        <tr><td>Cardholder</td><td>Karteninhaber</td><td>Владелец карты</td><td>Titulaire de la carte</td><td>Kortinhaltija</td><td>Kaardiomanik</td><td>Kaarthouder</td><td>Titular do Cartão</td><td>Titular de la tarjeta</td><td>Titolare della carta</td></tr>
+        <tr><td>Cashback</td><td>Cashback</td><td>Кэшбэк</td><td>Cashback</td><td>Käteispalautus</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td></tr>
+        <tr><td>Cashback is automatically daily credited</td><td>Cashback wird täglich automatisch gutgeschrieben</td><td>Кэшбэк начисляется автоматически каждый день</td><td>Le cashback est crédité automatiquement chaque jour</td><td>Käteispalautus hyvitetään automaattisesti päivittäin</td><td>Cashback kantakse automaatselt iga päev kontole</td><td>Cashback wordt dagelijks automatisch bijgeschreven</td><td>O cashback é creditado automaticamente todos os dias</td><td>El cashback se acredita automáticamente a diario</td><td>Il cashback viene accreditato automaticamente ogni giorno</td></tr>
+        <tr><td>Casino Lottery</td><td>Casino-Lotterie</td><td>Лотерея казино</td><td>Loterie du casino</td><td>Kasinon lottopeli</td><td>Kasiino loterii</td><td>Casinoloterij</td><td>Lotaria do Casino</td><td>Lotería del casino</td><td>Lotteria del Casinò</td></tr>
+        <tr><td>Categories</td><td>Kategorien</td><td>Категории</td><td>Catégories</td><td>Kategoriat</td><td>Kategooriad</td><td>Categorieën</td><td>Categorias</td><td>Categorías</td><td>Categorie</td></tr>
+        <tr><td>Category</td><td>Kategorie</td><td>Категория</td><td>Catégorie</td><td>Kategoria</td><td>Kategooria</td><td>Categorie</td><td>Categoria</td><td>Categoría</td><td>Categoria</td></tr>
+        <tr><td>Change My Password</td><td>Mein Passwort ändern</td><td>Изменить мой пароль</td><td>Changer mon mot de passe</td><td>Vaihda salasanani</td><td>Muuda minu parool</td><td>Mijn wachtwoord wijzigen</td><td>Alterar a Minha Senha</td><td>Cambiar mi contraseña</td><td>Cambia la mia password</td></tr>
+        <tr><td>Change Password</td><td>Passwort ändern</td><td>Изменить пароль</td><td>Changer le mot de passe</td><td>Vaihda salasana</td><td>Muuda parool</td><td>Wachtwoord wijzigen</td><td>Alterar Senha</td><td>Cambiar contraseña</td><td>Cambia password</td></tr>
+        <tr><td>Choose a reward</td><td>Wählen Sie eine Belohnung</td><td>Выберите награду</td><td>Choisissez une récompense</td><td>Valitse palkinto</td><td>Vali auhind</td><td>Kies een beloning</td><td>Escolha uma recompensa</td><td>Elige una recompensa</td><td>Scegli un premio</td></tr>
+        <tr><td>Choose a scratch method</td><td>Wählen Sie eine Rubbelmethode</td><td>Выберите способ стирания</td><td>Choisissez une méthode de grattage</td><td>Valitse raaputustapa</td><td>Vali kraapimismeetod</td><td>Kies een krasmethode</td><td>Escolha um método de raspadinha</td><td>Elige un método para rascar</td><td>Scegli un metodo per grattare</td></tr>
+        <tr><td>City</td><td>Stadt</td><td>Город</td><td>Ville</td><td>Kaupunki</td><td>Linn</td><td>Stad</td><td>Cidade</td><td>Ciudad</td><td>Città</td></tr>
+        <tr><td>Claim</td><td>Anfordern</td><td>Получить</td><td>Réclamer</td><td>Lunasta</td><td>Nõua</td><td>Claimen</td><td>Reivindicar</td><td>Reclamar</td><td>Richiedi</td></tr>
+        <tr><td>Claim your bonus now</td><td>Jetzt Bonus abholen</td><td>Получить бонус сейчас</td><td>Réclamez votre bonus maintenant</td><td>Lunasta bonuksesi nyt</td><td>Nõua oma boonust kohe</td><td>Claim uw bonus nu</td><td>Reivindique o seu bónus agora</td><td>Reclama tu bono ahora</td><td>Richiedi subito il tuo bonus</td></tr>
+        <tr><td>Clear all</td><td>Alle löschen</td><td>Очистить все</td><td>Tout effacer</td><td>Tyhjennä kaikki</td><td>Kustuta kõik</td><td>Alles wissen</td><td>Limpar tudo</td><td>Borrar todo</td><td>Cancella tutto</td></tr>
+        <tr><td>Close bonus lootbox</td><td>Lootbox schließen</td><td>Закрыть бонусный лутбокс</td><td>Fermer la lootbox bonus</td><td>Sulje bonus-lootbox</td><td>Sule boonuse aardekirst</td><td>Bonus-lootbox sluiten</td><td>Fechar a lootbox de bónus</td><td>Cerrar la caja de botín de bonos</td><td>Chiudi la lootbox bonus</td></tr>
+        <tr><td>Close bonus scratch card</td><td>Rubbellos schließen</td><td>Закрыть бонусную скретч-карту</td><td>Fermer la carte à gratter bonus</td><td>Sulje bonus-raaputusarpa</td><td>Sule boonuskraapekaart</td><td>Bonus-kraskaart sluiten</td><td>Fechar a raspadinha de bónus</td><td>Cerrar la tarjeta rasca y gana de bonos</td><td>Chiudi la scratch card bonus</td></tr>
+        <tr><td>Close bonus wheel</td><td>Glücksrad schließen</td><td>Закрыть бонусное колесо</td><td>Fermer la roue bonus</td><td>Sulje bonuspyörä</td><td>Sule boonusratas</td><td>Bonuswiel sluiten</td><td>Fechar a roda de bónus</td><td>Cerrar la rueda de bonos</td><td>Chiudi la ruota bonus</td></tr>
+        <tr><td>Close Login Modal</td><td>Anmeldefenster schließen</td><td>Закрыть окно входа</td><td>Fermer la fenêtre de connexion</td><td>Sulje kirjautumisikkuna</td><td>Sule sisselogimisaken</td><td>Inlogvenster sluiten</td><td>Fechar Janela de Login</td><td>Cerrar ventana de inicio de sesión</td><td>Chiudi finestra di login</td></tr>
+        <tr><td>Close Registration Modal</td><td>Registrierungsfenster schließen</td><td>Закрыть окно регистрации</td><td>Fermer la fenêtre d'inscription</td><td>Sulje rekisteröinti-ikkuna</td><td>Sule registreerimisaken</td><td>Registratievenster sluiten</td><td>Fechar Janela de Registo</td><td>Cerrar ventana de registro</td><td>Chiudi finestra di registrazione</td></tr>
+        <tr><td>Company</td><td>Unternehmen</td><td>Компания</td><td>Société</td><td>Yritys</td><td>Ettevõte</td><td>Bedrijf</td><td>Empresa</td><td>Empresa</td><td>Azienda</td></tr>
+        <tr><td>Complete your account profile to enable withdrawal</td><td>Um eine Auszahlung vornehmen zu können, müssen alle Felder Ihres Profils ausgefüllt werden</td><td>Заполните профиль, чтобы вывести средства</td><td>Complétez le profil de votre compte pour activer le retrait</td><td>Täydennä tilisi profiili mahdollistaaksesi noston</td><td>Täitke oma konto profiil, et lubada väljamakseid</td><td>Vul uw profiel aan om geld op te nemen.</td><td>Complete o seu perfil de conta para permitir o levantamento</td><td>Completa el perfil de tu cuenta para habilitar los retiros</td><td>Completa il tuo profilo per abilitare i prelievi</td></tr>
+        <tr><td>Confirm new password</td><td>Neues Passwort bestätigen</td><td>Подтвердите новый пароль</td><td>Confirmer le nouveau mot de passe</td><td>Vahvista uusi salasana</td><td>Kinnita uus parool</td><td>Bevestig nieuw wachtwoord</td><td>Confirmar nova senha</td><td>Confirmar nueva contraseña</td><td>Conferma nuova password</td></tr>
+        <tr><td>Confirmation token is missing. Please check the link in your email.</td><td>Bestätigungs-Token fehlt. Bitte überprüfen Sie den Link in Ihrer E-Mail.</td><td>Отсутствует токен подтверждения. Пожалуйста, проверьте ссылку в вашей почте.</td><td>Le jeton de confirmation est manquant. Veuillez vérifier le lien dans votre e-mail.</td><td>Vahvistustunnus puuttuu. Tarkista linkki sähköpostistasi.</td><td>Kinnitustõend puudub. Palun kontrollige linki oma e-kirjas.</td><td>Bevestigingstoken ontbreekt. Controleer de link in uw e-mail.</td><td>O token de confirmação está em falta. Por favor, verifique o link no seu e-mail.</td><td>Falta el token de confirmación. Por favor, compruebe el enlace en su correo electrónico.</td><td>Token di conferma mancante. Controlla il link nella tua email.</td></tr>
+        <tr><td>Congratulations!</td><td>Glückwunsch!</td><td>Поздравляем!</td><td>Félicitations !</td><td>Onnittelut!</td><td>Õnnitleme!</td><td>Gefeliciteerd!</td><td>Parabéns!</td><td>¡Felicidades!</td><td>Congratulazioni!</td></tr>
+        <tr><td>Contact Form</td><td>Kontaktformular</td><td>Контактная форма</td><td>Formulaire de contact</td><td>Yhteydenottolomake</td><td>Kontaktivorm</td><td>Contactformulier</td><td>Formulário de Contacto</td><td>Formulario de contacto</td><td>Modulo di contatto</td></tr>
+        <tr><td>Contact Support</td><td>Support kontaktieren</td><td>Связаться с поддержкой</td><td>Contacter le support</td><td>Ota yhteyttä tukeen</td><td>Võta ühendust toega</td><td>Contacteer support</td><td>Contactar o Suporte</td><td>Contactar con soporte</td><td>Contatta il supporto</td></tr>
+        <tr><td>Continue</td><td>Weiter</td><td>Продолжить</td><td>Continuer</td><td>Jatka</td><td>Jätka</td><td>Doorgaan</td><td>Continuar</td><td>Continuar</td><td>Continua</td></tr>
+        <tr><td>Continue scratching manually</td><td>Manuell weiterrubbeln</td><td>Продолжить стирать вручную</td><td>Continuer à gratter manuellement</td><td>Jatka raaputtamista manuaalisesti</td><td>Jätka käsitsi kraapimist</td><td>Handmatig verder krassen</td><td>Continuar a raspar manualmente</td><td>Continuar rascando manualmente</td><td>Continua a grattare manualmente</td></tr>
+        <tr><td>Copy Address</td><td>Adresse kopieren</td><td>Копировать адрес</td><td>Copier l'adresse</td><td>Kopioi osoite</td><td>Kopeeri aadress</td><td>Adres kopiëren</td><td>Copiar Endereço</td><td>Copiar dirección</td><td>Copia indirizzo</td></tr>
+        <tr><td>Copy Tag</td><td>Tag kopieren</td><td>Копировать тег</td><td>Copier le tag</td><td>Kopioi tagi</td><td>Kopeeri silt</td><td>Tag kopiëren</td><td>Copiar Tag</td><td>Copiar etiqueta</td><td>Copia tag</td></tr>
+        <tr><td>Copyright © 2025 The website www.kaasino.com (Casino, Website, Company, We, Us, Our) is a licensed online casino that offers games of chance that can be addictive. To use our services, you must be at least 18 years old. We accept no responsibility for any violation of local laws regarding iGaming. Please play responsibly and enjoy your gaming experience at Kaasino.</td><td>Die Webseite www.kaasino.com („Casino“, „Webseite“, „Unternehmen“, „wir“, „uns“, „unser“) ist ein lizenziertes Online-Casino und bietet Glücksspiele an, die süchtig machen können. Um unsere Dienste nutzen zu können, müssen Sie mindestens 18 Jahre alt sein. Wir übernehmen keine Verantwortung für Verstöße gegen lokale iGaming-Gesetze. Bitte spielen Sie verantwortungsbewusst und genießen Sie Ihr Spielerlebnis bei Kaasino.</td><td>Copyright © 2025 Веб-сайт www.kaasino.com («Казино», «Веб-сайт», «Компания», «Мы», «Нас», «Наш») является лицензированным онлайн-казино, предлагающим азартные игры, которые могут вызывать зависимость. Чтобы пользоваться нашими услугами, вам должно быть не менее 18 лет. Мы не несем ответственности за нарушение местных законов, касающихся iGaming. Пожалуйста, играйте ответственно и наслаждайтесь игрой в Kaasino.</td><td>Copyright © 2025 Le site web www.kaasino.com (Casino, Site web, Société, Nous, Notre) est un casino en ligne sous licence qui propose des jeux de hasard pouvant créer une dépendance. Pour utiliser nos services, vous devez avoir au moins 18 ans. Nous déclinons toute responsabilité en cas de violation des lois locales concernant l'iGaming. Veuillez jouer de manière responsable et profiter de votre expérience de jeu sur Kaasino.</td><td>Copyright © 2025 Verkkosivusto www.kaasino.com (Kasino, Verkkosivusto, Yritys, Me, Meidän) on lisensoitu nettikasino, joka tarjoaa onnenpelejä, jotka voivat aiheuttaa riippuvuutta. Palveluidemme käyttämiseksi sinun on oltava vähintään 18-vuotias. Emme ota vastuuta paikallisten iGaming-lakien rikkomisesta. Pelaa vastuullisesti ja nauti pelikokemuksestasi Kaasinolla.</td><td>Autoriõigus © 2025 Veebisait www.kaasino.com (Kasiino, Veebisait, Ettevõte, Meie) on litsentseeritud online-kasiino, mis pakub hasartmänge, mis võivad tekitada sõltuvust. Meie teenuste kasutamiseks peate olema vähemalt 18-aastane. Me ei vastuta kohalike iGaming'i seaduste rikkumise eest. Palun mängige vastutustundlikult ja nautige oma mängukogemust Kaasinos.</td><td>Copyright © 2025 De website www.kaasino.com ("Casino", "Website", "Bedrijf", "Wij", "Ons", "Onze") is een gelicentieerd online casino dat kansspelen aanbiedt die verslavend kunnen zijn. Om onze diensten te gebruiken, moet u minimaal 18 jaar oud zijn. Wij aanvaarden geen verantwoordelijkheid voor enige schending van lokale wetten met betrekking to iGaming. Speel alstublieft verantwoord en geniet van uw spelervaring bij Kaasino.</td><td>Copyright © 2025 O site www.kaasino.com (Casino, Site, Empresa, Nós, Nosso) é um casino online licenciado que oferece jogos de azar que podem ser viciantes. Para usar os nossos serviços, deve ter pelo menos 18 anos. Não nos responsabilizamos por qualquer violação das leis locais sobre iGaming. Por favor, jogue de forma responsável e aproveite a sua experiência de jogo no Kaasino.</td><td>Copyright © 2025 El sitio web www.kaasino.com (Casino, Sitio web, Empresa, Nosotros, Nuestro) es un casino en línea con licencia que ofrece juegos de azar que pueden ser adictivos. Para utilizar nuestros servicios, debe tener al menos 18 años. No aceptamos ninguna responsabilidad por cualquier violación de las leyes locales relativas al iGaming. Por favor, juegue de forma responsable y disfrute de su experiencia de juego en Kaasino.</td><td>Copyright © 2025 Il sito web www.kaasino.com (Casinò, Sito web, Società, Noi, Nostro) è un casinò online autorizzato che offre giochi d'azzardo che possono creare dipendenza. Per utilizzare i nostri servizi, è necessario avere almeno 18 anni. Non ci assumiamo alcuna responsabilità per eventuali violazioni delle leggi locali in materia di iGaming. Si prega di giocare in modo responsabile e di godere della propria esperienza di gioco su Kaasino.</td></tr>
+        <tr><td>Country</td><td>Land</td><td>Страна</td><td>Pays</td><td>Maa</td><td>Riik</td><td>Land</td><td>País</td><td>País</td><td>Paese</td></tr>
+        <tr><td>Country Code</td><td>Ländervorwahl</td><td>Код страны</td><td>Indicatif du pays</td><td>Maakoodi</td><td>Riigi kood</td><td>Landcode</td><td>Código do País</td><td>Prefijo del país</td><td>Prefisso internazionale</td></tr>
+        <tr><td>Crash</td><td>Crash</td><td>Крэш</td><td>Crash</td><td>Crash</td><td>Crash</td><td>Crash</td><td>Crash</td><td>Crash</td><td>Crash</td></tr>
+        <tr><td>Create a gaming account</td><td>Ein Spielerkonto erstellen</td><td>Создать игровой аккаунт</td><td>Créer un compte de jeu</td><td>Luo pelitili</td><td>Loo mängukonto</td><td>Een spelaccount aanmaken</td><td>Criar uma conta de jogo</td><td>Crear una cuenta de juego</td><td>Crea un account di gioco</td></tr>
+        <tr><td>Crypto</td><td>Kryptowährungen</td><td>Криптовалюты</td><td>Crypto</td><td>Krypto</td><td>Krüpto</td><td>Crypto</td><td>Cripto</td><td>Cripto</td><td>Cripto</td></tr>
+        <tr><td>Currency</td><td>Währung</td><td>Валюта</td><td>Devise</td><td>Valuutta</td><td>Valuuta</td><td>Valuta</td><td>Moeda</td><td>Moneda</td><td>Valuta</td></tr>
+        <tr><td>Current Result</td><td>Aktuelles Ergebnis</td><td>Текущий результат</td><td>Résultat actuel</td><td>Nykyinen tulos</td><td>Praegune tulemus</td><td>Huidig resultaat</td><td>Resultado Atual</td><td>Resultado actual</td><td>Risultato attuale</td></tr>
+        <tr><td>Custom</td><td>Benutzerdefiniert</td><td>Другая сумма</td><td>Personnalisé</td><td>Muu summa</td><td>Kohandatud</td><td>Aangepast</td><td>Personalizado</td><td>Personalizado</td><td>Personalizzato</td></tr>
+        <tr><td>CVV</td><td>CVV</td><td>CVV</td><td>CVV</td><td>CVV</td><td>CVV</td><td>CVV</td><td>CVV</td><td>CVV</td><td>CVV</td></tr>
+        <tr><td>Daily</td><td>Täglich</td><td>Ежедневно</td><td>Quotidien</td><td>Päivittäin</td><td>Iga päev</td><td>Dagelijks</td><td>Diário</td><td>Diario</td><td>Giornaliero</td></tr>
+        <tr><td>Daily</td><td>Tägliches</td><td>Ежедневный / Ежедневное</td><td>Quotidien</td><td>Päivittäinen</td><td>Igapäevane</td><td>Dagelijkse</td><td>Diário</td><td>Diario</td><td>Quotidiano</td></tr>
+        <tr><td>Date of Birth</td><td>Geburtsdatum</td><td>Дата рождения</td><td>Date de naissance</td><td>Syntymäaika</td><td>Sünnikuupäev</td><td>Geboortedatum</td><td>Data de Nascimento</td><td>Fecha de nacimiento</td><td>Data di nascita</td></tr>
+        <tr><td>days</td><td>Tage</td><td>дней</td><td>jours</td><td>päivää</td><td>päeva</td><td>dagen</td><td>dias</td><td>días</td><td>giorni</td></tr>
+        <tr><td>Demo mode</td><td>Demo-Modus</td><td>Демо-режим</td><td>Mode démo</td><td>Demotila</td><td>Demorežiim</td><td>Demomodus</td><td>Modo de demonstração</td><td>Modo de demostración</td><td>Modalità demo</td></tr>
+        <tr><td>Deposit</td><td>Einzahlen</td><td>Пополнить</td><td>Déposer</td><td>Talleta</td><td>Tee deposiit</td><td>Storten</td><td>Depositar</td><td>Depositar</td><td>Deposita</td></tr>
+        <tr><td>Deposit</td><td>Einzahlung</td><td>Депозит</td><td>Dépôt</td><td>Talletus</td><td>Deposiit</td><td>Storting</td><td>Depósito</td><td>Depósito</td><td>Deposito</td></tr>
+        <tr><td>Deposit {amount} {currency}</td><td>{amount} {currency} einzahlen</td><td>Внести {amount} {currency}</td><td>Déposer {amount} {currency}</td><td>Talleta {amount} {currency}</td><td>Deponeeri {amount} {currency}</td><td>{amount} {currency} storten</td><td>Depositar {amount} {currency}</td><td>Depositar {amount} {currency}</td><td>Deposita {amount} {currency}</td></tr>
+        <tr><td>Deposit at least 20 € or more</td><td>Mindestens 20 € oder mehr einzahlen</td><td>Пополните минимум на 20 € или больше</td><td>Déposez au moins 20 € ou plus</td><td>Talleta vähintään 20 € tai enemmän</td><td>Tehke deposiit vähemalt 20 € või rohkem</td><td>Stort minimaal 20 € of meer</td><td>Deposite pelo menos 20 € ou mais</td><td>Deposita al menos 20 € o más</td><td>Deposita almeno 20 € o più</td></tr>
+        <tr><td>Deposit during the week and play for real money</td><td>Im Laufe der Woche einzahlen und um echtes Geld spielen</td><td>Пополните в течение недели и играйте на реальные деньги</td><td>Déposez pendant la semaine et jouez pour de l'argent réel</td><td>Talleta viikon aikana ja pelaa oikealla rahalla</td><td>Tehke nädala jooksul deposiit ja mängige pärisraha eest</td><td>Stort gedurende de week en speel voor echt geld</td><td>Deposite durante a semana e jogue com dinheiro real</td><td>Deposita durante la semana y juega con dinero real</td><td>Deposita durante la settimana e gioca con soldi veri</td></tr>
+        <tr><td>Dice</td><td>Würfelspiele</td><td>Кости</td><td>Dés</td><td>Nopat</td><td>Täringud</td><td>Dobbelspellen</td><td>Dados</td><td>Dados</td><td>Dadi</td></tr>
+        <tr><td>Documents</td><td>Dokumente</td><td>Документы</td><td>Documents</td><td>Asiakirjat</td><td>Dokumendid</td><td>Documenten</td><td>Documentos</td><td>Documentos</td><td>Documenti</td></tr>
+        <tr><td>Draw between</td><td>Ziehung zwischen</td><td>Розыгрыш между</td><td>Tirage entre</td><td>Arvonta välillä</td><td>Loosimine vahemikus</td><td>Trekking tussen</td><td>Sorteio entre</td><td>Sorteo entre</td><td>Estrazione tra</td></tr>
+        <tr><td>Draw between 5,000€ and 15.000€</td><td>Ziehung zwischen 5.000 € und 15.000 €</td><td>Розыгрыш между 5.000 € и 15.000 €</td><td>Tirage entre 5 000 € et 15 000 €</td><td>Arvonta 5 000 € ja 15 000 € välillä</td><td>Loosimine vahemikus 5000 € kuni 15 000 €</td><td>Trekking tussen 5.000 € en 15.000 €</td><td>Sorteio entre 5.000 € e 15.000 €</td><td>Sorteo entre 5.000 € y 15.000 €</td><td>Estrazione tra 5.000 € e 15.000 €</td></tr>
+        <tr><td>Draw from</td><td>Ziehung ab</td><td>Розыгрыш от</td><td>Tirage à partir de</td><td>Arvonta alkaen</td><td>Loosimine alates</td><td>Trekking vanaf</td><td>Sorteio a partir de</td><td>Sorteo desde</td><td>Estrazione da</td></tr>
+        <tr><td>Draw from €500,000</td><td>Ziehung ab 500.000 €</td><td>Розыгрыш от 500.000 €</td><td>Tirage à partir de 500 000 €</td><td>Arvonta 500 000 € alkaen</td><td>Loosimine alates 500 000 €</td><td>Trekking vanaf 500.000 €</td><td>Sorteio a partir de 500.000 €</td><td>Sorteo desde 500.000 €</td><td>Estrazione da 500.000 €</td></tr>
+        <tr><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td><td>Drops & Wins</td></tr>
+        <tr><td>E-mail:</td><td>E-Mail:</td><td>E-mail:</td><td>E-mail :</td><td>Sähköposti:</td><td>E-post:</td><td>E-mail:</td><td>E-mail:</td><td>E-mail:</td><td>E-mail:</td></tr>
+        <tr><td>Enter code</td><td>Code eingeben</td><td>Введите код</td><td>Entrez le code</td><td>Syötä koodi</td><td>Sisesta kood</td><td>Voer code in</td><td>Introduzir código</td><td>Introducir código</td><td>Inserisci codice</td></tr>
+        <tr><td>Enter game name</td><td>Name des Spiels eingeben</td><td>Введите название игры</td><td>Entrez le nom du jeu</td><td>Syötä pelin nimi</td><td>Sisesta mängu nimi</td><td>Voer spelnaam in</td><td>Introduzir nome do jogo</td><td>Introducir nombre del juego</td><td>Inserisci nome del gioco</td></tr>
+        <tr><td>Enter the bonus code during the deposit</td><td>Bei der Einzahlung den jeweiligen Bonuscode eingeben</td><td>Введите бонус-код при пополнении</td><td>Entrez le code bonus lors du dépôt</td><td>Syötä bonuskoodi talletuksen yhteydessä</td><td>Sisestage deposiidi tegemisel boonuskood</td><td>Voer de bonuscode in tijdens het storten</td><td>Introduza o código de bónus durante o depósito</td><td>Introduce el código de bono durante el depósito</td><td>Inserisci il codice bonus durante il deposito</td></tr>
+        <tr><td>Enter your new password below.</td><td>Geben Sie unten Ihr neues Passwort ein.</td><td>Введите ваш новый пароль ниже.</td><td>Entrez votre nouveau mot de passe ci-dessous.</td><td>Syötä uusi salasanasi alle.</td><td>Sisestage allpool oma uus parool.</td><td>Voer hieronder uw nieuwe wachtwoord in.</td><td>Introduza a sua nova senha abaixo.</td><td>Introduzca su nueva contraseña a continuación.</td><td>Inserisci la tua nuova password qui sotto.</td></tr>
+        <tr><td>Equivalent to 20 EUR, payment in EUR</td><td>Entspricht 20 EUR, Gutschrift in EUR</td><td>Эквивалент 20 EUR, зачисление в EUR</td><td>Équivalent à 20 EUR, crédit en EUR.</td><td>Vastaa 20 euroa, hyvitys euroina.</td><td>Vastab 20 EUR, krediteerimine eurodes.</td><td>Gelijk aan 20 EUR, bijschrijving in EUR.</td><td>Equivalente a 20 EUR, crédito em EUR.</td><td>Equivalente a 20 EUR, crédito en EUR.</td><td>Equivalente a 20 EUR, accredito in EUR.</td></tr>
+        <tr><td>Error cancelling the bonus, please try again later.</td><td>Der Bonus konnte nicht storniert werden. Bitte versuchen Sie es später erneut.</td><td>Ошибка при отмене бонуса, попробуйте позже.</td><td>Erreur lors de l'annulation du bonus, veuillez réessayer plus tard.</td><td>Bonuksen peruuttamisessa tapahtui virhe, yritä myöhemmin uudelleen.</td><td>Boonuse tühistamisel ilmnes viga, proovige hiljem uuesti.</td><td>Fout bij het annuleren van de bonus, probeer het later opnieuw.</td><td>Erro ao cancelar o bónus, por favor, tente mais tarde.</td><td>Error al cancelar el bono, por favor inténtelo de nuevo más tarde.</td><td>Errore durante l'annullamento del bonus, riprova più tardi.</td></tr>
+        <tr><td>Expiry Date</td><td>Ablaufdatum</td><td>Срок действия</td><td>Date d'expiration</td><td>Viimeinen voimassaolopäivä</td><td>Aegumiskuupäev</td><td>Vervaldatum</td><td>Data de Validade</td><td>Fecha de caducidad</td><td>Data di scadenza</td></tr>
+        <tr><td>FAQ</td><td>FAQ</td><td>Часто задаваемые вопросы</td><td>FAQ</td><td>UKK</td><td>KKK</td><td>FAQ</td><td>FAQ</td><td>FAQ</td><td>FAQ</td></tr>
+        <tr><td>Fast deposit via your bank</td><td>Schnelle Einzahlung über Ihre Hausbank</td><td>Быстрая оплата через ваш банк</td><td>Dépôt rapide via votre banque</td><td>Nopea talletus pankkisi kautta</td><td>Kiire deposiit oma panga kaudu</td><td>Snelle storting via uw bank</td><td>Depósito rápido através do seu banco</td><td>Depósito rápido a través de su banco</td><td>Deposito veloce tramite la tua banca</td></tr>
+        <tr><td>Favorites</td><td>Favoriten</td><td>Избранное</td><td>Favoris</td><td>Suosikit</td><td>Lemmikud</td><td>Favorieten</td><td>Favoritos</td><td>Favoritos</td><td>Preferiti</td></tr>
+        <tr><td>Filters</td><td>Filter</td><td>Фильтры</td><td>Filtres</td><td>Suodattimet</td><td>Filtrid</td><td>Filters</td><td>Filtros</td><td>Filtros</td><td>Filtri</td></tr>
+        <tr><td>Find your game</td><td>Finden Sie Ihr Spiel</td><td>Найдите свою игру</td><td>Trouvez votre jeu</td><td>Löydä pelisi</td><td>Leia oma mäng</td><td>Vind uw spel</td><td>Encontre o seu jogo</td><td>Encuentra tu juego</td><td>Trova il tuo gioco</td></tr>
+        <tr><td>First deposit bonus</td><td>Bonus für Ersteinzahlung</td><td>Бонус за первый депозит</td><td>Bonus de premier dépôt</td><td>Ensimmäisen talletuksen bonus</td><td>Esimese deposiidi boonus</td><td>Eerstestortingsbonus</td><td>Bónus de primeiro depósito</td><td>Bono por primer depósito</td><td>Bonus sul primo deposito</td></tr>
+        <tr><td>First Name</td><td>Vorname</td><td>Имя</td><td>Prénom</td><td>Etunimi</td><td>Eesnimi</td><td>Voornaam</td><td>Primeiro Nome</td><td>Nombre</td><td>Nome</td></tr>
+        <tr><td>Forgot password?</td><td>Passwort vergessen?</td><td>Забыли пароль?</td><td>Mot de passe oublié ?</td><td>Unohditko salasanasi?</td><td>Unustasid parooli?</td><td>Wachtwoord vergeten?</td><td>Esqueceu-se da senha?</td><td>¿Olvidaste tu contraseña?</td><td>Password dimenticata?</td></tr>
+        <tr><td>Free Spins</td><td>Freispiele</td><td>Фриспины</td><td>Tours Gratuits</td><td>Ilmaiskierrokset</td><td>Tasuta spinnid</td><td>Gratisspins</td><td>Rodadas Grátis</td><td>Giros Gratis</td><td>Giri Gratuiti</td></tr>
+        <tr><td>Fruits</td><td>Früchte-Slots</td><td>Фруктовые слоты</td><td>Fruits</td><td>Hedelmät</td><td>Puuviljad</td><td>Fruitautomaten</td><td>Frutas</td><td>Frutas</td><td>Frutta</td></tr>
+        <tr><td>Game Shows</td><td>Game-Shows</td><td>Игровые шоу</td><td>Jeux télévisés</td><td>Game Show't</td><td>Mängusaated</td><td>Spelshows</td><td>Game Shows</td><td>Concursos de TV</td><td>Game Shows</td></tr>
+        <tr><td>Games</td><td>Spiele</td><td>Игры</td><td>Jeux</td><td>Pelit</td><td>Mängud</td><td>Spellen</td><td>Jogos</td><td>Juegos</td><td>Giochi</td></tr>
+        <tr><td>Games in this tournament</td><td>Spiele in diesem Turnier</td><td>Игры в этом турнире</td><td>Jeux de ce tournoi</td><td>Pelit tässä turnauksessa</td><td>Mängud selles turniiris</td><td>Spellen in dit toernooi</td><td>Jogos neste torneio</td><td>Juegos en este torneo</td><td>Giochi in questo torneo</td></tr>
+        <tr><td>Games participating in the bonus offer</td><td>An der Aktion teilnehmende Spiele</td><td>Игры, участвующие в бонусной программе</td><td>Jeux participant à l'offre de bonus</td><td>Bonus-tarjoukseen osallistuvat pelit</td><td>Boonuspakkumises osalevad mängud</td><td>Spellen die deelnemen aan de bonusaanbieding</td><td>Jogos que participam na oferta de bónus</td><td>Juegos que participan en la oferta de bonos</td><td>Giochi che partecipano all'offerta bonus</td></tr>
+        <tr><td>Games participating in the tournament series</td><td>An der Turnierserie teilnehmende Spiele</td><td>Игры, участвующие в серии турниров</td><td>Jeux participant à la série de tournois</td><td>Turnaussarjaan osallistuvat pelit</td><td>Turniiriseerias osalevad mängud</td><td>Spellen die deelnemen aan de toernooireeks</td><td>Jogos que participam na série de torneios</td><td>Juegos que participan en la serie de torneos</td><td>Giochi che partecipano alla serie di tornei</td></tr>
+        <tr><td>Games with demo mode</td><td>Spiele mit Demo-Modus</td><td>Игры с демо-режимом</td><td>Jeux avec mode démo</td><td>Pelit demotilassa</td><td>Demorežiimiga mängud</td><td>Spellen met demomodus</td><td>Jogos com modo de demonstração</td><td>Juegos con modo de demostración</td><td>Giochi con modalità demo</td></tr>
+        <tr><td>General</td><td>Allgemeines</td><td>Общее</td><td>Général</td><td>Yleistä</td><td>Üldine</td><td>Algemeen</td><td>Geral</td><td>General</td><td>Generale</td></tr>
+        <tr><td>Get free lottery tickets</td><td>Erhalten Sie kostenlose Lottoscheine</td><td>Получите бесплатные лотерейные билеты</td><td>Obtenez des billets de loterie gratuits</td><td>Hanki ilmaisia lottokuponkeja</td><td>Saage tasuta loteriipileteid</td><td>Ontvang gratis loten</td><td>Obtenha bilhetes de lotaria grátis</td><td>Consigue boletos de lotería gratis</td><td>Ottieni biglietti della lotteria gratuiti</td></tr>
+        <tr><td>Get ready to become number one with Kaasino virtual casino!</td><td>Machen Sie sich bereit, mit dem Online Casino - Kaasino die Nummer Eins zu werden!</td><td>Приготовьтесь стать номером один с виртуальным казино Kaasino!</td><td>Préparez-vous à devenir le numéro un avec le casino virtuel Kaasino !</td><td>Valmistaudu nousemaan ykköseksi Kaasino-virtuaalikasinon avulla!</td><td>Ole valmis saama number üheks Kaasino virtuaalse kasiinoga!</td><td>Maak u klaar om nummer één te worden met het virtuele casino Kaasino!</td><td>Prepare-se para se tornar o número um com o casino virtual Kaasino!</td><td>¡Prepárate para ser el número uno con el casino virtual Kaasino!</td><td>Preparati a diventare il numero uno con il casinò virtuale Kaasino!</td></tr>
+        <tr><td>Go to game</td><td>Zum Spiel</td><td>Перейти к игре</td><td>Aller au jeu</td><td>Siirry peliin</td><td>Mine mängu juurde</td><td>Naar spel</td><td>Ir para o jogo</td><td>Ir al juego</td><td>Vai al gioco</td></tr>
+        <tr><td>Go to homepage</td><td>Zur Startseite</td><td>На главную</td><td>Aller à la page d'accueil</td><td>Siirry etusivulle</td><td>Mine avalehele</td><td>Naar de startpagina</td><td>Ir para a página inicial</td><td>Ir a la página de inicio</td><td>Vai alla homepage</td></tr>
+        <tr><td>h</td><td>Std.</td><td>ч</td><td>h</td><td>t</td><td>t</td><td>u</td><td>h</td><td>h</td><td>h</td></tr>
+        <tr><td>Have fun playing!</td><td>Viel Spaß beim Spielen!</td><td>Наслаждайтесь игрой!</td><td>Amusez-vous bien !</td><td>Pidä hauskaa pelatessa!</td><td>Lõbutsege mängides!</td><td>Veel plezier met spelen!</td><td>Divirta-se a jogar!</td><td>¡Diviértete jugando!</td><td>Buon divertimento!</td></tr>
+        <tr><td>Help</td><td>Hilfe</td><td>Помощь</td><td>Aide</td><td>Apua</td><td>Abi</td><td>Help</td><td>Ajuda</td><td>Ayuda</td><td>Aiuto</td></tr>
+        <tr><td>Help Center</td><td>Hilfezentrum</td><td>Центр помощи</td><td>Centre d'aide</td><td>Apukeskus</td><td>Abikeskus</td><td>Helpcentrum</td><td>Centro de Ajuda</td><td>Centro de ayuda</td><td>Centro di assistenza</td></tr>
+        <tr><td>High cashback for every bet</td><td>Hoher Cashback für jede Wette</td><td>Высокий кэшбэк за каждую ставку</td><td>Cashback élevé pour chaque mise</td><td>Korkea käteispalautus jokaisesta panoksesta</td><td>Kõrge cashback iga panuse eest</td><td>Hoge cashback voor elke inzet</td><td>Cashback elevado por cada aposta</td><td>Alto cashback por cada apuesta</td><td>Cashback elevato per ogni scommessa</td></tr>
+        <tr><td>High to low</td><td>Absteigend</td><td>От высокого к низкому</td><td>Du plus élevé au plus bas</td><td>Korkeasta matalaan</td><td>Kõrgest madalani</td><td>Hoog naar laag</td><td>Do maior para o menor</td><td>De mayor a menor</td><td>Dal più alto al più basso</td></tr>
+        <tr><td>History</td><td>Verlauf</td><td>История</td><td>Historique</td><td>Historia</td><td>Ajalugu</td><td>Geschiedenis</td><td>Histórico</td><td>Historial</td><td>Cronologia</td></tr>
+        <tr><td>Hit Ratio</td><td>Trefferquote</td><td>Коэффициент успеха</td><td>Taux de réussite</td><td>Osumasuhde</td><td>Tabamuste suhe</td><td>Hit Ratio</td><td>Taxa de Acerto</td><td>Tasa de aciertos</td><td>Percentuale di vincita</td></tr>
+        <tr><td>Hits History</td><td>Gewinnverlauf</td><td>История выигрышей</td><td>Historique des gains</td><td>Voittohistoria</td><td>Võitude ajalugu</td><td>Winstgeschiedenis</td><td>Histórico de Ganhos</td><td>Historial de ganancias</td><td>Cronologia vincite</td></tr>
+        <tr><td>How can I get this bonus?</td><td>Wie kann ich diesen Bonus bekommen?</td><td>Как получить этот бонус?</td><td>Comment puis-je obtenir ce bonus ?</td><td>Miten voin saada tämän bonuksen?</td><td>Kuidas ma saan selle boonuse?</td><td>Hoe kan ik deze bonus krijgen?</td><td>Como posso obter este bónus?</td><td>¿Cómo puedo conseguir este bono?</td><td>Come posso ottenere questo bonus?</td></tr>
+        <tr><td>I am over 18 years old and accept the terms and conditions, privacy policy and consent to the processing of my personal data.</td><td>Ich bin über 18 Jahre alt und akzeptiere die AGB sowie die Datenschutzbestimmungen und stimme der Verarbeitung meiner personenbezogenen Daten zu.</td><td>Мне больше 18 лет, я принимаю условия, политику конфиденциальности и соглашаюсь на обработку моих персональных данных.</td><td>J'ai plus de 18 ans et j'accepte les conditions générales, la politique de confidentialité et je consens au traitement de mes données personnelles.</td><td>Olen yli 18-vuotias ja hyväksyn käyttöehdot, tietosuojakäytännön ja suostun henkilötietojeni käsittelyyn.</td><td>Olen üle 18-aastane ja nõustun tingimustega, privaatsuspoliitikaga ning annan nõusoleku oma isikuandmete töötlemiseks.</td><td>Ik ben ouder dan 18 jaar en accepteer de algemene voorwaarden, het privacybeleid en geef toestemming voor de verwerking van mijn persoonlijke gegevens.</td><td>Tenho mais de 18 anos e aceito os termos e condições, a política de privacidade e consinto o processamento dos meus dados pessoais.</td><td>Soy mayor de 18 años y acepto los términos y condiciones, la política de privacidad y doy mi consentimiento para el tratamiento de mis datos personales.</td><td>Ho più di 18 anni e accetto i termini e le condizioni, l'informativa sulla privacy e acconsento al trattamento dei miei dati personali.</td></tr>
+        <tr><td>I confirm that I am over 18 years old and I accept the</td><td>Ich bestätige, dass ich über 18 Jahre alt bin und die</td><td>Я подтверждаю, что мне больше 18 лет, и я принимаю</td><td>Je confirme que j'ai plus de 18 ans et j'accepte les</td><td>Vahvistan, että olen yli 18-vuotias ja hyväksyn</td><td>Kinnitan, et olen üle 18-aastane ja nõustun</td><td>Ik bevestig dat ik ouder ben dan 18 en ik accepteer de</td><td>Confirmo que tenho mais de 18 anos e aceito os</td><td>Confirmo que soy mayor de 18 años y acepto los</td><td>Confermo di avere più di 18 anni e accetto i</td></tr>
+        <tr><td>I want to receive exclusive benefits and offers from XXX....</td><td>Ich möchte exklusive Vorteile und Angebote von XXX... erhalten.</td><td>Я хочу получать эксклюзивные предложения и бонусы от Kaasino.</td><td>Je souhaite recevoir des avantages et des offres exclusifs de Kaasino.</td><td>Haluan vastaanottaa eksklusiivisia etuja ja tarjouksia Kaasinolta.</td><td>Soovin saada eksklusiivseid soodustusi ja pakkumisi Kaasinolt.</td><td>Ik wil exclusieve voordelen en aanbiedingen van Kaasino ontvangen.</td><td>Quero receber benefícios e ofertas exclusivas da Kaasino.</td><td>Quiero recibir beneficios y ofertas exclusivas de Kaasino.</td><td>Desidero ricevere vantaggi e offerte esclusive da Kaasino.</td></tr>
+        <tr><td>If your account has been blocked, please enter your email address and we will email you instructions on how to unblock it. Contact us via support if you need further assistance.</td><td>Falls Ihr Konto gesperrt wurde, geben Sie bitte Ihre E-Mail-Adresse ein. Wir senden Ihnen dann eine Anleitung zur Entsperrung. Sollten Sie weitere Hilfe benötigen, kontaktieren Sie bitte unseren Support.</td><td>Если ваш аккаунт заблокирован, введите ваш e-mail, и мы вышлем вам инструкцию по разблокировке. Свяжитесь со службой поддержки, если вам нужна помощь.</td><td>Si votre compte a été bloqué, veuillez saisir votre adresse e-mail et nous vous enverrons des instructions pour le débloquer. Contactez-nous via le support si vous avez besoin d'aide supplémentaire.</td><td>Jos tilisi on estetty, syötä sähköpostiosoitteesi, niin lähetämme sinulle ohjeet sen avaamiseksi. Ota yhteyttä tukeen, jos tarvitset lisäapua.</td><td>Kui teie konto on blokeeritud, sisestage palun oma e-posti aadress ja me saadame teile juhised selle avamiseks. Kui vajate täiendavat abi, võtke meiega ühendust toe kaudu.</td><td>Als uw account is geblokkeerd, voer dan uw e-mailadres in en we sturen u instructies om het te deblokkeren. Neem contact op met de support als u verdere hulp nodig heeft.</td><td>Se a sua conta foi bloqueada, introduza o seu endereço de e-mail e enviaremos-lhe instruções sobre como desbloqueá-la. Contacte-nos através do suporte se precisar de mais assistência.</td><td>Si su cuenta ha sido bloqueada, por favor, introduzca su dirección de correo electrónico y le enviaremos instrucciones sobre cómo desbloquearla. Póngase en contacto con nosotros a través del soporte si necesita más ayuda.</td><td>Se il tuo account è stato bloccato, inserisci il tuo indirizzo email e ti invieremo le istruzioni su come sbloccarlo. Contattaci tramite il supporto se hai bisogno di ulteriore assistenza.</td></tr>
+        <tr><td>Install app</td><td>App installieren</td><td>Установить приложение</td><td>Installer l'application</td><td>Asenna sovellus</td><td>Installi rakendus</td><td>App installeren</td><td>Instalar aplicação</td><td>Instalar aplicación</td><td>Installa l'app</td></tr>
+        <tr><td>Instant</td><td>Sofort</td><td>Мгновенно</td><td>Instantané</td><td>Välitön</td><td>Kohene</td><td>Direct</td><td>Instantâneo</td><td>Instantáneo</td><td>Istantaneo</td></tr>
+        <tr><td>Instant Win</td><td>Sofortgewinn</td><td>Мгновенный выигрыш</td><td>Gain instantané</td><td>Pikavoitto</td><td>Kiirvõit</td><td>Directe winst</td><td>Ganho Instantâneo</td><td>Ganancia instantánea</td><td>Vincita istantanea</td></tr>
+        <tr><td>Instant Win</td><td>Sofortgewinne</td><td>Мгновенные выигрыши</td><td>Gains instantanés</td><td>Pikavoitot</td><td>Kiirvõidud</td><td>Directe winsten</td><td>Ganhos Instantâneos</td><td>Ganancias instantáneas</td><td>Vincite istantanee</td></tr>
+        <tr><td>Invalid</td><td>Ungültig</td><td>Неверно</td><td>Invalide</td><td>Virheellinen</td><td>Kehtetu</td><td>Ongeldig</td><td>Inválido</td><td>Inválido</td><td>Non valido</td></tr>
+        <tr><td>It’s this simple:</td><td>So einfach geht’s:</td><td>Всё просто</td><td>C'est aussi simple que ça :</td><td>Se on näin yksinkertaista:</td><td>See on nii lihtne:</td><td>Zo eenvoudig is het:</td><td>É simples assim:</td><td>Es así de simple:</td><td>È così semplice:</td></tr>
+        <tr><td>Jackpot</td><td>Jackpot</td><td>Джекпот</td><td>Jackpot</td><td>Jackpot</td><td>Jackpot</td><td>Jackpot</td><td>Jackpot</td><td>Jackpot</td><td>Jackpot</td></tr>
+        <tr><td>Jackpot Games</td><td>Jackpot-Spiele</td><td>Игры с джекпотами</td><td>Jeux à jackpot</td><td>Jackpot-pelit</td><td>Jackpotiga mängud</td><td>Jackpotspellen</td><td>Jogos com Jackpot</td><td>Juegos con jackpot</td><td>Giochi con jackpot</td></tr>
+        <tr><td>Jackpots</td><td>Jackpots</td><td>Джекпоты</td><td>Jackpots</td><td>Jackpotit</td><td>Jackpotid</td><td>Jackpots</td><td>Jackpots</td><td>Jackpots</td><td>Jackpot</td></tr>
+        <tr><td>Join now</td><td>Jetzt mitmachen</td><td>Присоединиться сейчас</td><td>Rejoindre maintenant</td><td>Liity nyt</td><td>Liitu kohe</td><td>Doe nu mee</td><td>Junte-se agora</td><td>Únete ahora</td><td>Unisciti ora</td></tr>
+        <tr><td>Keno</td><td>Keno</td><td>Кено</td><td>Keno</td><td>Keno</td><td>Keno</td><td>Keno</td><td>Keno</td><td>Keno</td><td>Keno</td></tr>
+        <tr><td>Language</td><td>Sprache</td><td>Язык</td><td>Langue</td><td>Kieli</td><td>Keel</td><td>Taal</td><td>Idioma</td><td>Idioma</td><td>Lingua</td></tr>
+        <tr><td>Last draw winners</td><td>Gewinner der letzten Ziehung</td><td>Победители последнего розыгрыша</td><td>Gagnants du dernier tirage</td><td>Viimeisimmän arvonnan voittajat</td><td>Viimase loosimise võitjad</td><td>Winnaars laatste trekking</td><td>Vencedores do último sorteio</td><td>Ganadores del último sorteo</td><td>Vincitori dell'ultima estrazione</td></tr>
+        <tr><td>Last Name</td><td>Nachname</td><td>Фамилия</td><td>Nom de famille</td><td>Sukunimi</td><td>Perekonnanimi</td><td>Achternaam</td><td>Apelido</td><td>Apellido</td><td>Cognome</td></tr>
+        <tr><td>Last Winners</td><td>Letzte Gewinner</td><td>Последние победители</td><td>Derniers gagnants</td><td>Viimeisimmät voittajat</td><td>Viimased võitjad</td><td>Laatste winnaars</td><td>Últimos Vencedores</td><td>Últimos ganadores</td><td>Ultimi vincitori</td></tr>
+        <tr><td>Live</td><td>Live</td><td>Лайв-игры</td><td>En direct</td><td>Live</td><td>Live</td><td>Live</td><td>Ao Vivo</td><td>En vivo</td><td>Dal vivo</td></tr>
+        <tr><td>Live Casino</td><td>Live-Casino</td><td>Лайв-казино</td><td>Casino en direct</td><td>Live-kasino</td><td>Live-kasiino</td><td>Live Casino</td><td>Casino ao Vivo</td><td>Casino en vivo</td><td>Casinò dal vivo</td></tr>
+        <tr><td>Live Games</td><td>Live-Spiele</td><td>Live-игры</td><td>Jeux en direct</td><td>Live-pelit</td><td>Live-mängud</td><td>Live Spellen</td><td>Jogos ao Vivo</td><td>Juegos en vivo</td><td>Giochi dal vivo</td></tr>
+        <tr><td>Live Lobby</td><td>Live-Lobby</td><td>Лайв-лобби</td><td>Lobby en direct</td><td>Live-aula</td><td>Live-lobby</td><td>Live Lobby</td><td>Lobby ao Vivo</td><td>Lobby en vivo</td><td>Lobby dal vivo</td></tr>
+        <tr><td>Live Shows</td><td>Live-Shows</td><td>Лайв-шоу</td><td>Shows en direct</td><td>Live-show't</td><td>Live-etendused</td><td>Live Shows</td><td>Shows ao Vivo</td><td>Shows en vivo</td><td>Show dal vivo</td></tr>
+        <tr><td>Live Support</td><td>Live-Support</td><td>Лайв-чат</td><td>Support en direct</td><td>Live-tuki</td><td>Live-tugi</td><td>Live Support</td><td>Suporte ao Vivo</td><td>Soporte en vivo</td><td>Supporto dal vivo</td></tr>
+        <tr><td>Load more</td><td>Mehr anzeigen</td><td>Загрузить ещё</td><td>Charger plus</td><td>Lataa lisää</td><td>Laadi rohkem</td><td>Meer laden</td><td>Carregar mais</td><td>Cargar más</td><td>Carica altro</td></tr>
+        <tr><td>Loading...</td><td>Wird geladen...</td><td>Загрузка...</td><td>Chargement...</td><td>Ladataan...</td><td>Laadimine...</td><td>Laden...</td><td>A carregar...</td><td>Cargando...</td><td>Caricamento...</td></tr>
+        <tr><td>Log In</td><td>Anmelden</td><td>Войти</td><td>Se connecter</td><td>Kirjaudu sisään</td><td>Logi sisse</td><td>Inloggen</td><td>Iniciar Sessão</td><td>Iniciar sesión</td><td>Accedi</td></tr>
+        <tr><td>Lootbox</td><td>Lootbox</td><td>Лутбокс</td><td>Lootbox</td><td>Lootbox</td><td>Aardekirst</td><td>Lootbox</td><td>Lootbox</td><td>Caja de botín</td><td>Lootbox</td></tr>
+        <tr><td>Lottery</td><td>Lotterie</td><td>Лотерея</td><td>Loterie</td><td>Lotteria</td><td>Loterii</td><td>Loterij</td><td>Lotaria</td><td>Lotería</td><td>Lotteria</td></tr>
+        <tr><td>Lotto</td><td>Lotto</td><td>Лотто</td><td>Loto</td><td>Lotto</td><td>Loto</td><td>Lotto</td><td>Loto</td><td>Loto</td><td>Lotto</td></tr>
+        <tr><td>Low to high</td><td>Aufsteigend</td><td>От низкого к высокому</td><td>Du plus bas au plus élevé</td><td>Matalasta korkeaan</td><td>Madalast kõrgeni</td><td>Laag naar hoog</td><td>Do menor para o maior</td><td>De menor a mayor</td><td>Dal più basso al più alto</td></tr>
+        <tr><td>Loyalty Program</td><td>Treueprogramm</td><td>Программа лояльности</td><td>Programme de fidélité</td><td>Kanta-asiakasohjelma</td><td>Lojaalsusprogramm</td><td>Loyaliteitsprogramma</td><td>Programa de Fidelidade</td><td>Programa de lealtad</td><td>Programma fedeltà</td></tr>
+        <tr><td>Main Prize</td><td>Hauptpreis</td><td>Главный приз</td><td>Prix principal</td><td>Pääpalkinto</td><td>Peaauhind</td><td>Hoofdprijs</td><td>Prémio Principal</td><td>Premio principal</td><td>Premio principale</td></tr>
+        <tr><td>Make a deposit</td><td>Tätigen Sie eine Einzahlung</td><td>Сделайте депозит</td><td>Effectuez un dépôt</td><td>Tee talletus</td><td>Tehke deposiit</td><td>Doe een storting</td><td>Faça um depósito</td><td>Haz un depósito</td><td>Fai un deposito</td></tr>
+        <tr><td>Max.</td><td>Max.</td><td>Макс.</td><td>Max.</td><td>Maks.</td><td>Maks.</td><td>Max.</td><td>Máx.</td><td>Máx.</td><td>Max.</td></tr>
+        <tr><td>Maximum number of free spins per day</td><td>Max. Anzahl von Freispielen pro Tag</td><td>Максимальное количество фриспинов в день</td><td>Nombre maximum de tours gratuits par jour</td><td>Maksimimäärä ilmaiskierroksia päivässä</td><td>Maksimaalne tasuta spinnide arv päevas</td><td>Maximum aantal gratisspins per dag</td><td>Número máximo de rodadas grátis por dia</td><td>Número máximo de giros gratis por día</td><td>Numero massimo di giri gratuiti al giorno</td></tr>
+        <tr><td>Megaways</td><td>Megaways</td><td>Megaways</td><td>Megaways</td><td>Megaways</td><td>Megaways</td><td>Megaways</td><td>Megaways</td><td>Megaways</td><td>Megaways</td></tr>
+        <tr><td>Message</td><td>Nachricht</td><td>Сообщение</td><td>Message</td><td>Viesti</td><td>Sõnum</td><td>Bericht</td><td>Mensagem</td><td>Mensaje</td><td>Messaggio</td></tr>
+        <tr><td>Middle</td><td>Middle</td><td>Middle</td><td>Milieu</td><td>Keskellä</td><td>Keskel</td><td>Midden</td><td>Meio</td><td>Medio</td><td>Medio</td></tr>
+        <tr><td>min</td><td>Min.</td><td>мин</td><td>min</td><td>min</td><td>min</td><td>min</td><td>min</td><td>min</td><td>min</td></tr>
+        <tr><td>Min.</td><td>Min.</td><td>Мин.</td><td>Min.</td><td>Min.</td><td>Min.</td><td>Min.</td><td>Mín.</td><td>Mín.</td><td>Min.</td></tr>
+        <tr><td>Min. {minVal} {currency}, payment in EUR</td><td>Min. {minVal} {currency}, Gutschrift in EUR</td><td>Мин. {minVal} {currency}, зачисление в EUR</td><td>Min. {minVal} {currency}, crédit en EUR</td><td>Min. {minVal} {currency}, hyvitys euroina</td><td>Min {minVal} {currency}, krediteerimine eurodes</td><td>Min. {minVal} {currency}, bijschrijving in EUR</td><td>Mín. {minVal} {currency}, crédito em EUR</td><td>Mín. {minVal} {currency}, crédito en EUR</td><td>Min. {minVal} {currency}, accredito in EUR</td></tr>
+        <tr><td>Mini</td><td>Mini</td><td>Mini</td><td>Mini</td><td>Mini</td><td>Mini</td><td>Mini</td><td>Mini</td><td>Mini</td><td>Mini</td></tr>
+        <tr><td>Mini Games</td><td>Mini-Spiele</td><td>Мини-игры</td><td>Mini-jeux</td><td>Minipelit</td><td>Minimängud</td><td>Minispellen</td><td>Minijogos</td><td>Minijuegos</td><td>Mini giochi</td></tr>
+        <tr><td>Mobile Phone Number</td><td>Handynummer</td><td>Номер мобильного телефона</td><td>Numéro de téléphone portable</td><td>Matkapuhelinnumero</td><td>Mobiiltelefoni number</td><td>Mobiel telefoonnummer</td><td>Número de Telemóvel</td><td>Número de teléfono móvil</td><td>Numero di cellulare</td></tr>
+        <tr><td>More bonuses</td><td>Weitere Boni</td><td>Больше бонусов</td><td>Plus de bonus</td><td>Lisää bonuksia</td><td>Rohkem boonuseid</td><td>Meer bonussen</td><td>Mais bónus</td><td>Más bonos</td><td>Più bonus</td></tr>
+        <tr><td>More Info</td><td>Mehr Info</td><td>Подробнее</td><td>Plus d'infos</td><td>Lisätietoja</td><td>Rohkem infot</td><td>Meer info</td><td>Mais informações</td><td>Más información</td><td>Più informazioni</td></tr>
+        <tr><td>more prizes!</td><td>weitere Preise!</td><td>больше призов!</td><td>plus de prix !</td><td>lisää palkintoja!</td><td>rohkem auhindu!</td><td>meer prijzen!</td><td>mais prémios!</td><td>¡más premios!</td><td>più premi!</td></tr>
+        <tr><td>Must be at least 8 characters long.</td><td>Muss mindestens 8 Zeichen lang sein.</td><td>Пароль должен быть длиной не менее 8 символов.</td><td>Doit comporter au moins 8 caractères.</td><td>On oltava vähintään 8 merkkiä pitkä.</td><td>Peab olema vähemalt 8 tähemärki pikk.</td><td>Moet minimaal 8 tekens lang zijn.</td><td>Deve ter pelo menos 8 caracteres.</td><td>Debe tener al menos 8 caracteres.</td><td>Deve contenere almeno 8 caratteri.</td></tr>
+        <tr><td>My Account</td><td>Mein Konto</td><td>Мой аккаунт</td><td>Mon compte</td><td>Oma tili</td><td>Minu konto</td><td>Mijn account</td><td>A Minha Conta</td><td>Mi cuenta</td><td>Il mio account</td></tr>
+        <tr><td>Name on card</td><td>Name auf der Kreditkarte</td><td>Имя на карте</td><td>Nom sur la carte</td><td>Nimi kortissa</td><td>Nimi kaardil</td><td>Naam op kaart</td><td>Nome no cartão</td><td>Nombre en la tarjeta</td><td>Nome sulla carta</td></tr>
+        <tr><td>Need help choosing a game?</td><td>Benötigen Sie Hilfe bei der Spielauswahl?</td><td>Нужна помощь в выборе игры?</td><td>Besoin d'aide pour choisir un jeu ?</td><td>Tarvitsetko apua pelin valinnassa?</td><td>Vajate abi mängu valimisel?</td><td>Hulp nodig bij het kiezen van een spel?</td><td>Precisa de ajuda para escolher um jogo?</td><td>¿Necesitas ayuda para elegir un juego?</td><td>Bisogno di aiuto per scegliere un gioco?</td></tr>
+        <tr><td>New</td><td>Neu</td><td>Новые</td><td>Nouveau</td><td>Uudet</td><td>Uus</td><td>Nieuw</td><td>Novo</td><td>Nuevo</td><td>Nuovo</td></tr>
+        <tr><td>New Games</td><td>Neue Spiele</td><td>Новые игры</td><td>Nouveaux jeux</td><td>Uudet pelit</td><td>Uued mängud</td><td>Nieuwe spellen</td><td>Novos Jogos</td><td>Nuevos juegos</td><td>Nuovi giochi</td></tr>
+        <tr><td>New password</td><td>Neues Passwort</td><td>Новый пароль</td><td>Nouveau mot de passe</td><td>Uusi salasana</td><td>Uus parool</td><td>Nieuw wachtwoord</td><td>Nova Senha</td><td>Nueva contraseña</td><td>Nuova password</td></tr>
+        <tr><td>Next</td><td>Weiter</td><td>Далее</td><td>Suivant</td><td>Seuraava</td><td>Järgmine</td><td>Volgende</td><td>Próximo</td><td>Siguiente</td><td>Successivo</td></tr>
+        <tr><td>Next slide</td><td>Nächste Seite</td><td>Следующий слайд</td><td>Diapositive suivante</td><td>Seuraava dia</td><td>Järgmine slaid</td><td>Volgende dia</td><td>Próximo slide</td><td>Siguiente diapositiva</td><td>Prossima diapositiva</td></tr>
+        <tr><td>Next Status</td><td>Nächster Status</td><td>Следующий статус</td><td>Prochain statut</td><td>Seuraava status</td><td>Järgmine staatus</td><td>Volgende status</td><td>Próximo Status</td><td>Siguiente estado</td><td>Prossimo stato</td></tr>
+        <tr><td>No</td><td>Nein</td><td>Нет</td><td>Non</td><td>Ei</td><td>Ei</td><td>Nee</td><td>Não</td><td>No</td><td>No</td></tr>
+        <tr><td>No account yet?</td><td>Noch kein Konto?</td><td>Ещё нет аккаунта?</td><td>Pas encore de compte ?</td><td>Ei vielä tiliä?</td><td>Pole veel kontot?</td><td>Nog geen account?</td><td>Ainda não tem conta?</td><td>¿Aún no tienes cuenta?</td><td>Non hai ancora un account?</td></tr>
+        <tr><td>No games found</td><td>Keine Spiele gefunden</td><td>Игры не найдены</td><td>Aucun jeu trouvé</td><td>Pelejä ei löytynyt</td><td>Mänge ei leitud</td><td>Geen spellen gevonden</td><td>Nenhum jogo encontrado</td><td>No se encontraron juegos</td><td>Nessun gioco trovato</td></tr>
+        <tr><td>No notifications</td><td>Keine Benachrichtigungen</td><td>Нет уведомлений</td><td>Aucune notification</td><td>Ei ilmoituksia</td><td>Teavitusi pole</td><td>Geen meldingen</td><td>Nenhuma notificação</td><td>No hay notificaciones</td><td>Nessuna notifica</td></tr>
+        <tr><td>No results found</td><td>Keine Ergebnisse gefunden</td><td>Ничего не найдено</td><td>Aucun résultat trouvé</td><td>Ei tuloksia</td><td>Tulemusi ei leitud</td><td>Geen resultaten gevonden</td><td>Nenhum resultado encontrado</td><td>No se encontraron resultados</td><td>Nessun risultato trovato</td></tr>
+        <tr><td>No tournaments found</td><td>Keine Turniere gefunden</td><td>Турниры не найдены</td><td>Aucun tournoi trouvé</td><td>Turnauksia ei löytynyt</td><td>Turniire ei leitud</td><td>Geen toernooien gevonden</td><td>Nenhum torneio encontrado</td><td>No se encontraron torneos</td><td>Nessun torneo trovato</td></tr>
+        <tr><td>No win this time!</td><td>Diesmal leider kein Gewinn!</td><td>В этот раз не повезло!</td><td>Pas de gain cette fois !</td><td>Ei voittoa tällä kertaa!</td><td>Seekord võitu ei tulnud!</td><td>Deze keer geen winst!</td><td>Sem vitória desta vez!</td><td>¡Sin premio esta vez!</td><td>Niente vincita stavolta!</td></tr>
+        <tr><td>Nothing found</td><td>Nichts gefunden</td><td>Ничего не найдено</td><td>Rien trouvé</td><td>Ei löytynyt mitään</td><td>Midagi ei leitud</td><td>Niets gevonden</td><td>Nada encontrado</td><td>No se encontró nada</td><td>Nessun risultato</td></tr>
+        <tr><td>Nothing was found for your request.</td><td>Für Ihre Anfrage wurden keine Ergebnisse gefunden.</td><td>По вашему запросу ничего не найдено.</td><td>Rien n'a été trouvé pour votre demande.</td><td>Hakutuloksia ei löytynyt.</td><td>Teie päringule ei leitud midagi.</td><td>Er is niets gevonden voor uw zoekopdracht.</td><td>Não foi encontrado nada para o seu pedido.</td><td>No se encontró nada para su búsqueda.</td><td>Nessun risultato per la tua ricerca.</td></tr>
+        <tr><td>Number of free spins</td><td>Anzahl der Freispiele</td><td>Количество фриспинов</td><td>Nombre de tours gratuits</td><td>Ilmaiskierrosten määrä</td><td>Tasuta spinnide arv</td><td>Aantal gratisspins</td><td>Número de rodadas grátis</td><td>Número de giros gratis</td><td>Numero di giri gratuiti</td></tr>
+        <tr><td>of the prize pool</td><td>des Preispools</td><td>от призового фонда</td><td>de la cagnotte</td><td>palkintopotista</td><td>auhinnafondist</td><td>van de prijzenpot</td><td>do prémio total</td><td>del bote de premios</td><td>del montepremi</td></tr>
+        <tr><td>Ok</td><td>Ok</td><td>Ок</td><td>Ok</td><td>Ok</td><td>Ok</td><td>Ok</td><td>Ok</td><td>Ok</td><td>Ok</td></tr>
+        <tr><td>OK</td><td>OK</td><td>OK</td><td>OK</td><td>OK</td><td>OK</td><td>OK</td><td>OK</td><td>OK</td><td>OK</td></tr>
+        <tr><td>Old Design</td><td>Zur alten Version</td><td>К старому дизайну</td><td>Ancienne version</td><td>Vanha design</td><td>Vana disain</td><td>Naar de oude versie</td><td>Design Antigo</td><td>Diseño antiguo</td><td>Vecchio design</td></tr>
+        <tr><td>Oops, an error occurred. Please try again later or contact our support</td><td>Hoppla, ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut oder kontaktieren Sie unseren Kundenservice</td><td>Упс, произошла ошибка. Пожалуйста, попробуйте позже или свяжитесь с нашей поддержкой</td><td>Oups, une erreur s'est produite. Veuillez réessayer plus tard ou contacter notre support</td><td>Hups, tapahtui virhe. Yritä myöhemmin uudelleen tai ota yhteyttä tukeemme</td><td>Ups, tekkis viga. Palun proovige hiljem uuesti või võtke ühendust meie toega</td><td>Oeps, er is een fout opgetreden. Probeer het later opnieuw of neem contact op met onze support.</td><td>Oops, ocorreu um erro. Por favor, tente mais tarde ou contacte o nosso suporte</td><td>Vaya, ha ocurrido un error. Por favor, inténtelo de nuevo más tarde o póngase en contacto con nuestro soporte</td><td>Oops, si è verificato un errore. Riprova più tardi o contatta il nostro supporto</td></tr>
+        <tr><td>Oops, an error occurred. Please try again later.</td><td>Hoppla, ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.</td><td>Упс, произошла ошибка. Пожалуйста, попробуйте позже.</td><td>Oups, une erreur s'est produite. Veuillez réessayer plus tard.</td><td>Hups, tapahtui virhe. Yritä myöhemmin uudelleen.</td><td>Ups, tekkis viga. Palun proovige hiljem uuesti.</td><td>Oeps, er is een fout opgetreden. Probeer het later opnieuw.</td><td>Oops, ocorreu um erro. Por favor, tente mais tarde.</td><td>Vaya, ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.</td><td>Oops, si è verificato un errore. Riprova più tardi.</td></tr>
+        <tr><td>Our Features</td><td>Unser Angebot</td><td>Наши преимущества</td><td>Nos fonctionnalités</td><td>Ominaisuutemme</td><td>Meie funktsioonid</td><td>Onze functies</td><td>As Nossas Funcionalidades</td><td>Nuestras características</td><td>Le nostre funzionalità</td></tr>
+        <tr><td>Our specially trained Cheese-AI will find the right game for you</td><td>Unser speziell ausgebildete Cheese-AI findet das passende Spiel für Sie.</td><td>Наш специально обученный Сырный-ИИ найдет для вас подходящую игру.</td><td>Notre IA-Fromage spécialement entraînée trouvera le jeu qu'il vous faut</td><td>Erityisesti koulutettu Juusto-AI löytää sinulle sopivan pelin</td><td>Meie spetsiaalselt koolitatud Juustu-AI leiab teile sobiva mängu</td><td>Onze speciaal getrainde AI vindt het juiste spel voor u.</td><td>A nossa IA-Queijo especialmente treinada encontrará o jogo certo para si</td><td>Nuestra IA-Queso especialmente entrenada encontrará el juego adecuado para ti</td><td>La nostra IA-Formaggio appositamente addestrata troverà il gioco giusto per te</td></tr>
+        <tr><td>Page not found</td><td>Seite nicht gefunden</td><td>Страница не найдена</td><td>Page non trouvée</td><td>Sivua ei löytynyt</td><td>Lehte ei leitud</td><td>Pagina niet gevonden</td><td>Página não encontrada</td><td>Página no encontrada</td><td>Pagina non trovata</td></tr>
+        <tr><td>Participate</td><td>Teilnehmen</td><td>Участвовать</td><td>Participer</td><td>Osallistu</td><td>Osale</td><td>Deelnemen</td><td>Participar</td><td>Participar</td><td>Partecipa</td></tr>
+        <tr><td>Password</td><td>Passwort</td><td>Пароль</td><td>Mot de passe</td><td>Salasana</td><td>Parool</td><td>Wachtwoord</td><td>Senha</td><td>Contraseña</td><td>Password</td></tr>
+        <tr><td>Password must be at least 8 characters long and contain uppercase letters, numbers and special characters</td><td>Das Passwort muss mindestens 8 Zeichen lang sein und Großbuchstaben, Ziffern sowie Sonderzeichen enthalten.</td><td>Пароль должен содержать минимум 8 символов, заглавные буквы, цифры и специальные символы</td><td>Le mot de passe doit comporter au moins 8 caractères et contenir des majuscules, des chiffres et des caractères spéciaux</td><td>Salasanan on oltava vähintään 8 merkkiä pitkä ja siinä on oltava isoja kirjaimia, numeroita ja erikoismerkkejä</td><td>Parool peab olema vähemalt 8 tähemärki pikk ja sisaldama suuri tähti, numbreid ja erimärke</td><td>Wachtwoord moet minimaal 8 tekens lang zijn en hoofdletters, cijfers en speciale tekens bevatten</td><td>A senha deve ter pelo menos 8 caracteres e conter letras maiúsculas, números e caracteres especiais</td><td>La contraseña debe tener al menos 8 caracteres y contener letras mayúsculas, números y caracteres especiales</td><td>La password deve contenere almeno 8 caratteri, lettere maiuscole, numeri e caratteri speciali</td></tr>
+        <tr><td>Password reset failed. Please try again or contact support.</td><td>Das Zurücksetzen des Passworts ist fehlgeschlagen. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.</td><td>Сброс пароля не удался. Пожалуйста, попробуйте еще раз или свяжитесь с поддержкой.</td><td>La réinitialisation du mot de passe a échoué. Veuillez réessayer ou contacter le support.</td><td>Salasanan nollaus epäonnistui. Yritä uudelleen tai ota yhteyttä tukeen.</td><td>Parooli lähtestamine ebaõnnestus. Palun proovige uuesti või võtke ühendust toega.</td><td>Wachtwoord opnieuw instellen mislukt. Probeer het opnieuw of neem contact op met de support.</td><td>A reposição da senha falhou. Por favor, tente novamente ou contacte o suporte.</td><td>El restablecimiento de la contraseña ha fallado. Por favor, inténtelo de nuevo o póngase en contacto con el soporte.</td><td>Reimpostazione della password non riuscita. Riprova o contatta l'assistenza.</td></tr>
+        <tr><td>Password reset link is missing. Please check the link in your email.</td><td>Der Link zur Passwortwiederherstellung fehlt. Bitte überprüfen Sie Ihre E-Mails.</td><td>Отсутствует ссылка для сброса пароля. Пожалуйста, проверьте ссылку в вашей почте.</td><td>Le lien de réinitialisation du mot de passe est manquant. Veuillez vérifier le lien dans votre e-mail.</td><td>Salasanan nollauslinkki puuttuu. Tarkista linkki sähköpostistasi.</td><td>Parooli lähtestamise link puudub. Palun kontrollige linki oma e-kirjas.</td><td>Link voor wachtwoordherstel ontbreekt. Controleer de link in uw e-mail.</td><td>O link de reposição da senha está em falta. Por favor, verifique o link no seu e-mail.</td><td>Falta el enlace para restablecer la contraseña. Por favor, compruebe el enlace en su correo electrónico.</td><td>Manca il link per reimpostare la password. Controlla il link nella tua email.</td></tr>
+        <tr><td>Passwords do not match.</td><td>Die Passwörter stimmen nicht überein.</td><td>Пароли не совпадают.</td><td>Les mots de passe ne correspondent pas.</td><td>Salasanat eivät täsmää.</td><td>Paroolid ei kattu.</td><td>Wachtwoorden komen niet overeen.</td><td>As senhas não coincidem.</td><td>Las contraseñas no coinciden.</td><td>Le password non corrispondono.</td></tr>
+        <tr><td>Payments</td><td>Zahlungen</td><td>Платежи</td><td>Paiements</td><td>Maksut</td><td>Maksed</td><td>Betalingen</td><td>Pagamentos</td><td>Pagos</td><td>Pagamenti</td></tr>
+        <tr><td>Pending bonus</td><td>Ausstehender Bonus</td><td>Ожидаемый бонус</td><td>Bonus en attente</td><td>Odottava bonus</td><td>Ootel boonus</td><td>Bonus in behandeling</td><td>Bónus pendente</td><td>Bono pendiente</td><td>Bonus in sospeso</td></tr>
+        <tr><td>Pending withdrawal</td><td>Ausstehende Auszahlung</td><td>Ожидаемая выплата</td><td>Retrait en attente</td><td>Odottava nosto</td><td>Ootel väljamakse</td><td>Opname in behandeling</td><td>Levantamento pendente</td><td>Retiro pendiente</td><td>Prelievo in sospeso</td></tr>
+        <tr><td>Perhaps you meant?</td><td>Meinten Sie vielleicht?</td><td>Возможно, вы имели в виду?</td><td>Vouliez-vous dire ?</td><td>Tarkoititko?</td><td>Kas mõtlesite?</td><td>Bedoelde u misschien?</td><td>Talvez quisesse dizer?</td><td>¿Quizás quisiste decir?</td><td>Forse intendevi?</td></tr>
+        <tr><td>Phone number</td><td>Handynummer</td><td>Номер телефона</td><td>Numéro de téléphone</td><td>Puhelinnumero</td><td>Telefoninumber</td><td>Telefoonnummer</td><td>Número de telefone</td><td>Número de teléfono</td><td>Numero di telefono</td></tr>
+        <tr><td>Place</td><td>Platz</td><td>Место</td><td>Place</td><td>Sija</td><td>Koht</td><td>Plaats</td><td>Lugar</td><td>Puesto</td><td>Posizione</td></tr>
+        <tr><td>Play</td><td>Spielen</td><td>Играть</td><td>Jouer</td><td>Pelaa</td><td>Mängi</td><td>Spelen</td><td>Jogar</td><td>Jugar</td><td>Gioca</td></tr>
+        <tr><td>Play 10,000+ games</td><td>Mehr als 10.000 Spiele</td><td>Играйте в 10,000+ игр</td><td>Jouez à plus de 10 000 jeux</td><td>Pelaa yli 10 000 peliä</td><td>Mängige 10 000+ mängu</td><td>Speel 10.000+ spellen</td><td>Jogue mais de 10.000 jogos</td><td>Juega a más de 10.000 juegos</td><td>Gioca a più di 10.000 giochi</td></tr>
+        <tr><td>Play now</td><td>Jetzt spielen</td><td>Играть сейчас</td><td>Jouer maintenant</td><td>Pelaa nyt</td><td>Mängi kohe</td><td>Speel nu</td><td>Jogue agora</td><td>Jugar ahora</td><td>Gioca ora</td></tr>
+        <tr><td>Play top slots now</td><td>Top-Slots jetzt spielen</td><td>Играть в топ-слоты</td><td>Jouez aux meilleures machines à sous maintenant</td><td>Pelaa huippukolikkopelejä nyt</td><td>Mängi parimaid slotte kohe</td><td>Speel nu topslots</td><td>Jogue nas melhores slots agora</td><td>Juega a las mejores tragaperras ahora</td><td>Gioca ora alle migliori slot</td></tr>
+        <tr><td>Played Games</td><td>Gespielte Spiele</td><td>Сыгранные игры</td><td>Jeux joués</td><td>Pelatut pelit</td><td>Mängitud mängud</td><td>Gespeelde spellen</td><td>Jogos Jogados</td><td>Juegos jugados</td><td>Giochi giocati</td></tr>
+        <tr><td>Please check the domain's spelling</td><td>Bitte überprüfen Sie die Schreibweise des Domainnamens.</td><td>Пожалуйста, проверьте правильность написания домена.</td><td>Veuillez vérifier l'orthographe du domaine.</td><td>Tarkista verkkotunnuksen oikeinkirjoitus.</td><td>Palun kontrollige domeeni õigekirja.</td><td>Controleer de spelling van de domeinnaam.</td><td>Por favor, verifique a ortografia do domínio.</td><td>Por favor, compruebe la ortografía del dominio.</td><td>Controlla l'ortografia del dominio.</td></tr>
+        <tr><td>Please fill in the information below. All fields are required.</td><td>Bitte füllen Sie die unten stehenden Informationen aus. Alle Felder sind erforderlich.</td><td>Пожалуйста, заполните информацию ниже. Все поля обязательны для заполнения.</td><td>Veuillez remplir les informations ci-dessous. Tous les champs sont obligatoires.</td><td>Täytä alla olevat tiedot. Kaikki kentät ovat pakollisia.</td><td>Palun täitke allolev teave. Kõik väljad on kohustuslikud.</td><td>Vul hieronder de informatie in. Alle velden zijn verplicht.</td><td>Por favor, preencha as informações abaixo. Todos os campos são obrigatórios.</td><td>Por favor, rellene la información a continuación. Todos los campos sono obbligatori.</td><td>Compila le informazioni qui sotto. Tutti i campi sono obbligatori.</td></tr>
+        <tr><td>Please fill in your personal details.</td><td>Bitte füllen Sie Ihre persönlichen Daten aus.</td><td>Пожалуйста, заполните ваши личные данные.</td><td>Veuillez renseigner vos données personnelles.</td><td>Täytä henkilötietosi.</td><td>Palun täitke oma isikuandmed.</td><td>Vul uw persoonlijke gegevens in.</td><td>Por favor, preencha os seus dados pessoais.</td><td>Por favor, rellene sus datos personales.</td><td>Compila i tuoi dati personali.</td></tr>
+        <tr><td>Please note that the 3D-Secure code may be requested multiple times.</td><td>Bitte beachten Sie, dass der 3D-Secure-Code mehrfach angefordert werden kann.</td><td>Обратите внимание, что 3D-Secure код может быть запрошен несколько раз.</td><td>Veuillez noter que le code 3D-Secure peut être demandé plusieurs fois.</td><td>Huomaa, että 3D-Secure-koodia voidaan pyytää useita kertoja.</td><td>Pange tähele, et 3D-Secure koodi võidakse küsida mitu korda.</td><td>Houd er rekening mee dat de 3D-Secure-code meerdere keren kan worden opgevraagd.</td><td>Tenha em atenção que o código 3D-Secure pode ser solicitado várias vezes.</td><td>Tenga en cuenta que el código 3D-Secure puede solicitarse varias veces.</td><td>Si prega di notare che il codice 3D-Secure potrebbe essere richiesto più volte.</td></tr>
+        <tr><td>Points to next status</td><td>Punkte bis zum nächsten Status</td><td>Очков до следующего статуса</td><td>Points jusqu'au prochain statut</td><td>Pisteitä seuraavaan statukseen</td><td>Punkte järgmise staatuseni</td><td>Punten tot volgende status</td><td>Pontos para o próximo status</td><td>Puntos para el siguiente estado</td><td>Punti per il prossimo stato</td></tr>
+        <tr><td>Poker</td><td>Poker</td><td>Покер</td><td>Poker</td><td>Pokeri</td><td>Pokker</td><td>Poker</td><td>Póquer</td><td>Póker</td><td>Poker</td></tr>
+        <tr><td>Popular</td><td>Beliebt</td><td>Популярные</td><td>Populaires</td><td>Suositut</td><td>Populaarsed</td><td>Populair</td><td>Popular</td><td>Popular</td><td>Popolari</td></tr>
+        <tr><td>Popularity</td><td>Beliebtheit</td><td>Популярность</td><td>Popularité</td><td>Suosio</td><td>Populaarsus</td><td>Populariteit</td><td>Popularidade</td><td>Popularidad</td><td>Popolarità</td></tr>
+        <tr><td>Postal Code</td><td>PLZ</td><td>Почтовый индекс</td><td>Code postal</td><td>Postinumero</td><td>Postiindeks</td><td>Postcode</td><td>Código Postal</td><td>Código postal</td><td>Codice postale</td></tr>
+        <tr><td>Previous slide</td><td>Vorherige Seite</td><td>Предыдущий слайд</td><td>Diapositive précédente</td><td>Edellinen dia</td><td>Eelmine slaid</td><td>Vorige dia</td><td>Slide anterior</td><td>Diapositiva anterior</td><td>Diapositiva precedente</td></tr>
+        <tr><td>Previous winners</td><td>Bisherige Gewinner</td><td>Предыдущие победители</td><td>Gagnants précédents</td><td>Aiemmat voittajat</td><td>Eelmised võitjad</td><td>Vorige winnaars</td><td>Vencedores anteriores</td><td>Ganadores anteriores</td><td>Vincitori precedenti</td></tr>
+        <tr><td>Privacy Policy</td><td>Datenschutz</td><td>Политика конфиденциальности</td><td>Politique de confidentialité</td><td>Tietosuojakäytäntö</td><td>Privaatsuspoliitika</td><td>Privacybeleid</td><td>Política de Privacidade</td><td>Política de privacidad</td><td>Informativa sulla privacy</td></tr>
+        <tr><td>Prize</td><td>Preis</td><td>Приз</td><td>Prix</td><td>Palkinto</td><td>Auhind</td><td>Prijs</td><td>Prémio</td><td>Premio</td><td>Premio</td></tr>
+        <tr><td>Prize Amount</td><td>Gewinnbetrag</td><td>Сумма приза</td><td>Montant du prix</td><td>Palkinnon summa</td><td>Auhinna summa</td><td>Prijzenbedrag</td><td>Valor do Prémio</td><td>Importe del premio</td><td>Importo del premio</td></tr>
+        <tr><td>Prize Count</td><td>Anzahl Gewinne</td><td>Количество призов</td><td>Nombre de prix</td><td>Palkintojen määrä</td><td>Auhindade arv</td><td>Aantal prijzen</td><td>Número de Prémios</td><td>Número de premios</td><td>Numero di premi</td></tr>
+        <tr><td>Prize Overview</td><td>Gewinnübersicht</td><td>Обзор призов</td><td>Aperçu des prix</td><td>Palkintojen yleiskatsaus</td><td>Auhindade ülevaade</td><td>Prijzenoverzicht</td><td>Visão Geral dos Prémios</td><td>Resumen de premios</td><td>Panoramica dei premi</td></tr>
+        <tr><td>Prize Pool</td><td>Preispool</td><td>Призовой фонд</td><td>Cagnotte</td><td>Palkintopotti</td><td>Auhinnafond</td><td>Prijzenpot</td><td>Fundo de Prémios</td><td>Bote de premios</td><td>Montepremi</td></tr>
+        <tr><td>Prizes</td><td>Preise</td><td>Призы</td><td>Prix</td><td>Palkinnot</td><td>Auhinnad</td><td>Prijzen</td><td>Prémios</td><td>Premios</td><td>Premi</td></tr>
+        <tr><td>Profile Settings</td><td>Profileinstellungen</td><td>Настройки профиля</td><td>Paramètres du profil</td><td>Profiilin asetukset</td><td>Profiili seaded</td><td>Profielinstellingen</td><td>Definições do Perfil</td><td>Configuración del perfil</td><td>Impostazioni del profilo</td></tr>
+        <tr><td>Promo code for deposit bonus</td><td>Promo-Code für Einzahlungsbonus</td><td>Промокод на депозитный бонус</td><td>Code promo pour bonus de dépôt</td><td>Promokoodi talletusbonukselle</td><td>Sooduskood deposiidi boonusele</td><td>Promocode voor stortingsbonus</td><td>Código promocional para bónus de depósito</td><td>Código promocional para bono de depósito</td><td>Codice promozionale per bonus sul deposito</td></tr>
+        <tr><td>Promotions</td><td>Aktionen</td><td>Акции</td><td>Promotions</td><td>Tarjoukset</td><td>Pakkumised</td><td>Promoties</td><td>Promoções</td><td>Promociones</td><td>Promozioni</td></tr>
+        <tr><td>Provider</td><td>Anbieter</td><td>Провайдер</td><td>Fournisseur</td><td>Tarjoaja</td><td>Pakkuja</td><td>Aanbieder</td><td>Fornecedor</td><td>Proveedor</td><td>Fornitore</td></tr>
+        <tr><td>Providers</td><td>Anbieter</td><td>Провайдеры</td><td>Fournisseurs</td><td>Tarjoajat</td><td>Pakkujad</td><td>Aanbieders</td><td>Fornecedores</td><td>Proveedores</td><td>Fornitori</td></tr>
+        <tr><td>Quick Links</td><td>Schnelle Links</td><td>Быстрые ссылки</td><td>Liens rapides</td><td>Pikalinkit</td><td>Kiirlingid</td><td>Snelle links</td><td>Links Rápidos</td><td>Enlaces rápidos</td><td>Link rapidi</td></tr>
+        <tr><td>Refresh page</td><td>Seite aktualisieren</td><td>Обновить страницу</td><td>Actualiser la page</td><td>Päivitä sivu</td><td>Värskenda lehte</td><td>Pagina vernieuwen</td><td>Atualizar página</td><td>Actualizar página</td><td>Aggiorna pagina</td></tr>
+        <tr><td>Register here</td><td>Hier registrieren</td><td>Зарегистрируйтесь здесь</td><td>Inscrivez-vous ici</td><td>Rekisteröidy täällä</td><td>Registreeru siin</td><td>Registreer hier</td><td>Registe-se aqui</td><td>Regístrate aquí</td><td>Registrati qui</td></tr>
+        <tr><td>Register/ login at ХХХ</td><td>Sich bei ХХХ registrieren/ anmelden</td><td>Зарегистрируйтесь / войдите в ХХХ</td><td>S'inscrire / se connecter sur XXX</td><td>Rekisteröidy / kirjaudu sisään XXX</td><td>Registreeru / logi sisse XXX-s</td><td>Registreer/login bij XXX</td><td>Registar/entrar na XXX</td><td>Registrarse / iniciar sesión en XXX</td><td>Registrati / accedi su XXX</td></tr>
+        <tr><td>Remaining free spins for today</td><td>Verbleibende Freispiele für den Tag</td><td>Остаток фриспинов на сегодня</td><td>Tours gratuits restants pour aujourd'hui</td><td>Jäljellä olevat ilmaiskierrokset tälle päivälle</td><td>Tänaseks järelejäänud tasuta spinnid</td><td>Resterende gratisspins voor vandaag</td><td>Rodadas grátis restantes para hoje</td><td>Giros gratis restantes para hoy</td><td>Giri gratuiti rimanenti per oggi</td></tr>
+        <tr><td>Remove</td><td>Entfernen</td><td>Удалить</td><td>Supprimer</td><td>Poista</td><td>Eemalda</td><td>Verwijderen</td><td>Remover</td><td>Eliminar</td><td>Rimuovi</td></tr>
+        <tr><td>Required</td><td>Erforderlich</td><td>Обязательно</td><td>Requis</td><td>Vaadittu</td><td>Nõutud</td><td>Verplicht</td><td>Obrigatório</td><td>Requerido</td><td>Obbligatorio</td></tr>
+        <tr><td>Required fields</td><td>Erforderliche Angaben</td><td>Обязательные поля</td><td>Champs obligatoires</td><td>Pakolliset kentät</td><td>Nõutud väljad</td><td>Verplichte velden</td><td>Campos obrigatórios</td><td>Campos obligatorios</td><td>Campi obbligatori</td></tr>
+        <tr><td>Resend</td><td>Erneut senden.</td><td>Отправить снова</td><td>Renvoyer</td><td>Lähetä uudelleen</td><td>Saada uuesti</td><td>Opnieuw verzenden</td><td>Reenviar</td><td>Reenviar</td><td>Invia di nuovo</td></tr>
+        <tr><td>Reset Password</td><td>Passwort zurücksetzen</td><td>Сбросить пароль</td><td>Réinitialiser le mot de passe</td><td>Nollaa salasana</td><td>Lähtesta parool</td><td>Wachtwoord opnieuw instellen</td><td>Redefinir Senha</td><td>Restablecer contraseña</td><td>Reimposta password</td></tr>
+        <tr><td>Responsible Gaming</td><td>Verantwortungsvolles Spielen</td><td>Ответственная игра</td><td>Jeu Responsable</td><td>Vastuullinen Pelaaminen</td><td>Vastutustundlik Mängimine</td><td>Verantwoord Spelen</td><td>Jogo Responsável</td><td>Juego Responsable</td><td>Gioco Responsabile</td></tr>
+        <tr><td>Roulette</td><td>Roulette</td><td>Рулетка</td><td>Roulette</td><td>Ruletti</td><td>Rulett</td><td>Roulette</td><td>Roleta</td><td>Ruleta</td><td>Roulette</td></tr>
+        <tr><td>RTP</td><td>RTP</td><td>RTP</td><td>TRJ</td><td>RTP</td><td>RTP</td><td>RTP</td><td>RTP</td><td>RTP</td><td>RTP</td></tr>
+        <tr><td>Save account for future payments</td><td>Zahlungsmethode für zukünftige Transaktionen speichern</td><td>Сохранить счет для будущих платежей</td><td>Enregistrer le compte pour les paiements futurs</td><td>Tallenna tili tulevia maksuja varten</td><td>Salvesta konto tulevaste maksete jaoks</td><td>Account opslaan voor toekomstige betalingen</td><td>Guardar conta para pagamentos futuros</td><td>Guardar cuenta para pagos futuros</td><td>Salva l'account per pagamenti futuri</td></tr>
+        <tr><td>Saved Methods</td><td>Gespeicherte Zahlungsmethoden</td><td>Сохраненные методы</td><td>Méthodes enregistrées</td><td>Tallennetut menetelmät</td><td>Salvestatud meetodid</td><td>Opgeslagen methoden</td><td>Métodos Guardados</td><td>Métodos guardados</td><td>Metodi salvati</td></tr>
+        <tr><td>Saved Profiles</td><td>Gespeicherte Profile</td><td>Сохраненные профили</td><td>Profils enregistrés</td><td>Tallennetut profiilit</td><td>Salvestatud profiilid</td><td>Opgeslagen profielen</td><td>Perfis Guardados</td><td>Perfiles guardados</td><td>Profili salvati</td></tr>
+        <tr><td>Scratch & match 3 to win</td><td>Rubbeln & 3 gleiche finden, um zu gewinnen</td><td>Сотрите и найдите 3 одинаковых, чтобы выиграть</td><td>Grattez et trouvez 3 symboles identiques pour gagner</td><td>Raaputa & yhdistä 3 voittaaksesi</td><td>Kraabi ja sobita 3, et võita</td><td>Kras & match 3 om te winnen</td><td>Raspe e combine 3 para ganhar</td><td>Raspa y acierta 3 para ganar</td><td>Gratta e abbina 3 per vincere</td></tr>
+        <tr><td>Scratch all automatically</td><td>Alles automatisch freirubbeln</td><td>Стереть всё автоматически</td><td>Tout gratter automatiquement</td><td>Raaputa kaikki automaattisesti</td><td>Kraabi kõik automaatselt</td><td>Alles automatisch krassen</td><td>Raspar tudo automaticamente</td><td>Rascar todo automáticamente</td><td>Gratta tutto automaticamente</td></tr>
+        <tr><td>Scratch all to win</td><td>Alles freirubbeln und gewinnen</td><td>Сотрите всё, чтобы выиграть</td><td>Grattez tout pour gagner</td><td>Raaputa kaikki voittaaksesi</td><td>Kraabi kõik, et võita</td><td>Kras alles om te winnen</td><td>Raspe tudo para ganhar</td><td>Raspa todo para ganar</td><td>Gratta tutto per vincere</td></tr>
+        <tr><td>Scratch card</td><td>Rubbellos</td><td>Скретч-карта</td><td>Carte à gratter</td><td>Raaputusarpa</td><td>Kraapekaart</td><td>Kraskaart</td><td>Raspadinha</td><td>Tarjeta rasca y gana</td><td>Gratta e vinci</td></tr>
+        <tr><td>Scratch cards</td><td>Rubbellose</td><td>Скретч-карты</td><td>Cartes à gratter</td><td>Raaputusarvat</td><td>Kraapekaardid</td><td>Kraskaarten</td><td>Raspadinhas</td><td>Tarjetas rasca y gana</td><td>Gratta e vinci</td></tr>
+        <tr><td>Search</td><td>Suchen</td><td>Поиск</td><td>Rechercher</td><td>Hae</td><td>Otsi</td><td>Zoeken</td><td>Pesquisar</td><td>Buscar</td><td>Cerca</td></tr>
+        <tr><td>Search providers</td><td>Anbietersuche</td><td>Поиск провайдеров</td><td>Rechercher des fournisseurs</td><td>Hae tarjoajia</td><td>Otsi pakkujaid</td><td>Zoek aanbieders</td><td>Pesquisar fornecedores</td><td>Buscar proveedores</td><td>Cerca fornitori</td></tr>
+        <tr><td>sec</td><td>Sek.</td><td>сек</td><td>s</td><td>s</td><td>s</td><td>sec</td><td>s</td><td>s</td><td>s</td></tr>
+        <tr><td>See all</td><td>Alle anzeigen</td><td>Показать всё</td><td>Voir tout</td><td>Näytä kaikki</td><td>Vaata kõiki</td><td>Alles zien</td><td>Ver tudo</td><td>Ver todo</td><td>Vedi tutto</td></tr>
+        <tr><td>See history</td><td>Verlauf ansehen</td><td>Смотреть историю</td><td>Voir l'historique</td><td>Näytä historia</td><td>Vaata ajalugu</td><td>Geschiedenis bekijken</td><td>Ver histórico</td><td>Ver historial</td><td>Vedi cronologia</td></tr>
+        <tr><td>See more</td><td>Mehr anzeigen</td><td>Смотреть больше</td><td>Voir plus</td><td>Näytä lisää</td><td>Vaata veel</td><td>Meer zien</td><td>Ver mais</td><td>Ver más</td><td>Vedi di più</td></tr>
+        <tr><td>Send</td><td>Senden</td><td>Отправить</td><td>Envoyer</td><td>Lähetä</td><td>Saada</td><td>Verzenden</td><td>Enviar</td><td>Enviar</td><td>Invia</td></tr>
+        <tr><td>Send any amount in {currency} (plus miner fee) to:</td><td>Senden Sie einen beliebigen Betrag in {currency} (zzgl. Miner-Gebühr) an:</td><td>Отправьте любую сумму в {currency} (плюс комиссия майнера) на:</td><td>Envoyez n'importe quel montant en {currency} (plus frais de minage) à :</td><td>Lähetä mikä tahansa summa {currency} (plus louhijapalkkio) osoitteeseen:</td><td>Saatke mis tahes summa {currency} (pluss kaevandustasu) aadressile:</td><td>Verstuur elk bedrag in {currency} (plus miner fee) naar:</td><td>Envie qualquer valor em {currency} (mais taxa de minerador) para:</td><td>Envíe cualquier cantidad en {currency} (más la tarifa del minero) a:</td><td>Invia qualsiasi importo in {currency} (più commissione miner) a:</td></tr>
+        <tr><td>Show all</td><td>Alle anzeigen</td><td>Показать всё</td><td>Tout afficher</td><td>Näytä kaikki</td><td>Näita kõiki</td><td>Toon alles</td><td>Mostrar tudo</td><td>Mostrar todo</td><td>Mostra tutto</td></tr>
+        <tr><td>Show all boxes</td><td>Alle Boxes anzeigen</td><td>Показать все сундуки</td><td>Afficher toutes les boîtes</td><td>Näytä kaikki laatikot</td><td>Näita kõiki kaste</td><td>Toon alle boxen</td><td>Mostrar todas as caixas</td><td>Mostrar todas las cajas</td><td>Mostra tutte le scatole</td></tr>
+        <tr><td>Show more</td><td>Mehr anzeigen</td><td>Показать еще</td><td>Afficher plus</td><td>Näytä lisää</td><td>Näita rohkem</td><td>Toon meer</td><td>Mostrar mais</td><td>Mostrar más</td><td>Mostra di più</td></tr>
+        <tr><td>Sign In</td><td>Anmelden</td><td>Войти</td><td>Se connecter</td><td>Kirjaudu sisään</td><td>Logi sisse</td><td>Inloggen</td><td>Iniciar Sessão</td><td>Iniciar sesión</td><td>Accedi</td></tr>
+        <tr><td>Sign Out</td><td>Abmelden</td><td>Выйти</td><td>Se déconnecter</td><td>Kirjaudu ulos</td><td>Logi välja</td><td>Uitloggen</td><td>Terminar Sessão</td><td>Cerrar sesión</td><td>Esci</td></tr>
+        <tr><td>Sign Up</td><td>Registrieren</td><td>Зарегистрироваться</td><td>S'inscrire</td><td>Rekisteröidy</td><td>Registreeru</td><td>Registreren</td><td>Registar</td><td>Registrarse</td><td>Registrati</td></tr>
+        <tr><td>Slots</td><td>Slots</td><td>Слоты</td><td>Machines à sous</td><td>Kolikkopelit</td><td>Slotid</td><td>Slots</td><td>Slots</td><td>Tragaperras</td><td>Slot</td></tr>
+        <tr><td>Slots with free spins</td><td>Slots mit Freispielen</td><td>Слоты с фриспинами</td><td>Machines à sous avec tours gratuits</td><td>Kolikkopelit ilmaiskierroksilla</td><td>Tasuta spinnidega slotid</td><td>Slots met gratisspins</td><td>Slots com rodadas grátis</td><td>Tragaperras con giros gratis</td><td>Slot con giri gratuiti</td></tr>
+        <tr><td>Sort by:</td><td>Sortieren nach:</td><td>Сортировать по:</td><td>Trier par :</td><td>Järjestä:</td><td>Sorteeri:</td><td>Sorteer op:</td><td>Ordenar por:</td><td>Ordenar por:</td><td>Ordina per:</td></tr>
+        <tr><td>Spin</td><td>Drehen</td><td>Крутить</td><td>Tourner</td><td>Pyöräytä</td><td>Keeruta</td><td>Draaien</td><td>Girar</td><td>Girar</td><td>Gira</td></tr>
+        <tr><td>Spin the wheel</td><td>Glücksrad drehen</td><td>Вращайте колесо</td><td>Faire tourner la roue</td><td>Pyöräytä pyörää</td><td>Keeruta ratast</td><td>Draai aan het rad</td><td>Gire a roda</td><td>Gira la rueda</td><td>Gira la ruota</td></tr>
+        <tr><td>Start</td><td>Start</td><td>Начать</td><td>Commencer</td><td>Aloita</td><td>Alusta</td><td>Start</td><td>Começar</td><td>Empezar</td><td>Inizia</td></tr>
+        <tr><td>Status</td><td>Status</td><td>Статус</td><td>Statut</td><td>Status</td><td>Staatus</td><td>Status</td><td>Status</td><td>Estado</td><td>Stato</td></tr>
+        <tr><td>Status and Points</td><td>Status und Punkte</td><td>Статус и очки</td><td>Statut et points</td><td>Status ja pisteet</td><td>Staatus ja punktid</td><td>Status en Punten</td><td>Status e Pontos</td><td>Estado y puntos</td><td>Stato e punti</td></tr>
+        <tr><td>Strong</td><td>Stark</td><td>Надежный</td><td>Fort</td><td>Vahva</td><td>Tugev</td><td>Sterk</td><td>Forte</td><td>Fuerte</td><td>Forte</td></tr>
+        <tr><td>Subscribe to system newsletter</td><td>System-Newsletter abonnieren</td><td>Подписаться на системную рассылку</td><td>S'abonner à la newsletter du système</td><td>Tilaa järjestelmän uutiskirje</td><td>Telli süsteemi uudiskiri</td><td>Abonneren op systeemnieuwsbrief</td><td>Subscrever a newsletter do sistema</td><td>Suscribirse al boletín del sistema</td><td>Iscriviti alla newsletter di sistema</td></tr>
+        <tr><td>Subscribe to the newsletter for offers and promotions</td><td>Newsletter über Angebote und Aktionen abonnieren</td><td>Подписаться на новости о предложениях и акциях</td><td>S'abonner à la newsletter pour les offres et promotions</td><td>Tilaa uutiskirje tarjouksia ja kampanjoita varten</td><td>Telli uudiskiri pakkumiste ja kampaaniate saamiseks</td><td>Abonneren op nieuwsbrief voor aanbiedingen en promoties</td><td>Subscreva a newsletter para ofertas e promoções</td><td>Suscríbete al boletín para recibir ofertas y promociones</td><td>Iscriviti alla newsletter per offerte e promozioni</td></tr>
+        <tr><td>Support</td><td>Support</td><td>Служба поддержки</td><td>Support</td><td>Tuki</td><td>Tugi</td><td>Support</td><td>Suporte</td><td>Soporte</td><td>Supporto</td></tr>
+        <tr><td>T&C</td><td>AGB</td><td>Правила и условия</td><td>T&C</td><td>S&E</td><td>T&C</td><td>AV</td><td>T&C</td><td>T&C</td><td>T&C</td></tr>
+        <tr><td>Table</td><td>Tischspiele</td><td>Настольные игры</td><td>Table</td><td>Pöytä</td><td>Lauamängud</td><td>Tafelspellen</td><td>Mesa</td><td>Mesa</td><td>Tavolo</td></tr>
+        <tr><td>Table games</td><td>Tischspiele</td><td>Настольные игры</td><td>Jeux de table</td><td>Pöytäpelit</td><td>Lauamängud</td><td>Tafelspellen</td><td>Jogos de Mesa</td><td>Juegos de mesa</td><td>Giochi da tavolo</td></tr>
+        <tr><td>Terms & Conditions</td><td>Allgemeine Geschäftsbedingungen</td><td>Правила и условия</td><td>Termes et conditions</td><td>Säännöt ja ehdot</td><td>Tingimused</td><td>Algemene Voorwaarden</td><td>Termos e Condições</td><td>Términos y condiciones</td><td>Termini e condizioni</td></tr>
+        <tr><td>The amount must be between {min} and {max}.</td><td>Der Betrag muss zwischen {min} und {max} liegen.</td><td>Сумма должна быть между {min} и {max}.</td><td>Le montant doit être compris entre {min} et {max}.</td><td>Summan on oltava välillä {min} ja {max}.</td><td>Summa peab olema vahemikus {min} ja {max}.</td><td>Het bedrag moet tussen {min} en {max} liggen.</td><td>O valor deve estar entre {min} e {max}.</td><td>La cantidad debe estar entre {min} y {max}.</td><td>L'importo deve essere compreso tra {min} e {max}.</td></tr>
+        <tr><td>The bonus code can only be used once</td><td>Der Bonuscode kann nur einmal verwendet werden</td><td>Бонус-код можно использовать только один раз</td><td>Le code bonus ne peut être utilisé qu'une seule fois</td><td>Bonuskoodin voi käyttää vain kerran</td><td>Boonuskoodi saab kasutada ainult üks kord</td><td>De bonuscode kan slechts eenmaal worden gebruikt</td><td>O código de bónus só pode ser usado uma vez</td><td>El código de bono solo se puede usar una vez</td><td>Il codice bonus può essere utilizzato una sola volta</td></tr>
+        <tr><td>The bonus is being activated.</td><td>Der Bonus wird aktiviert.</td><td>Бонус активируется.</td><td>Le bonus est en cours d'activation.</td><td>Bonusta aktivoidaan.</td><td>Boonus aktiveeritakse.</td><td>De bonus wordt geactiveerd.</td><td>O bónus está a ser ativado.</td><td>El bono se está activando.</td><td>Il bonus è in fase di attivazione.</td></tr>
+        <tr><td>The bonus is being cancelled.</td><td>Der Bonus wird storniert.</td><td>Бонус отменяется.</td><td>Le bonus est en cours d'annulation.</td><td>Bonusta peruutetaan.</td><td>Boonus tühistatakse.</td><td>De bonus wordt geannuleerd.</td><td>O bónus está a ser cancelado.</td><td>El bono se está cancelando.</td><td>Il bonus è in fase di annullamento.</td></tr>
+        <tr><td>The page you were looking for could not be found. It may have been moved or no longer exists. Our team will be happy to help you.</td><td>Die von Ihnen gesuchte Seite konnte nicht gefunden werden. Sie wurde möglicherweise verschoben oder existiert nicht mehr. Unser Team hilft Ihnen gerne weiter.</td><td>Страница, которую вы искали, не найдена. Возможно, она была перемещена или больше не существует. Наша команда будет рада вам помочь.</td><td>La page que vous cherchiez n'a pas pu être trouvée. Elle a peut-être été déplacée ou n'existe plus. Notre équipe se fera un plaisir de vous aider.</td><td>Etsimääsi sivua ei löytynyt. Se on saatettu siirtää tai se ei ole enää olemassa. Tiimimme auttaa sinua mielellään.</td><td>Otsitavat lehte ei leitud. See võis olla teisaldatud või ei eksisteeri enam. Meie meeskond aitab teid hea meelega.</td><td>De pagina die u zocht kon niet worden gevonden. Deze is mogelijk verplaatst of bestaat niet meer. Ons team helpt u graag verder.</td><td>A página que procurava não foi encontrada. Pode ter sido movida ou já não existe. A nossa equipa terá todo o prazer em ajudá-lo.</td><td>La página que buscaba no se ha podido encontrar. Puede que haya sido movida o que ya no exista. Nuestro equipo estará encantado de ayudarle.</td><td>La pagina che stavi cercando non è stata trovata. Potrebbe essere stata spostata o non esistere più. Il nostro team sarà felice di aiutarti.</td></tr>
+        <tr><td>The password reset link has been sent to your email. Please check your inbox.</td><td>Der Link zum Zurücksetzen des Passworts wurde an Ihre E-Mail gesendet. Bitte prüfen Sie Ihren Posteingang.</td><td>Ссылка для сброса пароля отправлена на вашу почту. Пожалуйста, проверьте входящие.</td><td>Le lien de réinitialisation du mot de passe a été envoyé à votre e-mail. Veuillez vérifier votre boîte de réception.</td><td>Salasanan nollauslinkki on lähetetty sähköpostiisi. Tarkista postilaatikosi.</td><td>Parooli lähtestamise link on saadetud teie e-posti. Palun kontrollige oma postkasti.</td><td>De link voor het opnieuw instellen van het wachtwoord is naar uw e-mail verzonden. Controleer uw inbox.</td><td>O link para redefinir a senha foi enviado para o seu e-mail. Por favor, verifique a sua caixa de entrada.</td><td>El enlace para restablecer la contraseña ha sido enviado a su correo electrónico. Por favor, revise su bandeja de entrada.</td><td>Il link per reimpostare la password è stato inviato alla tua email. Controlla la tua casella di posta.</td></tr>
+        <tr><td>This is your personal deposit address. All payments to this address will be credited to your balance.</td><td>Dies ist Ihre persönliche Einzahlungsadresse. Alle Zahlungen an diese Adresse werden Ihrem Guthaben gutgeschrieben.</td><td>Это ваш личный адрес для пополнения. Все платежи на этот адрес будут зачислены на ваш баланс.</td><td>Ceci est votre adresse de dépôt personnelle. Tous les paiements à cette adresse seront crédités sur votre solde.</td><td>Tämä on henkilökohtainen talletusosoitteesi. Kaikki tähän osoitteeseen tehdyt maksut hyvitetään saldoosi.</td><td>See on teie isiklik deposiidi aadress. Kõik sellele aadressile tehtud maksed kantakse teie saldole.</td><td>Dit is uw persoonlijke stortingsadres. Alle betalingen naar dit adres worden op uw saldo bijgeschreven.</td><td>Este é o seu endereço de depósito pessoal. Todos os pagamentos para este endereço serão creditados no seu saldo.</td><td>Esta es su dirección de depósito personal. Todos los pagos a esta dirección se acreditarán en su saldo.</td><td>Questo è il tuo indirizzo di deposito personale. Tutti i pagamenti a questo indirizzo saranno accreditati sul tuo saldo.</td></tr>
+        <tr><td>Tickets</td><td>Lose</td><td>Билеты</td><td>Billets</td><td>Liput</td><td>Piletid</td><td>Loten</td><td>Bilhetes</td><td>Billetes</td><td>Biglietti</td></tr>
+        <tr><td>Time</td><td>Zeit</td><td>Время</td><td>Temps</td><td>Aika</td><td>Aeg</td><td>Tijd</td><td>Tempo</td><td>Tiempo</td><td>Tempo</td></tr>
+        <tr><td>Time left</td><td>Übrige Zeit</td><td>Осталось времени</td><td>Temps restant</td><td>Aikaa jäljellä</td><td>Aega jäänud</td><td>Resterende tijd</td><td>Tempo restante</td><td>Tiempo restante</td><td>Tempo rimasto</td></tr>
+        <tr><td>Time until draw</td><td>Verbleibende Zeit bis zur Ziehung</td><td>До розыгрыша осталось</td><td>Temps jusqu'au tirage</td><td>Aikaa arvontaan</td><td>Aega loosimiseni</td><td>Tijd tot trekking</td><td>Tempo até ao sorteio</td><td>Tiempo hasta el sorteo</td><td>Tempo fino all'estrazione</td></tr>
+        <tr><td>to Kaasino</td><td>zum Kaasino</td><td>в Kaasino</td><td>à Kaasino</td><td>Kaasinoon</td><td>Kaasinosse</td><td>naar Kaasino</td><td>para o Kaasino</td><td>a Kaasino</td><td>a Kaasino</td></tr>
+        <tr><td>To the main page</td><td>Zur Startseite</td><td>На главную страницу</td><td>Vers la page principale</td><td>Pääsivulle</td><td>Pealehele</td><td>Naar de hoofdpagina</td><td>Para a página principal</td><td>A la página principal</td><td>Alla pagina principale</td></tr>
+        <tr><td>To the old version</td><td>Zur alten Version</td><td>К старой версии</td><td>Vers l'ancienne version</td><td>Vanhaan versioon</td><td>Vanale versioonile</td><td>Naar de oude versie</td><td>Para a versão antiga</td><td>A la versión antigua</td><td>Alla vecchia versione</td></tr>
+        <tr><td>Top</td><td>Top</td><td>Топ</td><td>Top</td><td>Huippu</td><td>Tipp</td><td>Top</td><td>Top</td><td>Top</td><td>Top</td></tr>
+        <tr><td>Top Games</td><td>Top-Spiele</td><td>Топ-игры</td><td>Meilleurs jeux</td><td>Huippupelit</td><td>Populaarseimad mängud</td><td>Topspellen</td><td>Melhores Jogos</td><td>Mejores juegos</td><td>Giochi migliori</td></tr>
+        <tr><td>Top Winners</td><td>Top-Gewinner</td><td>Топ-победители</td><td>Meilleurs gagnants</td><td>Huippuvoittajat</td><td>Parimad võitjad</td><td>Topwinnaars</td><td>Maiores Vencedores</td><td>Mejores ganadores</td><td>Migliori vincitori</td></tr>
+        <tr><td>Total Prize Pool:</td><td>Gesamter Preispool:</td><td>Общий призовой фонд:</td><td>Cagnotte totale :</td><td>Kokonaispalkintopotti:</td><td>Kogu auhinnafond:</td><td>Totale prijzenpot:</td><td>Fundo Total de Prémios:</td><td>Bote de premios total:</td><td>Montepremi totale:</td></tr>
+        <tr><td>Tournament</td><td>Turnier</td><td>Турнир</td><td>Tournoi</td><td>Turnaus</td><td>Turniir</td><td>Toernooi</td><td>Torneio</td><td>Torneo</td><td>Torneo</td></tr>
+        <tr><td>Tournament Prizes</td><td>Turnierpreise</td><td>Призы турнира</td><td>Prix du tournoi</td><td>Turnauksen palkinnot</td><td>Turniiri auhinnad</td><td>Toernooiprijzen</td><td>Prémios do Torneio</td><td>Premios del torneo</td><td>Premi del torneo</td></tr>
+        <tr><td>Tournaments</td><td>Turniere</td><td>Турниры</td><td>Tournois</td><td>Turnaukset</td><td>Turniirid</td><td>Toernooien</td><td>Torneios</td><td>Torneos</td><td>Tornei</td></tr>
+        <tr><td>Transaction</td><td>Transaktion</td><td>Транзакция</td><td>Transaction</td><td>Tapahtuma</td><td>Tehing</td><td>Transactie</td><td>Transação</td><td>Transacción</td><td>Transazione</td></tr>
+        <tr><td>Transaction not found</td><td>Transaktion nicht gefunden</td><td>Транзакция не найдена</td><td>Transaction non trouvée</td><td>Tapahtumaa ei löytynyt</td><td>Tehingut ei leitud</td><td>Transactie niet gevonden</td><td>Transação não encontrada</td><td>Transacción no encontrada</td><td>Transazione non trovata</td></tr>
+        <tr><td>Try again</td><td>Erneut versuchen</td><td>Попробовать снова</td><td>Réessayer</td><td>Yritä uudelleen</td><td>Proovi uuesti</td><td>Probeer opnieuw</td><td>Tentar novamente</td><td>Intentar de nuevo</td><td>Riprova</td></tr>
+        <tr><td>up to</td><td>bis zu</td><td>до</td><td>jusqu'à</td><td>jopa</td><td>kuni</td><td>tot</td><td>até</td><td>hasta</td><td>fino a</td></tr>
+        <tr><td>Update random list</td><td>Zufallsliste aktualisieren</td><td>Обновить случайный список</td><td>Mettre à jour la liste aléatoire</td><td>Päivitä satunnainen lista</td><td>Uuenda juhuslikku nimekirja</td><td>Willekeurige lijst bijwerken</td><td>Atualizar lista aleatória</td><td>Actualizar lista aleatoria</td><td>Aggiorna elenco casuale</td></tr>
+        <tr><td>Username</td><td>Benutzername</td><td>Имя пользователя</td><td>Nom d'utilisateur</td><td>Käyttäjätunnus</td><td>Kasutajanimi</td><td>Gebruikersnaam</td><td>Nome de utilizador</td><td>Nombre de usuario</td><td>Nome utente</td></tr>
+        <tr><td>View details</td><td>Mehr Details</td><td>Просмотреть детали</td><td>Voir les détails</td><td>Näytä tiedot</td><td>Vaata detaile</td><td>Details bekijken</td><td>Ver detalhes</td><td>Ver detalles</td><td>Vedi dettagli</td></tr>
+        <tr><td>VIP Club</td><td>VIP-Club</td><td>VIP-клуб</td><td>Club VIP</td><td>VIP-klubi</td><td>VIP-klubi</td><td>VIP Club</td><td>Clube VIP</td><td>Club VIP</td><td>VIP Club</td></tr>
+        <tr><td>Virtual Games</td><td>Virtuelle Spiele</td><td>Виртуальные игры</td><td>Jeux virtuels</td><td>Virtuaalipelit</td><td>Virtuaalsed mängud</td><td>Virtuele spellen</td><td>Jogos Virtuais</td><td>Juegos virtuales</td><td>Giochi virtuali</td></tr>
+        <tr><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td><td>Visa / Mastercard</td></tr>
+        <tr><td>Volatility</td><td>Volatilität</td><td>Волатильность</td><td>Volatilité</td><td>Volatiliteetti</td><td>Volatiilsus</td><td>Volatiliteit</td><td>Volatilidade</td><td>Volatilidad</td><td>Volatilità</td></tr>
+        <tr><td>Wager</td><td>Wettumsatz</td><td>Отыгрыш</td><td>Exigences de mise</td><td>Kierrätysvaatimus</td><td>Läbimängimisnõue</td><td>Inzetvereiste</td><td>Requisito de aposta</td><td>Requisito de apuesta</td><td>Requisito di puntata</td></tr>
+        <tr><td>Wait for the draw & win!</td><td>Ziehung abwarten & gewinnen!</td><td>Ждите розыгрыша и выигрывайте!</td><td>Attendez le tirage et gagnez !</td><td>Odota arvontaa ja voita!</td><td>Oodake loosimist ja võitke!</td><td>Wacht op de trekking & win!</td><td>Aguarde pelo sorteio e ganhe!</td><td>¡Espera el sorteo y gana!</td><td>Aspetta l'estrazione e vinci!</td></tr>
+        <tr><td>We are confirming your account. Please wait a moment.</td><td>Wir bestätigen Ihr Konto. Bitte haben Sie einen Moment Geduld.</td><td>Мы подтверждаем ваш аккаунт. Пожалуйста, подождите.</td><td>Nous confirmons votre compte. Veuillez patienter un instant.</td><td>Vahvistamme tiliäsi. Odota hetki.</td><td>Kinnitame teie kontot. Palun oodake hetk.</td><td>We bevestigen uw account. Een ogenblik geduld.</td><td>Estamos a confirmar a sua conta. Por favor, aguarde um momento.</td><td>Estamos confirmando su cuenta. Por favor, espere un momento.</td><td>Stiamo confermando il tuo account. Attendi un momento.</td></tr>
+        <tr><td>We do not collect personal data</td><td>Wir erfassen keine personenbezogenen Daten</td><td>Мы не собираем персональные данные</td><td>Nous ne collectons pas de données personnelles</td><td>Emme kerää henkilötietoja</td><td>Me ei kogu isikuandmeid</td><td>We verzamelen geen persoonlijke gegevens</td><td>Não recolhemos dados pessoais</td><td>No recopilamos datos personales</td><td>Non raccogliamo dati personali</td></tr>
+        <tr><td>We use <link>cookies</link> to improve your gaming experience.</td><td>Wir verwenden <link>Cookies</link>, um Ihr Spielerlebnis zu verbessern.</td><td>Мы используем <link>файлы cookie</link> для улучшения вашего игрового опыта.</td><td>Nous utilisons des <link>cookies</link> pour améliorer votre expérience de jeu.</td><td>Käytämme <link>evästeitä</link> parantaaksemme pelikokemustasi.</td><td>Kasutame <link>küpsiseid</link>, et parandada teie mängukogemust.</td><td>We gebruiken <link>cookies</link> om uw spelervaring te verbeteren.</td><td>Usamos <link>cookies</link> para melhorar a sua experiência de jogo.</td><td>Usamos <link>cookies</link> para mejorar su experiencia de juego.</td><td>Utilizziamo i <link>cookie</link> per migliorare la tua esperienza di gioco.</td></tr>
+        <tr><td>We use cookies, please read our privacy policy for more information</td><td>Wir verwenden Cookies. Bitte lesen Sie unsere Datenschutzbestimmungen für weitere Informationen.</td><td>Мы используем файлы cookie, пожалуйста, прочтите нашу политику конфиденциальности для получения дополнительной информации</td><td>Nous utilisons des cookies, veuillez lire notre politique de confidentialité pour plus d'informations</td><td>Käytämme evästeitä, lue tietosuojakäytäntömme saadaksesi lisätietoja</td><td>Kasutame küpsiseid, palun lugege lisateabe saamiseks meie privaatsuspoliitikat</td><td>We gebruiken cookies, lees ons privacybeleid voor meer informatie</td><td>Usamos cookies, por favor, leia a nossa política de privacidade para mais informações</td><td>Usamos cookies, por favor, lea nuestra política de privacidad para más información</td><td>Utilizziamo i cookie, si prega di leggere la nostra informativa sulla privacy per maggiori informazioni</td></tr>
+        <tr><td>Weak</td><td>Schwach</td><td>Слабый</td><td>Faible</td><td>Heikko</td><td>Nõrk</td><td>Zwak</td><td>Fraco</td><td>Débil</td><td>Debole</td></tr>
+        <tr><td>Welcome</td><td>Willkommen</td><td>Добро пожаловать</td><td>Bienvenue</td><td>Tervetuloa</td><td>Tere tulemast</td><td>Welkom</td><td>Bem-vindo</td><td>Bienvenido</td><td>Benvenuto</td></tr>
+        <tr><td>Welcome Bonus</td><td>Willkommensbonus</td><td>Приветственный бонус</td><td>Bonus de bienvenue</td><td>Tervetuliaisbonus</td><td>Tervitusboonus</td><td>Welkomstbonus</td><td>Bónus de Boas-Vindas</td><td>Bono de bienvenida</td><td>Bonus di benvenuto</td></tr>
+        <tr><td>Welcome to</td><td>Willkommen bei</td><td>Добро пожаловать в</td><td>Bienvenue à</td><td>Tervetuloa</td><td>Tere tulemast</td><td>Welkom bij</td><td>Bem-vindo a</td><td>Bienvenido a</td><td>Benvenuto in</td></tr>
+        <tr><td>Wheel</td><td>Glücksrad</td><td>Колесо удачи</td><td>Roue</td><td>Pyörä</td><td>Ratas</td><td>Rad</td><td>Roda</td><td>Rueda</td><td>Ruota</td></tr>
+        <tr><td>Why Kaasino?</td><td>Wieso Kaasino?</td><td>Почему Kaasino?</td><td>Pourquoi Kaasino ?</td><td>Miksi Kaasino?</td><td>Miks Kaasino?</td><td>Waarom Kaasino?</td><td>Porquê Kaasino?</td><td>¿Por qué Kaasino?</td><td>Perché Kaasino?</td></tr>
+        <tr><td>Win</td><td>Gewinnen</td><td>Выигрыш</td><td>Gagner</td><td>Voitto</td><td>Võit</td><td>Winst</td><td>Ganhar</td><td>Ganar</td><td>Vinci</td></tr>
+        <tr><td>Winning Tickets</td><td>Gewinnscheine</td><td>Выигрышные билеты</td><td>Billets gagnants</td><td>Voittoliput</td><td>Võidupiletid</td><td>Winnende loten</td><td>Bilhetes Vencedores</td><td>Billetes ganadores</td><td>Biglietti vincenti</td></tr>
+        <tr><td>Withdraw</td><td>Auszahlen</td><td>Вывести</td><td>Retirer</td><td>Nosta</td><td>Võta välja</td><td>Opnemen</td><td>Levantar</td><td>Retirar</td><td>Preleva</td></tr>
+        <tr><td>Withdrawal</td><td>Auszahlung</td><td>Вывод средств</td><td>Retrait</td><td>Nosto</td><td>Väljamakse</td><td>Opname</td><td>Levantamento</td><td>Retiro</td><td>Prelievo</td></tr>
+        <tr><td>Yes</td><td>Ja</td><td>Да</td><td>Oui</td><td>Kyllä</td><td>Jah</td><td>Ja</td><td>Sim</td><td>Sí</td><td>Sì</td></tr>
+        <tr><td>You can also contact us at XXX</td><td>Sie können uns auch über XXX kontaktieren</td><td>Вы также можете связаться с нами по XXX</td><td>Vous pouvez également nous contacter à XXX</td><td>Voit myös ottaa meihin yhteyttä osoitteessa XXX</td><td>Võite meiega ühendust võtta ka aadressil XXX</td><td>U kunt ook contact met ons opnemen via XXX</td><td>Também pode contactar-nos em XXX</td><td>También puede contactarnos en XXX</td><td>Puoi anche contattarci a XXX</td></tr>
+        <tr><td>You can also enter this information in your account</td><td>Sie können diese Informationen auch in Ihrem Benutzerkonto eingeben</td><td>Вы также можете ввести эту информацию в своём аккаунте</td><td>Vous pouvez également saisir ces informations dans votre compte</td><td>Voit myös syöttää nämä tiedot tilillesi</td><td>Selle teabe saate sisestada ka oma kontole</td><td>U kunt deze informatie ook in uw account invoeren</td><td>Também pode introduzir esta informação na sua conta</td><td>También puede introducir esta información en su cuenta</td><td>Puoi anche inserire queste informazioni nel tuo account</td></tr>
+        <tr><td>You have reached the highest status!</td><td>Sie haben den höchsten Status erreicht!</td><td>Вы достигли наивысшего статуса!</td><td>Vous avez atteint le statut le plus élevé !</td><td>Olet saavuttanut korkeimman statuksen!</td><td>Olete saavutanud kõrgeima staatuse!</td><td>U heeft de hoogste status bereikt!</td><td>Atingiu o status mais alto!</td><td>¡Has alcanzado el estado más alto!</td><td>Hai raggiunto lo stato più alto!</td></tr>
+        <tr><td>You have won {bonus}. Please check the notification center to claim your bonus.</td><td>Sie haben {bonus} gewonnen. Bitte prüfen Sie die Benachrichtigungen, um Ihren Bonus zu beanspruchen.</td><td>Вы выиграли {bonus}. Пожалуйста, проверьте центр уведомлений, чтобы забрать свой бонус.</td><td>Vous avez gagné {bonus}. Veuillez consulter le centre de notifications pour réclamer votre bonus.</td><td>Olet voittanut {bonus}. Tarkista ilmoituskeskus lunastaaksesi bonuksesi.</td><td>Olete võitnud {bonus}. Palun kontrollige teavituskeskust, et oma boonus kätte saada.</td><td>U heeft {bonus} gewonnen. Controleer het meldingencentrum om uw bonus te claimen.</td><td>Ganhou {bonus}. Por favor, verifique o centro de notificações para reivindicar o seu bónus.</td><td>Has ganado {bonus}. Por favor, comprueba el centro de notificaciones para reclamar tu bono.</td><td>Hai vinto {bonus}. Controlla il centro notifiche per richiedere il tuo bonus.</td></tr>
+        <tr><td>You haven't scratched your card yet :(</td><td>Sie haben Ihr Rubbellos noch nicht freigerubbelt :(</td><td>Вы еще не стерли свою карту :(</td><td>Vous n'avez pas encore gratté votre carte :(</td><td>Et ole vielä raaputtanut korttiasi :(</td><td>Te ei ole veel oma kaarti kraapinud :(</td><td>U heeft uw kraskaart nog niet gekrast :(</td><td>Ainda não raspou o seu cartão :(</td><td>Aún no has rascado tu tarjeta :(</td><td>Non hai ancora grattato il tuo biglietto :(</td></tr>
+        <tr><td>You won:</td><td>Sie haben gewonnen:</td><td>Вы выиграли:</td><td>Vous avez gagné :</td><td>Voitit:</td><td>Võitsite:</td><td>U heeft gewonnen:</td><td>Ganhou:</td><td>Ganaste:</td><td>Hai vinto:</td></tr>
+        <tr><td>You've got a lootbox!</td><td>Sie haben eine Lootbox erhalten!</td><td>Вы получили лутбокс!</td><td>Vous avez une lootbox !</td><td>Sait lootboxin!</td><td>Saite aardekirstu!</td><td>Er staat een lootbox voor u klaar!</td><td>Recebeu uma lootbox!</td><td>¡Tienes una caja de botín!</td><td>Hai una lootbox!</td></tr>
+        <tr><td>You've got a wheel!</td><td>Sie haben ein Glücksrad erhalten!</td><td>Вы получили колесо фортуны!</td><td>Vous avez une roue !</td><td>Sait pyörän!</td><td>Saite ratta!</td><td>Er staat een rad voor u klaar!</td><td>Recebeu uma roda!</td><td>¡Tienes una rueda!</td><td>Hai una ruota!</td></tr>
+        <tr><td>Your</td><td>Ihr</td><td>Ваш</td><td>Votre</td><td>Sinun</td><td>Teie</td><td>Uw</td><td>Seu</td><td>Tu</td><td>Tuo</td></tr>
+        <tr><td>Your account has been successfully confirmed. You can now log in.</td><td>Ihr Konto wurde erfolgreich bestätigt. Sie können sich jetzt anmelden.</td><td>Ваш аккаунт успешно подтвержден. Теперь вы можете войти.</td><td>Votre compte a été confirmé avec succès. Vous pouvez maintenant vous connecter.</td><td>Tilisi on vahvistettu onnistuneesti. Voit nyt kirjautua sisään.</td><td>Teie konto on edukalt kinnitatud. Saate nüüd sisse logida.</td><td>Uw account is succesvol bevestigd. U kunt nu inloggen.</td><td>A sua conta foi confirmada com sucesso. Já pode iniciar sessão.</td><td>Su cuenta ha sido confirmada con éxito. Ya puede iniciar sesión.</td><td>Il tuo account è stato confermato con successo. Ora puoi accedere.</td></tr>
+        <tr><td>Your Bonus</td><td>Ihr Bonus</td><td>Ваш бонус</td><td>Votre Bonus</td><td>Sinun Bonuksesi</td><td>Teie Boonus</td><td>Uw bonus</td><td>O seu Bónus</td><td>Tu Bono</td><td>Il tuo Bonus</td></tr>
+        <tr><td>Your deposit bonus</td><td>Ihr Einzahlungsbonus</td><td>Ваш бонус на депозит</td><td>Votre bonus de dépôt</td><td>Talletusbonuksesi</td><td>Teie deposiidi boonus</td><td>Uw stortingsbonus</td><td>O seu bónus de depósito</td><td>Tu bono de depósito</td><td>Il tuo bonus sul deposito</td></tr>
+        <tr><td>Your Name</td><td>Ihr Name</td><td>Ваше имя</td><td>Votre Nom</td><td>Sinun Nimesi</td><td>Teie Nimi</td><td>Uw naam</td><td>O seu Nome</td><td>Tu Nombre</td><td>Il tuo Nome</td></tr>
+        <tr><td>Your password has been successfully reset. You can now log in.</td><td>Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich jetzt anmelden.</td><td>Ваш пароль успешно сброшен. Теперь вы можете войти.</td><td>Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter.</td><td>Salasanasi on nollattu onnistuneesti. Voit nyt kirjautua sisään.</td><td>Teie parool on edukalt lähtestatud. Saate nüüd sisse logida.</td><td>Uw wachtwoord is succesvol opnieuw ingesteld. U kunt nu inloggen.</td><td>A sua senha foi redefinida com sucesso. Já pode iniciar sessão.</td><td>Su contraseña ha sido restablecida con éxito. Ya puede iniciar sesión.</td><td>La tua password è stata reimpostata con successo. Ora puoi accedere.</td></tr>
+        <tr><td>Your Place</td><td>Ihr Platz</td><td>Ваше место</td><td>Votre Place</td><td>Sinun Sijasi</td><td>Teie Koht</td><td>Uw plaats</td><td>O seu Lugar</td><td>Tu Puesto</td><td>La tua Posizione</td></tr>
+        <tr><td>Your Status</td><td>Ihr Status</td><td>Ваш статус</td><td>Votre Statut</td><td>Sinun Statuksesi</td><td>Teie Staatus</td><td>Uw status</td><td>O seu Status</td><td>Tu Estado</td><td>Il tuo Stato</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p class="footer-main-text">Generated by an autonomous AI-Agent: MAE OMA-II</p>
+    <p class="footer-credit">© 2025 McBile AI-Engine</p>
+  </footer>
+
+  <script>
+    // --- Логика переключения тем (выполняется немедленно) ---
+    (function() {
+      const htmlElement = document.documentElement;
+      const themeSwitcher = document.getElementById('theme-switcher');
+      const storedTheme = localStorage.getItem('theme');
+
+      // Применяем тему из localStorage при загрузке
+      if (storedTheme) {
+        htmlElement.setAttribute('data-theme', storedTheme);
+      }
+
+      function switchTheme() {
+        const currentTheme = htmlElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        htmlElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      }
+
+      if (themeSwitcher) {
+        themeSwitcher.addEventListener('click', switchTheme);
+      }
+    })();
+
+    // --- Основная логика страницы (выполняется после загрузки DOM) ---
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- Логика для фильтрации и сортировки глоссария ---
+      const searchInput = document.getElementById('searchInput');
+      const table = document.getElementById('glossaryTable');
+      if (table) {
+        const tableBody = table.querySelector('tbody');
+        const headers = table.querySelectorAll('th');
+
+        searchInput.addEventListener('keyup', (event) => {
+          const query = event.target.value.toLowerCase();
+          const rows = tableBody.querySelectorAll('tr');
+
+          rows.forEach(row => {
+            const rowText = row.textContent.toLowerCase();
+            row.style.display = rowText.includes(query) ? '' : 'none';
+          });
+        });
+
+        headers.forEach(header => {
+          header.addEventListener('click', () => {
+            const columnIndex = header.dataset.columnIndex;
+            if (columnIndex === undefined) return;
+
+            const currentDirection = header.dataset.sortDirection || 'desc';
+            const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+            
+            const rowsToSort = Array.from(tableBody.querySelectorAll('tr'));
+            const sortedRows = rowsToSort.sort((a, b) => {
+              const cellA = a.querySelector(`td:nth-child(${parseInt(columnIndex) + 1})`).textContent.trim();
+              const cellB = b.querySelector(`td:nth-child(${parseInt(columnIndex) + 1})`).textContent.trim();
+              const comparison = cellA.localeCompare(cellB, undefined, { numeric: true, sensitivity: 'base' });
+              return newDirection === 'asc' ? comparison : -comparison;
+            });
+
+            while (tableBody.firstChild) {
+              tableBody.removeChild(tableBody.firstChild);
+            }
+            tableBody.append(...sortedRows);
+
+            headers.forEach(h => {
+              h.dataset.sortDirection = '';
+              h.querySelector('.sort-indicator').textContent = '↕';
+            });
+            header.dataset.sortDirection = newDirection;
+            header.querySelector('.sort-indicator').textContent = newDirection === 'asc' ? '▲' : '▼';
+          });
+        });
+      }
+
+      // --- Общая логика для действий с элементами (карточками) ---
+      (function() {
+        document.body.addEventListener('click', function(e) {
+          const target = e.target.closest('[data-action]');
+          if (!target) return;
+
+          const action = target.dataset.action;
+          const cardId = target.dataset.target;
+          const card = document.getElementById(cardId);
+          
+          if (!card) return;
+          if (action === 'toggle') {
+            card.classList.toggle('is-collapsed');
+          }
+          if (action === 'close') {
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => card.remove(), 300);
+          }
+        });
+      })();
+    });
+  </script>
+
+</body>
+</html>
