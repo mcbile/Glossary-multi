@@ -36,7 +36,7 @@
       font-family: var(--font-main); line-height: 1.6; background-color: var(--color-bg); color: var(--color-text-primary); margin: 0; padding: 12px; transition: background-color 0.3s ease, color 0.3s ease;
     }
     .container {
-      max-width: 1400px; margin: auto; background: var(--color-surface); padding: var(--space-4); border-radius: 12px; border: 1px solid var(--color-border); transition: background-color 0.3s ease, border-color 0.3s ease;
+      max-width: 1800px; margin: auto; background: var(--color-surface); padding: var(--space-4); border-radius: 12px; border: 1px solid var(--color-border); transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     h1 {
       text-align: center; color: var(--color-primary); margin-top: 0; margin-bottom: var(--space-4);
@@ -58,7 +58,7 @@
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   height: 40px;
   box-sizing: border-box;
@@ -76,20 +76,20 @@
   background-color: var(--color-theme-btn-bg);
 }
 .control-btn .icon {
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     margin-right: 8px;
     fill: currentColor;
 }
-.theme-icon { width: 22px; height: 22px; }
+.theme-icon { width: 22px; height: 20px; }
 [data-theme="dark"] .theme-icon-light { display: block; } [data-theme="dark"] .theme-icon-dark { display: none; } [data-theme="light"] .theme-icon-light { display: none; } [data-theme="light"] .theme-icon-dark { display: block; }
 
-#category-toggle-btn.show { background-color: var(--color-success); color: white; border-color: transparent; }
-#category-toggle-btn.hide { background-color: var(--color-danger); color: white; border-color: transparent; }
+#category-toggle-btn.show { background-color: var(--color-success); }
+#category-toggle-btn.hide { background-color: var(--color-danger); }
 
     /* 4. СТИЛИ ВЫПАДАЮЩЕГО МЕНЮ КОЛОНОК */
     #column-dropdown {
-      display: none; position: absolute; top: 110%; left: 0; background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 8px; z-index: 100; min-width: 200px;
+      display: none; position: absolute; top: 110%; left: 0; background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; box-shadow: 0 4px 4px rgba(0,0,0,0.1); padding: 8px; z-index: 100; min-width: 200px;
     }
     #column-dropdown.is-open { display: block; }
     #column-dropdown ul { list-style: none; margin: 0; padding: 0; }
@@ -104,9 +104,9 @@
       width: 100%; padding: 12px 15px; border-radius: 6px; font-size: 16px; box-sizing: border-box; background-color: var(--color-bg); color: var(--color-text-primary); border: 1px solid var(--color-border); height: 40px;
     }
     #searchInput:focus {
-      outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-a);
+      outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 0px var(--color-primary-a);
     }
-    .table-wrapper { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 8px; }
+    .table-wrapper { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 4px; }
     table { border-collapse: collapse; width: 100%; }
     th, td { padding: 12px 15px; text-align: left; vertical-align: middle; border: none; border-bottom: 1px solid var(--color-border); }
     thead { position: sticky; top: 0; z-index: 10; background-color: var(--color-primary); color: var(--color-button-text); }
@@ -146,12 +146,12 @@
             <svg class="theme-icon theme-icon-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69a.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd"></path></svg>
         </button>
         <div id="column-toggle-wrapper" style="position: relative;">
-            <button id="column-toggle-btn" class="control-btn">Columns</button>
+            <button id="column-toggle-btn" class="control-btn">Filter</button>
             <div id="column-dropdown">
                 <ul id="column-list"></ul>
             </div>
         </div>
-        <button id="category-toggle-btn" class="control-btn">Show Category</button>
+        <button id="category-toggle-btn" class="control-btn">ℹ️</button>
     </div>
     <input type="text" id="searchInput" placeholder="Search for terms...">
 </div>
@@ -174,6 +174,7 @@
           </tr>
         </thead>
         <tbody>
+          <section>
           <tr><td class="category-marketing">Marketing</td><td>20 фриспинов при минимальном депозите 20 €</td><td>20 Free Spins with a minimum deposit of 20 €</td><td>20 Freispiele bei einer Einzahlung ab 20 €</td><td>20 Gratisspins bij een minimale storting van 20 €</td><td>20 Tours Gratuits avec un dépôt minimum de 20 €</td><td>20 Giri Gratuiti con un deposito minimo di 20 €</td><td>20 Giros Gratis con un depósito mínimo de 20 €</td><td>20 Rodadas Grátis com um depósito mínimo de 20 €</td><td>20 ilmaiskierrosta vähintään 20 € talletuksella</td><td>20 tasuta spinni minimaalse deposiidiga 20 €</td></tr>
 <tr><td class="category-ui">UI</td><td>Ссылка для подтверждения отправлена на вашу почту.</td><td>A confirmation link has been sent to your email.</td><td>Ein Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.</td><td>Er is een bevestigingslink naar uw e-mailadres gestuurd.</td><td>Un lien de confirmation a été envoyé à votre adresse e-mail.</td><td>Un link di conferma è stato inviato alla tua email.</td><td>Se ha enviado un enlace de confirmación a su correo electrónico.</td><td>Um link de confirmação foi enviado para o seu e-mail.</td><td>Vahvistuslinkki on lähetetty sähköpostiisi.</td><td>Kinnituslink on saadetud teie e-posti aadressile.</td></tr>
 <tr><td class="category-ui">UI</td><td>От А до Я</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Ö</td><td>A-Z</td></tr>
@@ -552,7 +553,8 @@
 <tr><td class="category-ui">UI</td><td>Ваш пароль успешно сброшен. Теперь вы можете войти.</td><td>Your password has been successfully reset. You can now log in.</td><td>Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich jetzt anmelden.</td><td>Uw wachtwoord is succesvol opnieuw ingesteld. U kunt nu inloggen.</td><td>Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter.</td><td>La tua password è stata reimpostata con successo. Ora puoi accedere.</td><td>Su contraseña ha sido restablecida con éxito. Ya puede iniciar sesión.</td><td>A sua senha foi redefinida com sucesso. Já pode iniciar sessão.</td><td>Salasanasi on nollattu onnistuneesti. Voit nyt kirjautua sisään.</td><td>Teie parool on edukalt lähtestatud. Saate nüüd sisse logida.</td></tr>
 <tr><td class="category-tournament">Tournament</td><td>Ваше место</td><td>Your Place</td><td>Ihr Platz</td><td>Uw plaats</td><td>Votre Place</td><td>La tua Posizione</td><td>Tu Puesto</td><td>O seu Lugar</td><td>Sinun Sijasi</td><td>Teie Koht</td></tr>
 <tr><td class="category-general">General</td><td>Ваш статус</td><td>Your Status</td><td>Ihr Status</td><td>Uw status</td><td>Votre Statut</td><td>Il tuo Stato</td><td>Tu Estado</td><td>O seu Status</td><td>Sinun Statuksesi</td><td>Teie Staatus</td></tr>
-        </tbody>
+       </section>
+          </tbody>
       </table>
     </div>
   </div>
@@ -594,7 +596,7 @@
           table.querySelectorAll('th:first-child, td:first-child').forEach(cell => {
               cell.classList.toggle('is-hidden', !isVisible);
           });
-          categoryToggleBtn.textContent = isVisible ? 'Hide Category' : 'Show Category';
+          categoryToggleBtn.textContent = isVisible ? 'Hide' : 'Show';
           categoryToggleBtn.className = 'control-btn'; // reset classes
           categoryToggleBtn.classList.add(isVisible ? 'hide' : 'show');
           localStorage.setItem('categoryVisible', isVisible);
