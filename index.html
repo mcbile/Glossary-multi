@@ -81,7 +81,7 @@
     margin-right: 8px;
     fill: currentColor;
 }
-.theme-icon { width: 22px; height: 20px; }
+.theme-icon { width: 22px; height: 22px; }
 [data-theme="dark"] .theme-icon-light { display: block; } [data-theme="dark"] .theme-icon-dark { display: none; } [data-theme="light"] .theme-icon-light { display: none; } [data-theme="light"] .theme-icon-dark { display: block; }
 
 #category-toggle-btn.show { background-color: var(--color-success); }
@@ -148,13 +148,14 @@
         <div id="column-toggle-wrapper" style="position: relative;">
             <button id="column-toggle-btn" class="control-btn">🌐</button>
             <div id="column-dropdown">
-                <ul id="column-list"></ul>
+                <ul id="column-list">🔛</ul>
+           <button id="category-toggle-btn" class="control-btn"></button>
+  
             </div>
     </div>
     <input type="text" id="searchInput" placeholder="Search for terms...">
     </div>
-        <button id="category-toggle-btn" class="control-btn">🔛</button>
-    </div>
+      </div>    
     <div class="table-wrapper">
       <table id="glossaryTable">
         <thead>
