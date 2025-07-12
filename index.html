@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -37,6 +38,14 @@
     .controls-bar {
       display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-2); margin-bottom: var(--space-2); gap: 1.5em; 
     }
+    #controls-section {
+  position: sticky; /* Главное свойство для "прилипания" */
+  top: 0;           /* Закрепляет элемент у верхнего края */
+  z-index: 20;      /* Устанавливает z-index выше, чем у заголовка таблицы (у которого z-index: 10) */
+  background: var(--color-bg); /* Добавляем фон, чтобы таблица не просвечивала при прокрутке */
+  padding-top: 12px;    /* Компенсируем отступ у body, чтобы секция не прилипала вплотную к верху */
+  padding-bottom: 12px; /* Добавляем отступ снизу для визуальной гармонии */
+}
 
     /* 3. СТИЛИ ЭЛЕМЕНТОВ УПРАВЛЕНИЯ */
     .controls-panel-left { 
@@ -189,16 +198,14 @@
 
 <body>
 
-<section> 
+<section id="controls-section"> 
   <div class="container">
     <div class="controls-bar">
         <div class="controls-panel-left">
+         <button id="scrollToTopBtn" class="control-btn">🏠</button>
+         
             <button id="category-toggle-btn" class="control-btn"></button>
-            <button id="theme-switcher" class="control-btn">
-              <span class="theme-icon-dark">🌙</span>
-              <span class="theme-icon-light">☀️</span>
-            </button>
-            <div id="column-toggle-wrapper" style="position: relative;">
+              <div id="column-toggle-wrapper" style="position: relative;">
                 <button id="column-toggle-btn" class="control-btn">🌎</button>
                 <div id="column-dropdown">
                     <ul id="column-list"></ul>    
@@ -210,11 +217,15 @@
                   <ul id="alphabet-list"></ul>    
               </div>
             </div>
-            <input type="text" id="searchInput" placeholder="ML-GLOSSARY 🎰     search for terms...">
+            <input type="text" id="searchInput" placeholder="ML-GLOSSARY 🎰     Search... ">
+            <button id="theme-switcher" class="control-btn">
+              <span class="theme-icon-dark">🌙</span>
+              <span class="theme-icon-light">☀️</span>
+            </button>
+
         </div>
     </div> 
-   </section>
-   
+</section>   
     <section>    
     <div class="table-wrapper">
       <table id="glossaryTable">
@@ -237,11 +248,37 @@
         
         <tbody>
          <section>
-            <tr><td class="category-marketing">Marketing</td><td>20 фриспинов при минимальном депозите 20 €</td><td>20 Free Spins with a minimum deposit of 20 €</td><td>20 Freispiele bei einer Einzahlung ab 20 €</td><td>20 Gratisspins bij een minimale storting van 20 €</td><td>20 Tours Gratuits avec un dépôt minimum de 20 €</td><td>20 Giri Gratuiti con un deposito minimo di 20 €</td><td>20 Giros Gratis con un depósito mínimo de 20 €</td><td>20 Rodadas Grátis com um depósito mínimo de 20 €</td><td>20 ilmaiskierrosta vähintään 20 € talletuksella</td><td>20 tasuta spinni minimaalse deposiidiga 20 €</td></tr>
-            <tr><td class="category-ui">Interface</td><td>Ссылка для подтверждения отправлена на вашу почту.</td><td>A confirmation link has been sent to your email.</td><td>Ein Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.</td><td>Er is een bevestigingslink naar uw e-mailadres gestuurd.</td><td>Un lien de confirmation a été envoyé à votre adresse e-mail.</td><td>Un link di conferma è stato inviato alla tua email.</td><td>Se ha enviado un enlace de confirmación a su correo electrónico.</td><td>Um link de confirmação foi enviado para o seu e-mail.</td><td>Vahvistuslinkki on lähetetty sähköpostiisi.</td><td>Kinnituslink on saadetud teie e-posti aadressile.</td></tr>
+            
+            
+            
+            
+            
             <tr><td class="category-ui">Interface</td><td>От А до Я</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Z</td><td>A-Ö</td><td>A-Z</td></tr>
-            <tr><td class="category-general">General</td><td>О нас</td><td>About Us</td><td>Über uns</td><td>Over ons</td><td>À propos de nous</td><td>Chi siamo</td><td>Sobre nosotros</td><td>Sobre Nós</td><td>Tietoa meistä</td><td>Meist</td></tr>
-            <tr><td class="category-general">General</td><td>Подтверждение аккаунта</td><td>Account Confirmation</td><td>Kontobestätigung</td><td>Accountbevestiging</td><td>Confirmation du compte</td><td>Conferma Account</td><td>Confirmación de la cuenta</td><td>Confirmação da Conta</td><td>Tilin vahvistus</td><td>Konto kinnitamine</td></tr>
+                     
+            <tr><td class="category-games">Games</td><td>Все игры</td><td>All Games</td><td>Alle Spiele</td><td>Alle spellen</td><td>Tous les jeux</td><td>Tutti i giochi</td><td>Todos los juegos</td><td>Todos os Jogos</td><td>Kaikki pelit</td><td>Kõik mängud</td></tr>
+            
+            <tr><td class="category-payment">Payment</td><td>Все методы оплаты</td><td>All Payment Methods</td><td>Alle Zahlungsmethoden</td><td>Alle betaalmethoden</td><td>Toutes les méthodes de paiement</td><td>Tutti i metodi di pagamento</td><td>Todos los métodos de pago</td><td>Todos os Métodos de Pagamento</td><td>Kaikki maksutavat</td><td>Kõik makseviisid</td></tr>
+            
+            <tr><td class="category-tournament">Tournament</td><td>Общий призовой фонд</td><td>All-time prize pool</td><td>Gesamt-Preispool</td><td>Totale prijzenpot</td><td>Cagnotte totale</td><td>Montepremi di sempre</td><td>Bote de premios total</td><td>Prêmio total</td><td>Koko ajan palkintopotti</td><td>Kogu aeg auhinnafond</td></tr>
+
+            <tr><td class="category-bonus">Bonus</td><td>Кэшбэк</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Käteispalautus</td><td>Cashback</td></tr>
+            
+             <tr><td class="category-general">General</td><td>О нас</td><td>About Us</td><td>Über uns</td><td>Over ons</td><td>À propos de nous</td><td>Chi siamo</td><td>Sobre nosotros</td><td>Sobre Nós</td><td>Tietoa meistä</td><td>Meist</td></tr>
+            
+            
+            <tr><td class="category-marketing">Marketing</td><td>Активируйте бонус в личном кабинете</td><td>Activate the bonus in the user account</td><td>Bonus im Benutzerkonto aktivieren</td><td>Activeer de bonus in uw gebruikersaccount</td><td>Activer le bonus dans le compte utilisateur</td><td>Attiva il bonus nell'account utente</td><td>Activa el bono en la cuenta de usuario</td><td>Ative o bónus na conta de utilizador</td><td>Aktivoi bonus käyttäjätilillä</td><td>Aktiveerige boonus kasutajakontol</td></tr>
+           
+            
+             <tr><td class="category-ui">Interface</td><td>Уже есть аккаунт?</td><td>Already have an account?</td><td>Haben Sie bereits ein Konto?</td><td>Heeft u al een account?</td><td>Vous avez déjà un compte ?</td><td>Hai già un account?</td><td>¿Ya tienes una cuenta?</td><td>Já tem uma conta?</td><td>Onko sinulla jo tili?</td><td>Kas teil on juba konto?</td></tr>
+           
+            
+            
+            <tr><td class="category-ui">Interface</td><td>Ссылка для подтверждения отправлена на вашу почту.</td><td>A confirmation link has been sent to your email.</td><td>Ein Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.</td><td>Er is een bevestigingslink naar uw e-mailadres gestuurd.</td><td>Un lien de confirmation a été envoyé à votre adresse e-mail.</td><td>Un link di conferma è stato inviato alla tua email.</td><td>Se ha enviado un enlace de confirmación a su correo electrónico.</td><td>Um link de confirmação foi enviado para o seu e-mail.</td><td>Vahvistuslinkki on lähetetty sähköpostiisi.</td><td>Kinnituslink on saadetud teie e-posti aadressile.</td></tr>
+            
+           <tr><td class="category-general">General</td><td>Подтверждение аккаунта</td><td>Account Confirmation</td><td>Kontobestätigung</td><td>Accountbevestiging</td><td>Confirmation du compte</td><td>Conferma Account</td><td>Confirmación de la cuenta</td><td>Confirmação da Conta</td><td>Tilin vahvistus</td><td>Konto kinnitamine</td></tr>
+               
+            <tr><td class="category-marketing">Marketing</td><td>20 фриспинов при минимальном депозите 20 €</td><td>20 Free Spins with a minimum deposit of 20 €</td><td>20 Freispiele bei einer Einzahlung ab 20 €</td><td>20 Gratisspins bij een minimale storting van 20 €</td><td>20 Tours Gratuits avec un dépôt minimum de 20 €</td><td>20 Giri Gratuiti con un deposito minimo di 20 €</td><td>20 Giros Gratis con un depósito mínimo de 20 €</td><td>20 Rodadas Grátis com um depósito mínimo de 20 €</td><td>20 ilmaiskierrosta vähintään 20 € talletuksella</td><td>20 tasuta spinni minimaalse deposiidiga 20 €</td></tr>
+            
             <tr><td class="category-ui">Interface</td><td>Подтверждение аккаунта не удалось. Пожалуйста, попробуйте снова или свяжитесь со службой поддержки.</td><td>Account confirmation failed. Please try again or contact support.</td><td>Die Kontobestätigung ist fehlgeschlagen. Versuchen Sie es bitte erneut oder kontaktieren Sie den Support.</td><td>Accountbevestiging mislukt. Probeer het opnieuw of neem contact op met de support.</td><td>La confirmation du compte a échoué. Veuillez réessayer ou contacter le support.</td><td>Conferma dell'account non riuscita. Riprova o contatta l'assistenza.</td><td>La confirmación de la cuenta ha fallado. Por favor, inténtelo de nuevo o contacte con el soporte.</td><td>A confirmação da conta falhou. Por favor, tente novamente ou contacte o suporte.</td><td>Tilin vahvistus epäonnistui. Yritä uudelleen tai ota yhteyttä tukeen.</td><td>Konto kinnitamine ebaõnnestus. Palun proovige uuesti või võtke ühendust toega.</td></tr>
             <tr><td class="category-legal">Legal</td><td>Проверка аккаунта может занять от 1 минуты до 24 часов</td><td>Account verification may take between 1 minute and 24 hours</td><td>Die Kontoüberprüfung kann zwischen 1 Minute und 24 Stunden dauern</td><td>Accountverificatie kan 1 minuut tot 24 uur duren</td><td>La vérification du compte peut prendre entre 1 minute et 24 heures</td><td>La verifica del conto può richiedere da 1 minuto a 24 ore</td><td>La verificación de la cuenta puede tardar entre 1 minuto y 24 horas</td><td>A verificação da conta pode levar de 1 minuto a 24 horas</td><td>Tilin vahvistaminen voi kestää 1 minuutista 24 tuntiin</td><td>Konto kinnitamine võib võtta aega 1 minutist kuni 24 tunnini</td></tr>
             <tr><td class="category-ui">Interface</td><td>Активировать</td><td>Activate</td><td>Aktivieren</td><td>Activeren</td><td>Activer</td><td>Attiva</td><td>Activar</td><td>Ativar</td><td>Aktivoi</td><td>Aktiveeri</td></tr>
@@ -254,10 +291,6 @@
             <tr><td class="category-general">General</td><td>Партнерам</td><td>Affiliates</td><td>B2B</td><td>Partners</td><td>Affiliés</td><td>Affiliati</td><td>Afiliados</td><td>Afiliados</td><td>Kumppanit</td><td>Partnerid</td></tr>
             <tr><td class="category-ui">Interface</td><td>Все</td><td>All</td><td>Alle</td><td>Alles</td><td>Tous</td><td>Tutti</td><td>Todos</td><td>Todos</td><td>Kaikki</td><td>Kõik</td></tr>
             <tr><td class="category-payment">Payment</td><td>Все банки</td><td>All banks</td><td>Alle Banken</td><td>Alle banken</td><td>Toutes les banques</td><td>Tutte le banche</td><td>Todos los bancos</td><td>Todos os bancos</td><td>Kaikki pankit</td><td>Kõik pangad</td></tr>
-            <tr><td class="category-games">Games</td><td>Все игры</td><td>All Games</td><td>Alle Spiele</td><td>Alle spellen</td><td>Tous les jeux</td><td>Tutti i giochi</td><td>Todos los juegos</td><td>Todos os Jogos</td><td>Kaikki pelit</td><td>Kõik mängud</td></tr>
-            <tr><td class="category-payment">Payment</td><td>Все методы оплаты</td><td>All Payment Methods</td><td>Alle Zahlungsmethoden</td><td>Alle betaalmethoden</td><td>Toutes les méthodes de paiement</td><td>Tutti i metodi di pagamento</td><td>Todos los métodos de pago</td><td>Todos os Métodos de Pagamento</td><td>Kaikki maksutavat</td><td>Kõik makseviisid</td></tr>
-            <tr><td class="category-tournament">Tournament</td><td>Общий призовой фонд</td><td>All-time prize pool</td><td>Gesamt-Preispool</td><td>Totale prijzenpot</td><td>Cagnotte totale</td><td>Montepremi di sempre</td><td>Bote de premios total</td><td>Prêmio total</td><td>Koko ajan palkintopotti</td><td>Kogu aeg auhinnafond</td></tr>
-            <tr><td class="category-ui">Interface</td><td>Уже есть аккаунт?</td><td>Already have an account?</td><td>Haben Sie bereits ein Konto?</td><td>Heeft u al een account?</td><td>Vous avez déjà un compte ?</td><td>Hai già un account?</td><td>¿Ya tienes una cuenta?</td><td>Já tem uma conta?</td><td>Onko sinulla jo tili?</td><td>Kas teil on juba konto?</td></tr>
             <tr><td class="category-ui">Interface</td><td>Уже зарегистрированы?</td><td>Already registered?</td><td>Bereits registriert?</td><td>Al geregistreerd?</td><td>Déjà inscrit ?</td><td>Già registrato?</td><td>¿Ya estás registrado?</td><td>Já está registado?</td><td>Oletko jo rekisteröitynyt?</td><td>Oled juba registreerunud?</td></tr>
             <tr><td class="category-payment">Payment</td><td>Сумма</td><td>Amount</td><td>Betrag</td><td>Bedrag</td><td>Montant</td><td>Importo</td><td>Cantidad</td><td>Valor</td><td>Määrä</td><td>Summa</td></tr>
             <tr><td class="category-general">General</td><td>и</td><td>and</td><td>und</td><td>en</td><td>et</td><td>e</td><td>y</td><td>e</td><td>ja</td><td>ja</td></tr>
@@ -286,7 +319,7 @@
             <tr><td class="category-ui">Interface</td><td>Отменить</td><td>Cancel</td><td>Abbrechen</td><td>Annuleren</td><td>Annuler</td><td>Annulla</td><td>Cancelar</td><td>Cancelar</td><td>Peruuta</td><td>Tühista</td></tr>
             <tr><td class="category-payment">Payment</td><td>Номер карты</td><td>Card Number</td><td>Kartennummer</td><td>Kaartnummer</td><td>Numéro de carte</td><td>Numero di carta</td><td>Número de tarjeta</td><td>Número do Cartão</td><td>Kortin numero</td><td>Kaardi number</td></tr>
             <tr><td class="category-payment">Payment</td><td>Владелец карты</td><td>Cardholder</td><td>Karteninhaber</td><td>Kaarthouder</td><td>Titulaire de la carte</td><td>Titolare della carta</td><td>Titular de la tarjeta</td><td>Titular do Cartão</td><td>Kortinhaltija</td><td>Kaardiomanik</td></tr>
-            <tr><td class="category-bonus">Bonus</td><td>Кэшбэк</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Cashback</td><td>Käteispalautus</td><td>Cashback</td></tr>
+            
             <tr><td class="category-bonus">Bonus</td><td>Кэшбэк начисляется автоматически каждый день</td><td>Cashback is automatically daily credited</td><td>Cashback wird täglich automatisch gutgeschrieben</td><td>Cashback wordt dagelijks automatisch bijgeschreven</td><td>Le cashback est crédité automatiquement chaque jour</td><td>Il cashback viene accreditato automaticamente ogni giorno</td><td>El cashback se acredita automáticamente a diario</td><td>O cashback é creditado automaticamente todos os dias</td><td>Käteispalautus hyvitetään automaattisesti päivittäin</td><td>Cashback kantakse automaatselt iga päev kontole</td></tr>
             <tr><td class="category-tournament">Tournament</td><td>Лотерея казино</td><td>Casino Lottery</td><td>Casino-Lotterie</td><td>Casinoloterij</td><td>Loterie du casino</td><td>Lotteria del Casinò</td><td>Lotería del casino</td><td>Lotaria do Casino</td><td>Kasinon lottopeli</td><td>Kasiino loterii</td></tr>
             <tr><td class="category-ui">Interface</td><td>Категории</td><td>Categories</td><td>Kategorien</td><td>Categorieën</td><td>Catégories</td><td>Categorie</td><td>Categorías</td><td>Categorias</td><td>Kategoriat</td><td>Kategooriad</td></tr>
@@ -628,12 +661,13 @@
     document.addEventListener('DOMContentLoaded', () => {
       const D = document;
       // --- CONTROLS ---
-      const themeSwitcher = D.getElementById('theme-switcher');
+      const scrollToTopBtn = D.getElementById('scrollToTopBtn');
       const categoryToggleBtn = D.getElementById('category-toggle-btn');
       const columnToggleButton = D.getElementById('column-toggle-btn');
       const columnDropdown = D.getElementById('column-dropdown');
       const columnList = D.getElementById('column-list');
       const searchInput = D.getElementById('searchInput');
+      const themeSwitcher = D.getElementById('theme-switcher');
       const table = D.getElementById('glossaryTable');
       
       const alphabetFilterBtn = D.getElementById('alphabet-filter-btn');
@@ -647,6 +681,15 @@
       const headers = table.querySelectorAll('th');
 
       let selectedFilterItems = [];
+      
+      // --- SCROLL TO TOP ---
+    scrollToTopBtn.addEventListener('click', () => { // 2. Добавляем обработчик
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // 'smooth' обеспечивает плавную прокрутку
+        });
+    });
+
       
       // --- THEME SWITCHER ---
       const applyTheme = (theme) => htmlElement.setAttribute('data-theme', theme);
