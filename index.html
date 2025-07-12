@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -122,6 +121,13 @@
     #alphabet-dropdown.mode-category label {
         font-size: 14px;
     }
+    #column-dropdown li label, 
+#alphabet-dropdown li label {
+    display: block; /* Заставляет label занять всю ширину li */
+    width: 100%;
+    cursor: pointer;
+}
+
     
     /* 5. СТИЛИ ГЛОССАРИЯ (ФИЛЬТР И ТАБЛИЦА) */
     #searchInput {
@@ -658,343 +664,347 @@
   <footer></footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const D = document;
-      // --- CONTROLS ---
-      const scrollToTopBtn = D.getElementById('scrollToTopBtn');
-      const categoryToggleBtn = D.getElementById('category-toggle-btn');
-      const columnToggleButton = D.getElementById('column-toggle-btn');
-      const columnDropdown = D.getElementById('column-dropdown');
-      const columnList = D.getElementById('column-list');
-      const searchInput = D.getElementById('searchInput');
-      const themeSwitcher = D.getElementById('theme-switcher');
-      const table = D.getElementById('glossaryTable');
+document.addEventListener('DOMContentLoaded', () => {
+    const D = document;
+    // --- CONTROLS ---
+    const scrollToTopBtn = D.getElementById('scrollToTopBtn');
+    const categoryToggleBtn = D.getElementById('category-toggle-btn');
+    const columnToggleButton = D.getElementById('column-toggle-btn');
+    const columnDropdown = D.getElementById('column-dropdown');
+    const columnList = D.getElementById('column-list');
+    const searchInput = D.getElementById('searchInput');
+    const themeSwitcher = D.getElementById('theme-switcher');
+    const table = D.getElementById('glossaryTable');
+    
+    const alphabetFilterBtn = D.getElementById('alphabet-filter-btn');
+    const alphabetDropdown = D.getElementById('alphabet-dropdown');
+    const alphabetList = D.getElementById('alphabet-list');
+
+    if (!table) return;
+
+    const htmlElement = D.documentElement;
+    const tableBody = table.querySelector('tbody');
+    const headers = table.querySelectorAll('th');
+
+    let selectedFilterItems = [];
       
-      const alphabetFilterBtn = D.getElementById('alphabet-filter-btn');
-      const alphabetDropdown = D.getElementById('alphabet-dropdown');
-      const alphabetList = D.getElementById('alphabet-list');
-
-      if (!table) return;
-
-      const htmlElement = D.documentElement;
-      const tableBody = table.querySelector('tbody');
-      const headers = table.querySelectorAll('th');
-
-      let selectedFilterItems = [];
-      
-      // --- SCROLL TO TOP ---
-    scrollToTopBtn.addEventListener('click', () => { // 2. Добавляем обработчик
+    // --- SCROLL TO TOP ---
+    scrollToTopBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
-            behavior: 'smooth' // 'smooth' обеспечивает плавную прокрутку
+            behavior: 'smooth'
         });
     });
 
-      
-      // --- THEME SWITCHER ---
-      const applyTheme = (theme) => htmlElement.setAttribute('data-theme', theme);
-      const storedTheme = localStorage.getItem('theme') || 'dark';
-      applyTheme(storedTheme);
-      themeSwitcher.addEventListener('click', () => {
+    // --- THEME SWITCHER ---
+    const applyTheme = (theme) => htmlElement.setAttribute('data-theme', theme);
+    const storedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(storedTheme);
+    themeSwitcher.addEventListener('click', () => {
         const newTheme = (htmlElement.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
         applyTheme(newTheme);
         localStorage.setItem('theme', newTheme);
-      });
-
-      // --- TOGGLE CATEGORY ---
-      const toggleCategoryVisibility = (isVisible) => {
-          table.querySelectorAll('th:first-child, td:first-child').forEach(cell => {
-              cell.classList.toggle('is-hidden', !isVisible);
-          });
-          categoryToggleBtn.textContent = isVisible ? '❌' : 'ℹ️'; 
-          categoryToggleBtn.className = 'control-btn';
-          categoryToggleBtn.classList.add(isVisible ? 'hide' : 'show');
-          localStorage.setItem('categoryVisible', isVisible);
-      };
-      categoryToggleBtn.addEventListener('click', () => {
-          const isCurrentlyVisible = !table.querySelector('th:first-child').classList.contains('is-hidden');
-          toggleCategoryVisibility(!isCurrentlyVisible);
-      });
-      const initialCategoryState = localStorage.getItem('categoryVisible') === 'true';
-      toggleCategoryVisibility(initialCategoryState);
-
-      // --- COLUMN VISIBILITY ---
-      const populateDropdown = () => {
-          columnList.innerHTML = '';
-          const selectAllLi = D.createElement('li');
-          selectAllLi.id = 'select-all-item';
-          selectAllLi.innerHTML = `<input type="checkbox" id="select-all-langs"><label for="select-all-langs">Select All</label>`;
-          columnList.appendChild(selectAllLi);
-
-          headers.forEach((header, index) => {
-              if (index === 0) return;
-              const text = header.querySelector('span:not(.sort-indicator)').textContent;
-              const li = D.createElement('li');
-              li.innerHTML = `<input type="checkbox" data-index="${index}"><label>${text}</label>`;
-              columnList.appendChild(li);
-          });
-      };
-      
-      const toggleColumn = (index, isVisible) => {
-          table.querySelectorAll(`th[data-column-index="${index}"], td:nth-child(${index + 1})`).forEach(cell => {
-              cell.classList.toggle('is-hidden', !isVisible);
-          });
-      };
-      
-      const updateSelectAllCheckbox = () => {
-          const langCheckboxes = columnList.querySelectorAll('input[data-index]');
-          const allChecked = Array.from(langCheckboxes).every(cb => cb.checked);
-          D.getElementById('select-all-langs').checked = allChecked;
-      };
-
-      columnList.addEventListener('change', (e) => {
-          if (e.target.type !== 'checkbox') return;
-          const isVisible = e.target.checked;
-          const columnIndex = parseInt(e.target.dataset.index, 10);
-
-          if (e.target.id === 'select-all-langs') {
-              columnList.querySelectorAll('input[data-index]').forEach(cb => {
-                  cb.checked = e.target.checked;
-                  toggleColumn(parseInt(cb.dataset.index, 10), e.target.checked);
-              });
-          } else {
-              const activeSortIndex = getActiveSortColumnIndex();
-              if (!isVisible && columnIndex === activeSortIndex) {
-                  selectedFilterItems = [];
-                  applyFilters();
-              }
-              toggleColumn(columnIndex, isVisible);
-              updateSelectAllCheckbox();
-          }
-      });
-
-      const handleDropdownClose = () => {
-          const visibleLangCheckboxes = columnList.querySelectorAll('input[data-index]:checked');
-          if (visibleLangCheckboxes.length === 0) {
-              const englishCheckbox = columnList.querySelector('input[data-index="2"]'); 
-              if(englishCheckbox) {
-                englishCheckbox.checked = true;
-                toggleColumn(2, true);
-              }
-              toggleCategoryVisibility(true);
-          }
-          saveColumnState();
-          columnDropdown.classList.remove('is-open');
-      };
-      
-      columnToggleButton.addEventListener('click', (e) => {
-          e.stopPropagation();
-          alphabetDropdown.classList.remove('is-open'); 
-          columnDropdown.classList.toggle('is-open');
-          if (!columnDropdown.classList.contains('is-open')) {
-              handleDropdownClose();
-          }
-      });
-      
-      const saveColumnState = () => {
-          const hiddenColumns = [];
-          columnList.querySelectorAll('input[data-index]:not(:checked)').forEach(cb => {
-              hiddenColumns.push(cb.dataset.index);
-          });
-          localStorage.setItem('hiddenColumns', JSON.stringify(hiddenColumns));
-      };
-      
-      const loadColumnState = () => {
-          let hiddenColumns = JSON.parse(localStorage.getItem('hiddenColumns'));
-          if (hiddenColumns === null) {
-            hiddenColumns = ['1'];
-            localStorage.setItem('hiddenColumns', JSON.stringify(hiddenColumns));
-          }
-          columnList.querySelectorAll('input[data-index]').forEach(cb => {
-              if (hiddenColumns.includes(cb.dataset.index)) {
-                  cb.checked = false;
-                  toggleColumn(parseInt(cb.dataset.index, 10), false);
-              } else {
-                  cb.checked = true;
-              }
-          });
-          updateSelectAllCheckbox();
-      };
-      
-      // --- ALPHABET/CATEGORY FILTER LOGIC ---
-      const getActiveSortColumnIndex = () => {
-          for(const header of headers) {
-              if(header.dataset.sortDirection) {
-                  return parseInt(header.dataset.columnIndex, 10);
-              }
-          }
-          return 2;
-      };
-
-      const populateAlphabetDropdown = () => {
-          const activeColumnIndex = getActiveSortColumnIndex();
-          const isCategoryMode = activeColumnIndex === 0;
-          alphabetDropdown.classList.toggle('mode-category', isCategoryMode);
-
-          const uniqueItems = new Set();
-          tableBody.querySelectorAll('tr').forEach(row => {
-              const cell = row.children[activeColumnIndex];
-              if(cell && cell.textContent.trim()) {
-                  const item = isCategoryMode ? cell.textContent.trim() : cell.textContent.trim()[0].toUpperCase();
-                  uniqueItems.add(item);
-              }
-          });
-          
-          alphabetList.innerHTML = '';
-          const sortedItems = [...uniqueItems].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-
-          const selectAllLi = D.createElement('li');
-          selectAllLi.id = 'select-all-letters-item';
-          const isAllSelected = selectedFilterItems.length === 0;
-          selectAllLi.innerHTML = `<input type="checkbox" id="select-all-letters" ${isAllSelected ? 'checked' : ''}><label for="select-all-letters">Show All</label>`;
-          alphabetList.appendChild(selectAllLi);
-          
-          sortedItems.forEach(item => {
-              const li = D.createElement('li');
-              const isChecked = selectedFilterItems.includes(item);
-              li.innerHTML = `<input type="checkbox" data-filter-value="${item}" ${isChecked ? 'checked' : ''}><label>${item}</label>`;
-              alphabetList.appendChild(li);
-          });
-      };
-
-      alphabetFilterBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          columnDropdown.classList.remove('is-open');
-          populateAlphabetDropdown();
-          alphabetDropdown.classList.toggle('is-open');
-      });
-
-      alphabetList.addEventListener('change', e => {
-          if (e.target.type !== 'checkbox') return;
-          if (e.target.id === 'select-all-letters') {
-              selectedFilterItems = [];
-              if (e.target.checked) {
-                  alphabetList.querySelectorAll('input[data-filter-value]').forEach(cb => cb.checked = false);
-              }
-          } else {
-              D.getElementById('select-all-letters').checked = false;
-              selectedFilterItems = Array.from(alphabetList.querySelectorAll('input[data-filter-value]:checked'))
-                                  .map(cb => cb.dataset.filterValue);
-              if (selectedFilterItems.length === 0) {
-                  D.getElementById('select-all-letters').checked = true;
-              }
-          }
-          applyFilters();
-      });
-
-
-      // --- FILTER LOGIC ---
-      const applyFilters = () => {
-          const searchQuery = searchInput.value.toLowerCase();
-          const activeColumnIndex = getActiveSortColumnIndex();
-          const isCategoryMode = activeColumnIndex === 0;
-          
-          tableBody.querySelectorAll('tr').forEach(row => {
-              let isVisible = true;
-              
-              if (searchQuery && !row.textContent.toLowerCase().includes(searchQuery)) {
-                  isVisible = false;
-              }
-
-              if (isVisible && selectedFilterItems.length > 0) {
-                  const cell = row.children[activeColumnIndex];
-                  if (cell && cell.textContent.trim()) {
-                      const cellValue = isCategoryMode ? cell.textContent.trim() : cell.textContent.trim()[0].toUpperCase();
-                      if (!selectedFilterItems.includes(cellValue)) {
-                          isVisible = false;
-                      }
-                  } else {
-                      isVisible = false;
-                  }
-              }
-
-              row.style.display = isVisible ? '' : 'none';
-          });
-      };
-      
-      searchInput.addEventListener('keyup', applyFilters);
-
-      // --- SORTING & ACTIVE STATE LOGIC ---
-      const setActiveColumn = (columnIndex) => {
-        table.querySelectorAll('th, td').forEach(cell => cell.classList.remove('is-active'));
-        if (columnIndex === null) return;
-        headers[columnIndex].classList.add('is-active');
-        tableBody.querySelectorAll('tr').forEach(row => {
-          row.children[columnIndex]?.classList.add('is-active');
-        });
-      };
-      
-      const sortColumn = (columnIndex, direction) => {
-        const rows = Array.from(tableBody.querySelectorAll('tr'));
-        rows.sort((a, b) => {
-          const cellA = a.children[columnIndex].textContent.trim();
-          const cellB = b.children[columnIndex].textContent.trim();
-          const comparison = cellA.localeCompare(cellB, ['ru', 'en'], { numeric: true, sensitivity: 'base' });
-          return direction === 'asc' ? comparison : -comparison;
-        });
-        tableBody.append(...rows);
-      };
-
-      const updateIndicators = (clickedHeader, direction) => {
-          headers.forEach(h => {
-              const indicator = h.querySelector('.sort-indicator');
-              indicator.textContent = '↕';
-              indicator.className = 'sort-indicator';
-          });
-          const indicator = clickedHeader.querySelector('.sort-indicator');
-          indicator.textContent = direction === 'asc' ? '▲' : '▼';
-          indicator.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
-      };
-      
-      headers.forEach(header => {
-        header.addEventListener('click', () => {
-          const columnIndex = parseInt(header.dataset.columnIndex, 10);
-          const currentSortColumnIndex = getActiveSortColumnIndex();
-          
-          if (columnIndex !== currentSortColumnIndex) {
-              selectedFilterItems = [];
-          }
-          
-          const currentDirection = header.dataset.sortDirection;
-          const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
-          
-          headers.forEach(h => h.dataset.sortDirection = '');
-          header.dataset.sortDirection = newDirection;
-          
-          sortColumn(columnIndex, newDirection);
-          setActiveColumn(columnIndex);
-          updateIndicators(header, newDirection);
-          applyFilters();
-        });
-      });
-      
-      // --- INITIALIZATION ---
-      D.addEventListener('click', (e) => {
-          if (!columnDropdown.contains(e.target) && !columnToggleButton.contains(e.target)) {
-            if (columnDropdown.classList.contains('is-open')) {
-              handleDropdownClose();
-            }
-          }
-          if (!alphabetDropdown.contains(e.target) && !alphabetFilterBtn.contains(e.target)) {
-            alphabetDropdown.classList.remove('is-open');
-          }
-      });
-      
-      populateDropdown();
-      loadColumnState();
-      
-      const defaultSort = () => {
-          const defaultColumnIndex = 2; // English is at index 2
-          const defaultHeader = headers[defaultColumnIndex];
-          const direction = 'asc';
-          
-          defaultHeader.dataset.sortDirection = direction;
-          sortColumn(defaultColumnIndex, direction);
-          setActiveColumn(defaultColumnIndex);
-          updateIndicators(defaultHeader, direction);
-      };
-      defaultSort();
     });
+
+    // --- TOGGLE CATEGORY ---
+    const toggleCategoryVisibility = (isVisible) => {
+        table.querySelectorAll('th:first-child, td:first-child').forEach(cell => {
+            cell.classList.toggle('is-hidden', !isVisible);
+        });
+        categoryToggleBtn.textContent = isVisible ? '❌' : 'ℹ️'; 
+        categoryToggleBtn.className = 'control-btn';
+        categoryToggleBtn.classList.add(isVisible ? 'hide' : 'show');
+        localStorage.setItem('categoryVisible', isVisible);
+    };
+    categoryToggleBtn.addEventListener('click', () => {
+        const isCurrentlyVisible = !table.querySelector('th:first-child').classList.contains('is-hidden');
+        toggleCategoryVisibility(!isCurrentlyVisible);
+    });
+    const initialCategoryState = localStorage.getItem('categoryVisible') === 'true';
+    toggleCategoryVisibility(initialCategoryState);
+
+    // --- COLUMN VISIBILITY ---
+    const populateDropdown = () => {
+        columnList.innerHTML = '';
+        const selectAllLi = D.createElement('li');
+        selectAllLi.id = 'select-all-item';
+        selectAllLi.innerHTML = `<label><input type="checkbox" id="select-all-langs"> Select All</label>`;
+        columnList.appendChild(selectAllLi);
+
+        headers.forEach((header, index) => {
+            if (index === 0) return; // Пропускаем колонку "Category"
+            const text = header.querySelector('span:not(.sort-indicator)').textContent;
+            const li = D.createElement('li');
+            const checkboxId = `col-check-${index}`;
+            // Используем <label>, оборачивающий и input, и text
+            li.innerHTML = `<label><input type="checkbox" data-index="${index}" id="${checkboxId}"> ${text}</label>`;
+            columnList.appendChild(li);
+        });
+    };
+    
+    const toggleColumn = (index, isVisible) => {
+        table.querySelectorAll(`th[data-column-index="${index}"], td:nth-child(${index + 1})`).forEach(cell => {
+            cell.classList.toggle('is-hidden', !isVisible);
+        });
+    };
+    
+    const updateSelectAllCheckbox = () => {
+        const langCheckboxes = columnList.querySelectorAll('input[data-index]');
+        const allChecked = Array.from(langCheckboxes).every(cb => cb.checked);
+        D.getElementById('select-all-langs').checked = allChecked;
+    };
+
+    columnList.addEventListener('change', (e) => {
+        if (e.target.type !== 'checkbox') return;
+        
+        if (e.target.id === 'select-all-langs') {
+            const isVisible = e.target.checked;
+            columnList.querySelectorAll('input[data-index]').forEach(cb => {
+                cb.checked = isVisible;
+                toggleColumn(parseInt(cb.dataset.index, 10), isVisible);
+            });
+        } else {
+            const isVisible = e.target.checked;
+            const columnIndex = parseInt(e.target.dataset.index, 10);
+            const activeSortIndex = getActiveSortColumnIndex();
+            if (!isVisible && columnIndex === activeSortIndex) {
+                selectedFilterItems = [];
+                applyFilters();
+            }
+            toggleColumn(columnIndex, isVisible);
+            updateSelectAllCheckbox();
+        }
+    });
+
+    const handleDropdownClose = () => {
+        const visibleLangCheckboxes = columnList.querySelectorAll('input[data-index]:checked');
+        if (visibleLangCheckboxes.length === 0) {
+            const englishCheckbox = columnList.querySelector('input[data-index="2"]'); 
+            if(englishCheckbox) {
+              englishCheckbox.checked = true;
+              toggleColumn(2, true);
+            }
+            toggleCategoryVisibility(true);
+        }
+        saveColumnState();
+        columnDropdown.classList.remove('is-open');
+    };
+    
+    columnToggleButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        alphabetDropdown.classList.remove('is-open'); 
+        columnDropdown.classList.toggle('is-open');
+        if (!columnDropdown.classList.contains('is-open')) {
+            handleDropdownClose();
+        }
+    });
+    
+    const saveColumnState = () => {
+        const hiddenColumns = [];
+        columnList.querySelectorAll('input[data-index]:not(:checked)').forEach(cb => {
+            hiddenColumns.push(cb.dataset.index);
+        });
+        localStorage.setItem('hiddenColumns', JSON.stringify(hiddenColumns));
+    };
+    
+    const loadColumnState = () => {
+        let hiddenColumns = JSON.parse(localStorage.getItem('hiddenColumns'));
+        if (hiddenColumns === null) {
+          hiddenColumns = ['1']; // Прячем русский по умолчанию
+          localStorage.setItem('hiddenColumns', JSON.stringify(hiddenColumns));
+        }
+        columnList.querySelectorAll('input[data-index]').forEach(cb => {
+            if (hiddenColumns.includes(cb.dataset.index)) {
+                cb.checked = false;
+                toggleColumn(parseInt(cb.dataset.index, 10), false);
+            } else {
+                cb.checked = true;
+            }
+        });
+        updateSelectAllCheckbox();
+    };
+      
+    // --- ALPHABET/CATEGORY FILTER LOGIC ---
+    const getActiveSortColumnIndex = () => {
+        for(const header of headers) {
+            if(header.dataset.sortDirection) {
+                return parseInt(header.dataset.columnIndex, 10);
+            }
+        }
+        return 2; // English по умолчанию
+    };
+
+    // ИСПРАВЛЕННАЯ ФУНКЦИЯ
+    const populateAlphabetDropdown = () => {
+        const activeColumnIndex = getActiveSortColumnIndex();
+        const isCategoryMode = activeColumnIndex === 0;
+        alphabetDropdown.classList.toggle('mode-category', isCategoryMode);
+
+        const uniqueItems = new Set();
+        tableBody.querySelectorAll('tr').forEach(row => {
+            const cell = row.children[activeColumnIndex];
+            if(cell && cell.textContent.trim()) {
+                const item = isCategoryMode ? cell.textContent.trim() : cell.textContent.trim()[0].toUpperCase();
+                uniqueItems.add(item);
+            }
+        });
+        
+        alphabetList.innerHTML = '';
+        const sortedItems = [...uniqueItems].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+        const selectAllLi = D.createElement('li');
+        selectAllLi.id = 'select-all-letters-item';
+        const isAllSelected = selectedFilterItems.length === 0;
+        selectAllLi.innerHTML = `<label><input type="checkbox" id="select-all-letters" ${isAllSelected ? 'checked' : ''}> Show All</label>`;
+        alphabetList.appendChild(selectAllLi);
+        
+        sortedItems.forEach(item => {
+            const li = D.createElement('li');
+            const isChecked = selectedFilterItems.includes(item);
+            li.innerHTML = `<label><input type="checkbox" data-filter-value="${item}" ${isChecked ? 'checked' : ''}> ${item}</label>`;
+            alphabetList.appendChild(li);
+        });
+    };
+
+    alphabetFilterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        columnDropdown.classList.remove('is-open');
+        populateAlphabetDropdown(); // Теперь эта функция работает корректно
+        alphabetDropdown.classList.toggle('is-open');
+    });
+
+    alphabetList.addEventListener('change', e => {
+        if (e.target.type !== 'checkbox') return;
+        
+        if (e.target.id === 'select-all-letters') {
+            selectedFilterItems = [];
+            if (e.target.checked) {
+                alphabetList.querySelectorAll('input[data-filter-value]').forEach(cb => cb.checked = false);
+            }
+        } else {
+            D.getElementById('select-all-letters').checked = false;
+            selectedFilterItems = Array.from(alphabetList.querySelectorAll('input[data-filter-value]:checked'))
+                                .map(cb => cb.dataset.filterValue);
+            if (selectedFilterItems.length === 0) {
+                D.getElementById('select-all-letters').checked = true;
+            }
+        }
+        applyFilters();
+    });
+
+    // --- FILTER LOGIC ---
+    const applyFilters = () => {
+        const searchQuery = searchInput.value.toLowerCase();
+        const activeColumnIndex = getActiveSortColumnIndex();
+        const isCategoryMode = activeColumnIndex === 0;
+        
+        tableBody.querySelectorAll('tr').forEach(row => {
+            let isVisible = true;
+            
+            if (searchQuery && !row.textContent.toLowerCase().includes(searchQuery)) {
+                isVisible = false;
+            }
+
+            if (isVisible && selectedFilterItems.length > 0) {
+                const cell = row.children[activeColumnIndex];
+                if (cell && cell.textContent.trim()) {
+                    const cellValue = isCategoryMode ? cell.textContent.trim() : cell.textContent.trim()[0].toUpperCase();
+                    if (!selectedFilterItems.includes(cellValue)) {
+                        isVisible = false;
+                    }
+                } else {
+                    isVisible = false;
+                }
+            }
+            row.style.display = isVisible ? '' : 'none';
+        });
+    };
+      
+    searchInput.addEventListener('keyup', applyFilters);
+
+    // --- SORTING & ACTIVE STATE LOGIC ---
+    const setActiveColumn = (columnIndex) => {
+      table.querySelectorAll('th, td').forEach(cell => cell.classList.remove('is-active'));
+      if (columnIndex === null) return;
+      headers[columnIndex].classList.add('is-active');
+      tableBody.querySelectorAll('tr').forEach(row => {
+        if (row.children[columnIndex]) {
+          row.children[columnIndex].classList.add('is-active');
+        }
+      });
+    };
+    
+    const sortColumn = (columnIndex, direction) => {
+      const rows = Array.from(tableBody.querySelectorAll('tr'));
+      rows.sort((a, b) => {
+        const cellA = a.children[columnIndex].textContent.trim();
+        const cellB = b.children[columnIndex].textContent.trim();
+        const comparison = cellA.localeCompare(cellB, ['ru', 'en'], { numeric: true, sensitivity: 'base' });
+        return direction === 'asc' ? comparison : -comparison;
+      });
+      tableBody.append(...rows);
+    };
+
+    const updateIndicators = (clickedHeader, direction) => {
+        headers.forEach(h => {
+            const indicator = h.querySelector('.sort-indicator');
+            indicator.textContent = '↕';
+            indicator.className = 'sort-indicator';
+        });
+        const indicator = clickedHeader.querySelector('.sort-indicator');
+        indicator.textContent = direction === 'asc' ? '▲' : '▼';
+        indicator.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
+    };
+    
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const columnIndex = parseInt(header.dataset.columnIndex, 10);
+        const currentSortColumnIndex = getActiveSortColumnIndex();
+        
+        if (columnIndex !== currentSortColumnIndex) {
+            selectedFilterItems = [];
+        }
+        
+        const currentDirection = header.dataset.sortDirection;
+        const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+        
+        headers.forEach(h => h.dataset.sortDirection = '');
+        header.dataset.sortDirection = newDirection;
+        
+        sortColumn(columnIndex, newDirection);
+        setActiveColumn(columnIndex);
+        updateIndicators(header, newDirection);
+        applyFilters();
+      });
+    });
+      
+    // --- INITIALIZATION ---
+    D.addEventListener('click', (e) => {
+        if (!columnDropdown.contains(e.target) && !columnToggleButton.contains(e.target)) {
+          if (columnDropdown.classList.contains('is-open')) {
+            handleDropdownClose();
+          }
+        }
+        if (!alphabetDropdown.contains(e.target) && !alphabetFilterBtn.contains(e.target)) {
+          alphabetDropdown.classList.remove('is-open');
+        }
+    });
+    
+    populateDropdown();
+    loadColumnState();
+    
+    const defaultSort = () => {
+        const defaultColumnIndex = 2; // English is at index 2
+        const defaultHeader = headers[defaultColumnIndex];
+        const direction = 'asc';
+        
+        defaultHeader.dataset.sortDirection = direction;
+        sortColumn(defaultColumnIndex, direction);
+        setActiveColumn(defaultColumnIndex);
+        updateIndicators(defaultHeader, direction);
+    };
+    defaultSort();
+});
   </script>
 
 </body>
